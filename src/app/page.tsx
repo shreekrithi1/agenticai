@@ -9,6 +9,7 @@ interface Message {
 }
 
 export default function Home() {
+  const [view, setView] = useState<"landing" | "app">("landing");
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: "assistant", 
@@ -58,7 +59,7 @@ export default function Home() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, view]);
 
   const handleGeneratePlan = async () => {
     if (!prediction || isPlanning) return;
@@ -136,13 +137,84 @@ export default function Home() {
     }
   };
 
+  if (view === "landing") {
+    return (
+      <main className="landing-page">
+        <div className="hero-bg" style={{ backgroundImage: `url('/agrimind_hero_vision_1777442060580.png')` }}></div>
+        <div className="hero-overlay"></div>
+        
+        <div className="landing-content fade-in">
+          <div className="brand-badge">Sovereign Agri-Intelligence</div>
+          <h1 className="hero-title">The Future of <span className="gradient-text">Precision Agriculture</span></h1>
+          <p className="hero-subtitle">
+            Harnessing VPS-hosted Gemma 3 (4B) to provide location-specific crop intelligence, soil analysis, and 4-phase cultivation roadmaps in 25+ Indian languages.
+          </p>
+          
+          <div className="hero-actions">
+            <button className="btn-primary-glow" onClick={() => setView("app")}>
+              Launch Agri-Brain PRO
+            </button>
+            <div className="tech-stack">
+              <span>● Hostinger VPS</span>
+              <span>● Gemma 3 Core</span>
+              <span>● Real-time Weather Sync</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="landing-footer">
+          <div className="footer-item">
+            <h4>Private & Secure</h4>
+            <p>Self-hosted inference ensures your farm data stays private.</p>
+          </div>
+          <div className="footer-item">
+            <h4>25+ Languages</h4>
+            <p>Institutional advice in your native regional dialect.</p>
+          </div>
+          <div className="footer-item">
+            <h4>Precision Vectors</h4>
+            <p>High-fidelity roadmaps tailored to your unique soil profile.</p>
+          </div>
+        </div>
+
+        <style jsx>{`
+          .landing-page { height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; font-family: 'Outfit', sans-serif; }
+          .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -2; animation: zoomOut 20s infinite alternate; }
+          .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(2, 6, 2, 0.4) 0%, rgba(2, 6, 2, 0.95) 100%); z-index: -1; }
+          
+          @keyframes zoomOut { from { transform: scale(1.1); } to { transform: scale(1); } }
+
+          .landing-content { max-width: 900px; padding: 40px; z-index: 1; }
+          .brand-badge { display: inline-block; padding: 8px 20px; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; border-radius: 40px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; }
+          .hero-title { font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px; }
+          .gradient-text { background: linear-gradient(135deg, #10b981, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+          .hero-subtitle { font-size: 1.2rem; color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 48px; max-width: 700px; margin-left: auto; margin-right: auto; }
+          
+          .btn-primary-glow { padding: 20px 48px; background: #10b981; color: #020602; border: none; border-radius: 20px; font-weight: 900; font-size: 1.2rem; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4); }
+          .btn-primary-glow:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 20px 60px rgba(16, 185, 129, 0.6); }
+          
+          .tech-stack { margin-top: 32px; display: flex; gap: 24px; justify-content: center; font-size: 0.8rem; font-weight: 700; color: rgba(255, 255, 255, 0.4); }
+          
+          .landing-footer { position: absolute; bottom: 0; left: 0; width: 100%; padding: 60px 40px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; background: linear-gradient(to top, #020602, transparent); border-top: 1px solid rgba(255, 255, 255, 0.05); }
+          .footer-item h4 { color: #10b981; font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+          .footer-item p { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); line-height: 1.5; }
+
+          @media (max-width: 768px) {
+            .hero-title { font-size: 2.8rem; }
+            .landing-footer { grid-template-columns: 1fr; padding: 40px 20px; }
+          }
+        `}</style>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
       <div className="premium-bg"></div>
       {renderField()}
       
       <div className="header fade-in">
-        <div className="logo">
+        <div className="logo" onClick={() => setView("landing")} style={{ cursor: 'pointer' }}>
           <div className="intelligence-orbit">
             <div className={`core ${isProcessing ? 'scanning' : ''}`}>🌱</div>
             <div className="ring"></div>
