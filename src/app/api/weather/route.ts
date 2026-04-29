@@ -29,17 +29,18 @@ export async function GET(request: Request) {
       }
 
       if (searchResponse.ok) {
-      const data = await searchResponse.json();
-      // Heuristic extraction from search snippets
-      const snippet = data.hits?.[0]?.snippets?.join(" ") || "";
-      const cityMatch = snippet.match(/in\s+([a-zA-Z\s]+),/);
-      const tempMatch = snippet.match(/(\d+°C)/);
-      
-      weatherData = {
-        city: cityMatch ? cityMatch[1] : "Kharadi, Pune",
-        temp: tempMatch ? tempMatch[1] : "31°C",
-        status: snippet.toLowerCase().includes("rain") ? "Light Rain" : "Mostly Sunny"
-      };
+        const data = await searchResponse.json();
+        // Heuristic extraction from search snippets
+        const snippet = data.hits?.[0]?.snippets?.join(" ") || "";
+        const cityMatch = snippet.match(/in\s+([a-zA-Z\s]+),/);
+        const tempMatch = snippet.match(/(\d+°C)/);
+        
+        weatherData = {
+          city: cityMatch ? cityMatch[1] : "Kharadi, Pune",
+          temp: tempMatch ? tempMatch[1] : "31°C",
+          status: snippet.toLowerCase().includes("rain") ? "Light Rain" : "Mostly Sunny"
+        };
+      }
     }
 
     return NextResponse.json(weatherData);
