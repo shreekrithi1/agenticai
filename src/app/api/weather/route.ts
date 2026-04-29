@@ -16,7 +16,7 @@ export async function GET(request: Request) {
       status: "Clear Skies"
     };
 
-    const isKeyValid = process.env.YOU_API_KEY && process.env.YOU_API_KEY.startsWith("ydc-sk-") && !process.env.YOU_API_KEY.includes("invalid");
+    const isKeyValid = false;
 
     if (isKeyValid) {
       const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+city+name+for+lat+${lat}+lng+${lng}+India`, {

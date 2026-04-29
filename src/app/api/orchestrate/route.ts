@@ -70,8 +70,8 @@ export async function POST(req: Request) {
     }
 
     let groundingData = "";
-    // Only attempt search if key is provided and not a placeholder
-    const isKeyValid = process.env.YOU_API_KEY && process.env.YOU_API_KEY.startsWith("ydc-sk-") && !process.env.YOU_API_KEY.includes("PLACEHOLDER");
+    // FORCE SOVEREIGN MODE: No external search grounding
+    const isKeyValid = false;
     
     if (isKeyValid) {
       try {
