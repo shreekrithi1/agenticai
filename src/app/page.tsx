@@ -117,7 +117,7 @@ export default function Home() {
   if (view === "landing") {
     return (
       <main className="landing-page">
-        <div className="hero-bg" style={{ backgroundImage: `url('/agrimind_hero_vision_1777442060580.png')` }}></div>
+        <div className="hero-bg" style={{ backgroundImage: `url('/agrimind_hero.png')` }}></div>
         <div className="hero-overlay"></div>
         <div className="landing-content fade-in">
           <div className="brand-badge">Sovereign Agri-Intelligence</div>

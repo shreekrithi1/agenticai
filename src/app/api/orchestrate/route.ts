@@ -62,10 +62,16 @@ export async function POST(req: Request) {
       return NextResponse.json(JSON.parse(cleanJson));
     }
 
-    // Default Prediction Logic...
+    // 1. Extract Location (Heuristic)
+    let searchLocation = query;
+    const locationMatch = query.match(/(?:in|for|at|near|around)\s+([a-zA-Z\s,]+)/i);
+    if (locationMatch) {
+      searchLocation = locationMatch[1].trim();
+    }
+
     let groundingData = "";
     try {
-      const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+soil+type+in+${encodeURIComponent(query)}+India`, {
+      const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+soil+type+in+${encodeURIComponent(searchLocation)}+India`, {
         headers: { "X-API-Key": process.env.YOU_API_KEY || "" }
       });
       if (searchResponse.ok) {
@@ -77,7 +83,7 @@ export async function POST(req: Request) {
     }
 
     // 2. Identify Region for Soil Lookup (Heuristic)
-    const normalizedQuery = query.toLowerCase();
+    const normalizedQuery = searchLocation.toLowerCase();
     let regionalSoil = SOIL_DATABASE.default;
     for (const region in SOIL_DATABASE) {
       if (normalizedQuery.includes(region)) {
@@ -87,64 +93,59 @@ export async function POST(req: Request) {
     }
 
     // 3. Inference: Agri-Intelligence with Gemma 3
-    console.log(`--- Requesting Prediction for ${query} in ${language} ---`);
+    console.log(`--- Requesting Prediction for ${searchLocation} [Original: ${query}] in ${language} ---`);
     
     const ollamaResponse = await fetch(`${OLLAMA_HOST}/api/generate`, {
       method: "POST",
       body: JSON.stringify({
         model: OLLAMA_MODEL,
         prompt: `
-          You are AgriMind AI, a precision agriculture expert for India.
+          You are AgriMind AI.
           
-          TASK: Predict the BEST CROP for the location provided.
-          LOCATION: ${query}
-          REGIONAL SOIL DATA: ${JSON.stringify(regionalSoil)}
-          REAL-TIME WEATHER GROUNDING: ${groundingData}
+          TASK: Analyze location and predict best crop.
+          LOCATION: ${searchLocation}
+          SOIL: ${JSON.stringify(regionalSoil)}
+          WEATHER: ${groundingData}
           
-          LANGUAGE: ${language.toUpperCase()}
+          REQUIRED OUTPUT: A JSON object in ${language}.
           
-          CRITICAL INSTRUCTIONS:
-          1. ALL JSON KEYS MUST BE IN ENGLISH.
-          2. ALL TEXT VALUES MUST BE IN ${language.toUpperCase()}.
-          3. RESPONSE MUST BE VALID JSON.
-          
-          RESPONSE FORMAT:
+          JSON STRUCTURE:
           {
-            "steps": [
-              { "status": "analyzing", "message": "...", "thought": "..." }
-            ],
+            "steps": [{ "status": "analyzing", "message": "...", "thought": "..." }],
             "prediction": {
-              "bestCrop": "...",
-              "probability": "...",
-              "reasoning": "...",
-              "soil": {
-                "type": "...",
-                "pH": "...",
-                "nutrients": "..."
-              },
-              "weather": {
-                "status": "...",
-                "temp": "..."
-              },
-              "irrigation": "..."
+              "bestCrop": "Crop Name",
+              "probability": "Score",
+              "reasoning": "Detailed justification",
+              "soil": { "type": "Soil Type", "pH": "Value", "nutrients": "Profile" },
+              "weather": { "status": "Status", "temp": "Temp" },
+              "irrigation": "Advice"
             }
           }
+          
+          RESPONSE:
         `,
-        stream: false,
-        format: "json"
+        stream: false
       })
     });
 
     if (!ollamaResponse.ok) throw new Error("Ollama connection failed.");
     const data = await ollamaResponse.json();
-    console.log("Raw Ollama Response:", data.response);
+    console.log("Raw Ollama Output:", data.response);
     
-    // Robust JSON Cleansing
+    // Robust JSON Extraction
     let cleanPred = data.response.trim();
-    if (cleanPred.includes("```")) {
-      cleanPred = cleanPred.replace(/```json|```/g, "").trim();
+    const jsonMatch = cleanPred.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      cleanPred = jsonMatch[0];
     }
     
+    // Fallback if empty
+    if (cleanPred === "{}" || !cleanPred) {
+       return NextResponse.json({ 
+         error: "AI Engine returned empty result. Please try again with a specific location." 
+       });
+    }
+
     const result = JSON.parse(cleanPred);
     return NextResponse.json(result);
 
