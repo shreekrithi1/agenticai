@@ -124,7 +124,7 @@ export default function Home() {
       if (response.ok) {
         setIsWhatsAppSubscribed(!isWhatsAppSubscribed);
         const msg = !isWhatsAppSubscribed 
-          ? `✅ **Subscription Synchronized.** Updates for ${countryCode} ${phoneNumber} are ready. Since we are in Sovereign Mode, you must click **'Push Test Alert'** in the sidebar to securely transfer the first report to your phone.` 
+          ? `✅ **Subscription Synchronized.** Updates for ${countryCode} ${phoneNumber} are ready. Since we are in Sovereign Mode, you must click **'Push Test Alert'** in the sidebar to securely transfer the first report to your phone. [Direct Link](https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}.)` 
           : `❌ **Unsubscribed.** Service for ${countryCode} ${phoneNumber} has been terminated.`;
         setMessages(prev => [...prev, { role: "system", content: msg, type: "status" }]);
       }
@@ -301,7 +301,7 @@ export default function Home() {
                   </div>
                   <button 
                     className="btn-sub-action btn-pulse mb-8" 
-                    onClick={() => window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}%20skies.`, '_blank')}
+                    onClick={() => window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}.`, '_blank')}
                   >
                     Push Test Alert
                   </button>

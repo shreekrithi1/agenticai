@@ -70,8 +70,8 @@ export async function POST(req: Request) {
     }
 
     let groundingData = "";
-    // Pre-flight check: Only fetch if key seems valid and not the known-invalid one
-    const isKeyValid = process.env.YOU_API_KEY && process.env.YOU_API_KEY.startsWith("ydc-sk-") && !process.env.YOU_API_KEY.includes("invalid");
+    // FORCE SOVEREIGN MODE: Disabling external search to resolve 401 issue
+    const isKeyValid = false;
     
     if (isKeyValid) {
       try {
