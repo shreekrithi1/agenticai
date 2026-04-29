@@ -69,30 +69,7 @@ export async function POST(req: Request) {
       searchLocation = locationMatch[1].trim();
     }
 
-    let groundingData = "";
-    // FORCE SOVEREIGN MODE: No external search grounding
-    const isKeyValid = false;
-    
-    if (isKeyValid) {
-      try {
-        const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+soil+type+in+${encodeURIComponent(searchLocation)}+India`, {
-          headers: { "X-API-Key": process.env.YOU_API_KEY || "" }
-        });
-        
-        if (searchResponse.status === 401 || searchResponse.status === 403) {
-          console.warn("AgriMind WARNING: Invalid Search API Key. Switching to Sovereign Mode.");
-          groundingData = "FALLBACK: Use regional soil database logic.";
-        } else if (searchResponse.ok) {
-          const data = await searchResponse.json();
-          groundingData = data.hits?.map((h: any) => h.snippets?.join(" ")).join("\n") || "";
-        }
-      } catch (e) {
-        console.error("Grounding failed:", e);
-      }
-    } else {
-      console.log("AgriMind: Running in Sovereign Mode (No Search API Key).");
-      groundingData = "SOVEREIGN_MODE: Rely on regional soil database and seasonal patterns.";
-    }
+    let groundingData = "SOVEREIGN_MODE: Rely on regional soil database and seasonal patterns.";
 
     // 2. Identify Region for Soil Lookup (Heuristic)
     const normalizedQuery = searchLocation.toLowerCase();
