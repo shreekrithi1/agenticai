@@ -124,8 +124,8 @@ export default function Home() {
       if (response.ok) {
         setIsWhatsAppSubscribed(!isWhatsAppSubscribed);
         const msg = !isWhatsAppSubscribed 
-          ? `✅ Successfully subscribed ${countryCode} ${phoneNumber} to daily weather updates. **Click [Verify on Phone](https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}%20skies.) to receive your first report.**` 
-          : `❌ Unsubscribed ${countryCode} ${phoneNumber} from all updates.`;
+          ? `✅ **Subscription Synchronized.** Updates for ${countryCode} ${phoneNumber} are ready. Since we are in Sovereign Mode, you must click **'Push Test Alert'** in the sidebar to securely transfer the first report to your phone.` 
+          : `❌ **Unsubscribed.** Service for ${countryCode} ${phoneNumber} has been terminated.`;
         setMessages(prev => [...prev, { role: "system", content: msg, type: "status" }]);
       }
     } finally {
@@ -300,8 +300,8 @@ export default function Home() {
                     <CheckCircle2 size={12} /> Active: {countryCode} {phoneNumber}
                   </div>
                   <button 
-                    className="btn-sub-action mb-8" 
-                    onClick={() => window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Sync%3A%20Verified!%20Your%20daily%20updates%20are%20now%20linked%20to%20this%20number.`, '_blank')}
+                    className="btn-sub-action btn-pulse mb-8" 
+                    onClick={() => window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}%20skies.`, '_blank')}
                   >
                     Push Test Alert
                   </button>
@@ -616,6 +616,12 @@ export default function Home() {
         .wa-time { font-size: 0.65rem; color: #666; }
         .wa-body p { font-size: 0.85rem; line-height: 1.5; color: #ececec; margin: 4px 0; }
         .mb-8 { margin-bottom: 8px; }
+        .btn-pulse { animation: buttonPulse 2s infinite; }
+        @keyframes buttonPulse {
+          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); transform: scale(1); }
+          70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); transform: scale(1.02); }
+          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); transform: scale(1); }
+        }
       `}</style>
     </main>
   );
