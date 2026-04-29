@@ -18,17 +18,23 @@ export async function POST(req: Request) {
     const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "gemma3:4b";
 
     if (type === "cultivation") {
+      console.log(`--- Generating Cultivation Plan for ${query} in ${language} ---`);
       const planResponse = await fetch(`${OLLAMA_HOST}/api/generate`, {
         method: "POST",
         body: JSON.stringify({
           model: OLLAMA_MODEL,
           prompt: `
             You are AgriMind AI. Generate a 4-phase cultivation roadmap for ${query} in ${location}.
-            Phases should include: 1. Sowing, 2. Growth/Nutrients, 3. Pest Management, 4. Harvest.
+            Phases: 1. Sowing, 2. Growth, 3. Protection, 4. Harvest.
             
-            IMPORTANT: ALL CONTENT MUST BE IN ${language.toUpperCase()} LANGUAGE.
+            LANGUAGE: ${language.toUpperCase()}
             
-            RESPONSE FORMAT: JSON ONLY.
+            CRITICAL INSTRUCTIONS:
+            1. ALL JSON KEYS MUST BE IN ENGLISH.
+            2. ALL TEXT VALUES MUST BE IN ${language.toUpperCase()}.
+            3. RESPONSE MUST BE VALID JSON.
+            
+            RESPONSE FORMAT:
             {
               "plan": {
                 "phases": [
@@ -45,6 +51,7 @@ export async function POST(req: Request) {
         })
       });
       const planData = await planResponse.json();
+      console.log("Raw Plan Response:", planData.response);
       
       // Robust JSON Cleansing
       let cleanJson = planData.response.trim();
@@ -80,6 +87,8 @@ export async function POST(req: Request) {
     }
 
     // 3. Inference: Agri-Intelligence with Gemma 3
+    console.log(`--- Requesting Prediction for ${query} in ${language} ---`);
+    
     const ollamaResponse = await fetch(`${OLLAMA_HOST}/api/generate`, {
       method: "POST",
       body: JSON.stringify({
@@ -92,15 +101,14 @@ export async function POST(req: Request) {
           REGIONAL SOIL DATA: ${JSON.stringify(regionalSoil)}
           REAL-TIME WEATHER GROUNDING: ${groundingData}
           
-          IMPORTANT: ALL TEXT CONTENT (Best Crop, Reasoning, Strategy, etc.) MUST BE IN ${language.toUpperCase()} LANGUAGE.
+          LANGUAGE: ${language.toUpperCase()}
           
-          ANALYSIS REQUIREMENTS:
-          - Compare current weather (Temp, Humidity, Rainfall) with soil N-P-K needs.
-          - Predict the top crop and provide a "Success Probability".
-          - Provide soil health metrics (Estimated pH, Nutrients).
-          - Suggest irrigation strategy.
+          CRITICAL INSTRUCTIONS:
+          1. ALL JSON KEYS MUST BE IN ENGLISH.
+          2. ALL TEXT VALUES MUST BE IN ${language.toUpperCase()}.
+          3. RESPONSE MUST BE VALID JSON.
           
-          RESPONSE FORMAT: JSON ONLY.
+          RESPONSE FORMAT:
           {
             "steps": [
               { "status": "analyzing", "message": "...", "thought": "..." }
@@ -129,6 +137,7 @@ export async function POST(req: Request) {
 
     if (!ollamaResponse.ok) throw new Error("Ollama connection failed.");
     const data = await ollamaResponse.json();
+    console.log("Raw Ollama Response:", data.response);
     
     // Robust JSON Cleansing
     let cleanPred = data.response.trim();
