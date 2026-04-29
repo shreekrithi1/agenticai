@@ -21,7 +21,9 @@ import {
   MapPin,
   Settings,
   LogOut,
-  Phone
+  Phone,
+  CheckCircle2,
+  AlertCircle
 } from "lucide-react";
 
 interface Message {
@@ -35,6 +37,14 @@ const QUICK_ACTIONS = [
   "Soil profile: Guntur, AP",
   "Best crop for black soil",
   "Wheat roadmap: Punjab"
+];
+
+const COUNTRIES = [
+  { code: "+91", name: "India", flag: "🇮🇳" },
+  { code: "+1", name: "USA", flag: "🇺🇸" },
+  { code: "+44", name: "UK", flag: "🇬🇧" },
+  { code: "+971", name: "UAE", flag: "🇦🇪" },
+  { code: "+61", name: "Australia", flag: "🇦🇺" }
 ];
 
 export default function Home() {
@@ -56,8 +66,11 @@ export default function Home() {
   
   // WhatsApp & Weather State
   const [isWhatsAppSubscribed, setIsWhatsAppSubscribed] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+91");
   const [userLocation, setUserLocation] = useState<{ city: string; temp: string; status: string } | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +80,17 @@ export default function Home() {
     }
   }, [messages, isProcessing, isPlanning]);
 
-  // Fetch Weather based on Geolocation
+  // Simulate receiving a WhatsApp update after subscription
+  useEffect(() => {
+    if (isWhatsAppSubscribed && !showNotification) {
+      const timer = setTimeout(() => {
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 8000); // Hide after 8s
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isWhatsAppSubscribed]);
+
   useEffect(() => {
     if (view === "app" && !userLocation) {
       navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -83,19 +106,28 @@ export default function Home() {
   }, [view]);
 
   const handleWhatsAppToggle = async () => {
+    if (!isWhatsAppSubscribed && phoneNumber.length < 10) {
+       setMessages(prev => [...prev, { role: "system", content: "⚠️ Please enter a valid 10-digit WhatsApp number.", type: "status" }]);
+       return;
+    }
+
     setIsSubscribing(true);
     try {
       const response = await fetch("/api/whatsapp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: isWhatsAppSubscribed ? "unsubscribe" : "subscribe" })
+        body: JSON.stringify({ 
+          action: isWhatsAppSubscribed ? "unsubscribe" : "subscribe",
+          phone: `${countryCode}${phoneNumber}`
+        })
       });
       if (response.ok) {
         setIsWhatsAppSubscribed(!isWhatsAppSubscribed);
         const msg = !isWhatsAppSubscribed 
-          ? "✅ You have successfully subscribed to daily WhatsApp updates." 
-          : "❌ You have unsubscribed from WhatsApp updates.";
+          ? `✅ Successfully subscribed ${countryCode} ${phoneNumber} to daily weather updates.` 
+          : `❌ Unsubscribed ${countryCode} ${phoneNumber} from all updates.`;
         setMessages(prev => [...prev, { role: "system", content: msg, type: "status" }]);
+        if (isWhatsAppSubscribed) setPhoneNumber(""); // Clear on unsub
       }
     } finally {
       setIsSubscribing(false);
@@ -227,20 +259,56 @@ export default function Home() {
           </div>
 
           <div className="sidebar-section">
-            <div className="section-label">WhatsApp Intelligence</div>
-            <div className={`whatsapp-card glass ${isWhatsAppSubscribed ? 'subscribed' : ''}`}>
+            <div className="section-label">WhatsApp Alerts</div>
+            <div className={`whatsapp-card-v2 glass ${isWhatsAppSubscribed ? 'subscribed' : ''}`}>
               <div className="card-top">
-                <Phone size={14} />
-                <span>{isWhatsAppSubscribed ? 'Active Alerts' : 'WhatsApp Offline'}</span>
+                <Phone size={14} color={isWhatsAppSubscribed ? "#10b981" : "#666"} />
+                <span>Weather Intelligence</span>
               </div>
-              <p>{isWhatsAppSubscribed ? 'Daily precision updates active.' : 'Get daily crop & weather alerts.'}</p>
-              <button 
-                className={`btn-whatsapp ${isWhatsAppSubscribed ? 'unsub' : 'sub'}`}
-                onClick={handleWhatsAppToggle}
-                disabled={isSubscribing}
-              >
-                {isSubscribing ? 'Processing...' : (isWhatsAppSubscribed ? 'Unsubscribe' : 'Subscribe Now')}
-              </button>
+              
+              {!isWhatsAppSubscribed ? (
+                <div className="sub-form fade-in">
+                  <p>Receive daily weather & crop alerts.</p>
+                  <div className="phone-input-group">
+                    <select 
+                      value={countryCode} 
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      className="country-select"
+                    >
+                      {COUNTRIES.map(c => (
+                        <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
+                      ))}
+                    </select>
+                    <input 
+                      type="tel" 
+                      placeholder="Phone Number" 
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g,''))}
+                      className="phone-field"
+                    />
+                  </div>
+                  <button 
+                    className="btn-sub-action" 
+                    onClick={handleWhatsAppToggle}
+                    disabled={isSubscribing}
+                  >
+                    {isSubscribing ? 'Synchronizing...' : 'Subscribe'}
+                  </button>
+                </div>
+              ) : (
+                <div className="sub-active fade-in">
+                  <div className="active-badge">
+                    <CheckCircle2 size={12} /> Active: {countryCode} {phoneNumber}
+                  </div>
+                  <button 
+                    className="btn-unsub-action" 
+                    onClick={handleWhatsAppToggle}
+                    disabled={isSubscribing}
+                  >
+                    {isSubscribing ? 'Processing...' : 'Unsubscribe'}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -273,6 +341,29 @@ export default function Home() {
       </div>
 
       <div className="chat-main">
+        <AnimatePresence>
+          {showNotification && (
+            <motion.div 
+              initial={{ opacity: 0, y: -100, scale: 0.8 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -100, scale: 0.8 }}
+              className="whatsapp-alert glass"
+            >
+              <div className="wa-header">
+                <div className="wa-brand">
+                  <Phone size={14} color="#10b981" />
+                  <span>AgriMind WhatsApp Alert</span>
+                </div>
+                <div className="wa-time">Just Now</div>
+              </div>
+              <div className="wa-body">
+                <p><strong>To: {countryCode} {phoneNumber}</strong></p>
+                <p>📍 {userLocation?.city || "Your Location"}: Current temp is {userLocation?.temp || "29°C"} ({userLocation?.status || "Clear"}). Ideal conditions for soil analysis. Open AgriMind to start.</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <header className="chat-header">
           {!sidebarOpen && <button className="menu-trigger" onClick={() => setSidebarOpen(true)}><Menu size={20} /></button>}
           <div className="model-selector">
@@ -430,13 +521,19 @@ export default function Home() {
         .sidebar-scroll { flex: 1; padding: 0 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 32px; }
         .section-label { font-size: 0.65rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1.5px; }
         
-        .whatsapp-card { padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .whatsapp-card.subscribed { border-color: #10b981; background: rgba(16,185,129,0.03); }
-        .card-top { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.85rem; color: #10b981; margin-bottom: 8px; }
-        .whatsapp-card p { font-size: 0.75rem; color: #888; margin-bottom: 16px; line-height: 1.4; }
-        .btn-whatsapp { width: 100%; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; border: none; transition: 0.2s; }
-        .btn-whatsapp.sub { background: #10b981; color: #000; }
-        .btn-whatsapp.unsub { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+        .whatsapp-card-v2 { padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); }
+        .whatsapp-card-v2.subscribed { border-color: #10b981; background: rgba(16,185,129,0.03); }
+        .card-top { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ececec; margin-bottom: 16px; }
+        
+        .sub-form p { font-size: 0.75rem; color: #888; margin-bottom: 12px; }
+        .phone-input-group { display: flex; gap: 4px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 4px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .country-select { background: transparent; border: none; color: #fff; font-size: 0.75rem; padding: 0 4px; outline: none; }
+        .phone-field { flex: 1; background: transparent; border: none; color: #fff; font-size: 0.85rem; padding: 8px; outline: none; width: 100%; }
+        .btn-sub-action { width: 100%; padding: 10px; background: #10b981; color: #000; border: none; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
+        .btn-sub-action:hover { background: #34d399; }
+
+        .active-badge { font-size: 0.8rem; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
+        .btn-unsub-action { width: 100%; padding: 8px; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
 
         .weather-widget { padding: 20px; border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
         .weather-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -493,6 +590,26 @@ export default function Home() {
         .footer-disclaimer { font-size: 0.65rem; color: #555; text-align: center; margin-top: 16px; }
 
         @keyframes pulseAnim { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+
+        .whatsapp-alert {
+          position: absolute;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 90%;
+          max-width: 400px;
+          padding: 16px;
+          border-radius: 16px;
+          background: rgba(30, 30, 30, 0.95);
+          border: 1px solid #10b981;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+          z-index: 1000;
+          backdrop-filter: blur(20px);
+        }
+        .wa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
+        .wa-brand { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; }
+        .wa-time { font-size: 0.65rem; color: #666; }
+        .wa-body p { font-size: 0.85rem; line-height: 1.5; color: #ececec; margin: 4px 0; }
       `}</style>
     </main>
   );
