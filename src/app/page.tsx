@@ -23,8 +23,13 @@ import {
   LogOut,
   Phone,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  TrendingUp,
+  ArrowLeft,
+  Sparkles,
+  Zap
 } from "lucide-react";
+import Link from "next/link";
 
 interface Message {
   role: "user" | "assistant" | "system";
@@ -33,10 +38,10 @@ interface Message {
 }
 
 const QUICK_ACTIONS = [
-  "Cotton analysis for Maharashtra",
-  "Soil profile: Guntur, AP",
-  "Best crop for black soil",
-  "Wheat roadmap: Punjab"
+  { label: "Cotton", text: "Cotton analysis for Maharashtra", icon: <Sprout size={14} /> },
+  { label: "Soil", text: "Soil profile: Guntur, AP", icon: <Globe size={14} /> },
+  { label: "Crop", text: "Best crop for black soil", icon: <Sun size={14} /> },
+  { label: "Wheat", text: "Wheat roadmap: Punjab", icon: <MapPin size={14} /> }
 ];
 
 const COUNTRIES = [
@@ -64,13 +69,7 @@ export default function Home() {
   const [language, setLanguage] = useState("English");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
-  // WhatsApp & Weather State
-  const [isWhatsAppSubscribed, setIsWhatsAppSubscribed] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [countryCode, setCountryCode] = useState("+91");
-  const [userLocation, setUserLocation] = useState<{ city: string; temp: string; status: string } | null>(null);
-  const [isSubscribing, setIsSubscribing] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
+  const [userLocation, setUserLocation] = useState<{ city: string; temp: string; status: string; humidity?: string; wind?: string; source?: string; lastSync?: string } | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -80,16 +79,6 @@ export default function Home() {
     }
   }, [messages, isProcessing, isPlanning]);
 
-  // Simulate receiving a WhatsApp update after subscription
-  useEffect(() => {
-    if (isWhatsAppSubscribed && !showNotification) {
-      const timer = setTimeout(() => {
-        setShowNotification(true);
-        setTimeout(() => setShowNotification(false), 8000); // Hide after 8s
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [isWhatsAppSubscribed]);
 
   useEffect(() => {
     if (view === "app" && !userLocation) {
@@ -105,33 +94,6 @@ export default function Home() {
     }
   }, [view]);
 
-  const handleWhatsAppToggle = async () => {
-    if (!isWhatsAppSubscribed && phoneNumber.length < 10) {
-       setMessages(prev => [...prev, { role: "system", content: "⚠️ Please enter a valid 10-digit WhatsApp number.", type: "status" }]);
-       return;
-    }
-
-    setIsSubscribing(true);
-    try {
-      const response = await fetch("/api/whatsapp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          action: isWhatsAppSubscribed ? "unsubscribe" : "subscribe",
-          phone: `${countryCode}${phoneNumber}`
-        })
-      });
-      if (response.ok) {
-        setIsWhatsAppSubscribed(!isWhatsAppSubscribed);
-        const msg = !isWhatsAppSubscribed 
-          ? `✅ **Subscription Synchronized.** Updates for ${countryCode} ${phoneNumber} are ready. Since we are in Sovereign Mode, you must click **'Push Test Alert'** in the sidebar to securely transfer the first report to your phone. [Direct Link](https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}.)` 
-          : `❌ **Unsubscribed.** Service for ${countryCode} ${phoneNumber} has been terminated.`;
-        setMessages(prev => [...prev, { role: "system", content: msg, type: "status" }]);
-      }
-    } finally {
-      setIsSubscribing(false);
-    }
-  };
 
   const handleGeneratePlan = async () => {
     if (!prediction || isPlanning) return;
@@ -211,26 +173,151 @@ export default function Home() {
 
   if (view === "landing") {
     return (
-      <main className="landing-page">
-        <div className="hero-bg" style={{ backgroundImage: `url('/agrimind_hero.png')` }}></div>
-        <div className="hero-overlay"></div>
-        <div className="landing-content fade-in">
-          <div className="brand-badge">Sovereign Agri-Intelligence</div>
-          <h1 className="hero-title">The Future of <span className="gradient-text">Precision Agriculture</span></h1>
-          <p className="hero-subtitle">Harnessing VPS-hosted Gemma 3 to provide location-specific crop intelligence in 25+ Indian languages.</p>
-          <button className="btn-primary-glow" onClick={() => setView("app")}>Launch Agri-Brain PRO</button>
+      <main className="hub-page">
+        <div className="hub-container fade-in">
+          <header className="hub-header">
+            <motion.div 
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="hub-brand"
+            >
+              <Cpu size={32} color="#10b981" />
+              <h1>AgriMind <span className="gradient-text">Beyond</span></h1>
+            </motion.div>
+            <p className="hub-subtitle">Institutional Orchestration Hub</p>
+          </header>
+
+          <div className="hub-grid">
+            {/* Market Intelligence */}
+            <div className="hub-group">
+              <div className="group-label">Market Intelligence</div>
+              <div className="compact-pair">
+                <Link href="/stocks?type=india" className="compact-card">
+                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_stocks.png')" }}>
+                    <div className="card-badge sm">26 APR</div>
+                  </div>
+                  <div className="card-accent-bar blue sm">
+                    <span>INDIA NIFTY 100</span>
+                    <Zap size={12} />
+                  </div>
+                  <div className="card-body sm">
+                    <h3>Bharat Velocity</h3>
+                    <p>Institutional 2s telemetry.</p>
+                    <button className="read-more blue-text sm">Launch</button>
+                  </div>
+                </Link>
+
+                <Link href="/stocks?type=top" className="compact-card">
+                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_stocks.png')" }}>
+                    <div className="card-badge sm">26 APR</div>
+                  </div>
+                  <div className="card-accent-bar orange sm">
+                    <span>US FORTUNE 20</span>
+                    <Zap size={12} />
+                  </div>
+                  <div className="card-body sm">
+                    <h3>Wall Street Intel</h3>
+                    <p>Global tech execution signals.</p>
+                    <button className="read-more orange-text sm">Launch</button>
+                  </div>
+                </Link>
+              </div>
+            </div>
+
+            {/* Agri Intelligence */}
+            <div className="hub-group">
+              <div className="group-label">Agri Intelligence</div>
+              <div className="compact-pair">
+                <div className="compact-card" onClick={() => setView("app")}>
+                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
+                    <div className="card-badge sm">26 APR</div>
+                  </div>
+                  <div className="card-accent-bar green sm">
+                    <span>BHARAT SOIL</span>
+                    <Sparkles size={12} />
+                  </div>
+                  <div className="card-body sm">
+                    <h3>Soil Matrix</h3>
+                    <p>Predictive regional modeling.</p>
+                    <button className="read-more green-text sm">Launch</button>
+                  </div>
+                </div>
+
+                <div className="compact-card" onClick={() => setView("app")}>
+                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_agri.png')" }}>
+                    <div className="card-badge sm">26 APR</div>
+                  </div>
+                  <div className="card-accent-bar green sm">
+                    <span>US PRECISION AG</span>
+                    <Sparkles size={12} />
+                  </div>
+                  <div className="card-body sm">
+                    <h3>Ag-Tech Pro</h3>
+                    <p>Advanced climate grounding.</p>
+                    <button className="read-more green-text sm">Launch</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
         </div>
         <style jsx>{`
-          .landing-page { height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; }
-          .hero-bg { position: absolute; width: 100%; height: 100%; background-size: cover; z-index: -2; animation: zoomOut 20s infinite alternate; }
-          .hero-overlay { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(2,6,2,0.4) 0%, rgba(2,6,2,0.95) 100%); z-index: -1; }
-          .landing-content { max-width: 800px; padding: 40px; z-index: 1; }
-          .hero-title { font-size: 4.5rem; font-weight: 900; margin-bottom: 24px; letter-spacing: -2px; }
-          .gradient-text { background: linear-gradient(135deg, #10b981, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-          .hero-subtitle { font-size: 1.2rem; color: rgba(255,255,255,0.7); margin-bottom: 48px; line-height: 1.6; }
-          .btn-primary-glow { padding: 20px 48px; background: #10b981; color: #020602; border: none; border-radius: 20px; font-weight: 900; font-size: 1.2rem; cursor: pointer; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4); transition: 0.3s; }
-          .btn-primary-glow:hover { transform: translateY(-5px) scale(1.02); }
-          @keyframes zoomOut { from { transform: scale(1.1); } to { transform: scale(1); } }
+          .hub-page { height: 100vh; background: #f8fafc; color: #1a1a1a; padding: 20px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+          .hub-container { width: 100%; max-width: 1000px; }
+          
+          .hub-header { text-align: center; margin-bottom: 30px; }
+          .hub-brand { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 4px; }
+          .hub-brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0; }
+          .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+          
+          .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+          .hub-group { display: flex; flex-direction: column; gap: 12px; }
+          .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; }
+          
+          .compact-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+          
+          .compact-card { 
+            background: #fff; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            text-decoration: none; 
+            color: inherit;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            border: 1px solid #f1f5f9;
+          }
+          .compact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+
+          .card-image.sm { height: 100px; background-size: cover; background-position: center; position: relative; }
+          .card-badge.sm { position: absolute; top: 0; right: 0; background: #3b82f6; color: #fff; padding: 4px 10px; font-size: 0.55rem; font-weight: 900; }
+          
+          .card-accent-bar.sm { padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 0.6rem; font-weight: 900; letter-spacing: 0.5px; }
+          .card-accent-bar.blue { background: #3b82f6; }
+          .card-accent-bar.orange { background: #f59e0b; }
+          .card-accent-bar.green { background: #10b981; }
+          .card-accent-bar.red { background: #bb1919; }
+          
+          .card-body.sm { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+          .card-body.sm h3 { font-size: 1rem; font-weight: 800; color: #0f172a; margin: 0; }
+          .card-body.sm p { font-size: 0.75rem; color: #64748b; line-height: 1.4; margin: 0; }
+          
+          .read-more.sm { background: transparent; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: fit-content; margin-top: 4px; }
+          .read-more:hover { background: #f8fafc; border-color: #cbd5e1; }
+          
+          .blue-text { color: #3b82f6; }
+          .orange-text { color: #f59e0b; }
+          .green-text { color: #10b981; }
+          .red-text { color: #bb1919; }
+          
+          .compact-pair.full-width { grid-template-columns: 1fr; }
+          .card-badge.sm.red { background: #bb1919; }
+
+          .gradient-text { background: linear-gradient(135deg, #10b981, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+          .fade-in { animation: fadeIn 0.8s ease-out; }
+          @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         `}</style>
       </main>
     );
@@ -240,12 +327,10 @@ export default function Home() {
     <main className="chat-container dark">
       <div className={`sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
-          <button className="new-chat-btn" onClick={() => { setMessages([]); setPrediction(null); setCultivationPlan(null); }}>
-            <Plus size={18} /> New Analysis
-          </button>
-          <button className="toggle-sidebar" onClick={() => setSidebarOpen(false)}>
-             <Menu size={20} />
-          </button>
+          <div className="new-chat-btn" onClick={() => setView("landing")}>
+            <ArrowLeft size={16} />
+            <span>Return to Hub</span>
+          </div>
         </div>
         
         <div className="sidebar-scroll">
@@ -255,67 +340,12 @@ export default function Home() {
               <MessageSquare size={16} />
               <span>Current Analysis</span>
             </div>
+            <Link href="/stocks" className="history-item link-item">
+              <TrendingUp size={16} color="#10b981" />
+              <span>Stock Analysis</span>
+            </Link>
           </div>
 
-          <div className="sidebar-section">
-            <div className="section-label">WhatsApp Alerts</div>
-            <div className={`whatsapp-card-v2 glass ${isWhatsAppSubscribed ? 'subscribed' : ''}`}>
-              <div className="card-top">
-                <Phone size={14} color={isWhatsAppSubscribed ? "#10b981" : "#666"} />
-                <span>Weather Intelligence</span>
-              </div>
-              
-              {!isWhatsAppSubscribed ? (
-                <div className="sub-form fade-in">
-                  <p>Receive daily weather & crop alerts.</p>
-                  <div className="phone-input-group">
-                    <select 
-                      value={countryCode} 
-                      onChange={(e) => setCountryCode(e.target.value)}
-                      className="country-select"
-                    >
-                      {COUNTRIES.map(c => (
-                        <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
-                      ))}
-                    </select>
-                    <input 
-                      type="tel" 
-                      placeholder="Phone Number" 
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g,''))}
-                      className="phone-field"
-                    />
-                  </div>
-                  <button 
-                    className="btn-sub-action" 
-                    onClick={handleWhatsAppToggle}
-                    disabled={isSubscribing}
-                  >
-                    {isSubscribing ? 'Synchronizing...' : 'Subscribe'}
-                  </button>
-                </div>
-              ) : (
-                <div className="sub-active fade-in">
-                  <div className="active-badge">
-                    <CheckCircle2 size={12} /> Active: {countryCode} {phoneNumber}
-                  </div>
-                  <button 
-                    className="btn-sub-action btn-pulse mb-8" 
-                    onClick={() => window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}.`, '_blank')}
-                  >
-                    Push Test Alert
-                  </button>
-                  <button 
-                    className="btn-unsub-action" 
-                    onClick={handleWhatsAppToggle}
-                    disabled={isSubscribing}
-                  >
-                    {isSubscribing ? 'Processing...' : 'Unsubscribe'}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
 
           {userLocation && (
             <div className="sidebar-section">
@@ -332,6 +362,16 @@ export default function Home() {
                   <MapPin size={12} />
                   <span>{userLocation.city}</span>
                 </div>
+                {userLocation.humidity && (
+                  <div className="weather-meta fade-in">
+                    <div className="meta-item">💧 {userLocation.humidity}</div>
+                    <div className="meta-item">💨 {userLocation.wind}</div>
+                    <div className="sync-info">
+                       <span className="source-label">{userLocation.source}</span>
+                       <span className="sync-timestamp">Sync: {userLocation.lastSync}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -346,28 +386,6 @@ export default function Home() {
       </div>
 
       <div className="chat-main">
-        <AnimatePresence>
-          {showNotification && (
-            <motion.div 
-              initial={{ opacity: 0, y: -100, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -100, scale: 0.8 }}
-              className="whatsapp-alert glass"
-            >
-              <div className="wa-header">
-                <div className="wa-brand">
-                  <Phone size={14} color="#10b981" />
-                  <span>AgriMind WhatsApp Alert</span>
-                </div>
-                <div className="wa-time">Just Now</div>
-              </div>
-              <div className="wa-body">
-                <p><strong>To: {countryCode} {phoneNumber}</strong></p>
-                <p>📍 {userLocation?.city || "Your Location"}: Current temp is {userLocation?.temp || "29°C"} ({userLocation?.status || "Clear"}). Ideal conditions for soil analysis. Open AgriMind to start.</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <header className="chat-header">
           {!sidebarOpen && <button className="menu-trigger" onClick={() => setSidebarOpen(true)}><Menu size={20} /></button>}
@@ -430,32 +448,36 @@ export default function Home() {
                     <div className="institutional-card glass-v2 fade-in">
                       <div className="card-header">
                         <div className="header-top">
-                          <span className="card-label">Precision Analysis Prediction</span>
-                          <span className="conf-pill">{prediction.probability} Match</span>
+                          <span className="card-label">{prediction.isGeneral ? "General Intelligence" : "Precision Analysis Prediction"}</span>
+                          {!prediction.isGeneral && <span className="conf-pill">{prediction.probability} Match</span>}
                         </div>
                         <h2>{prediction.bestCrop}</h2>
                       </div>
                       <div className="card-content">
-                        <p className="card-reasoning">{prediction.reasoning}</p>
-                        <div className="data-grid">
-                          <div className="data-item">
-                            <span className="data-label">Soil Matrix</span>
-                            <span className="data-value">{prediction.soil?.type}</span>
-                          </div>
-                          <div className="data-item">
-                            <span className="data-label">PH Balance</span>
-                            <span className="data-value">{prediction.soil?.pH}</span>
-                          </div>
-                          <div className="data-item">
-                            <span className="data-label">Current Climate</span>
-                            <span className="data-value">{prediction.weather?.temp} / {prediction.weather?.status}</span>
-                          </div>
-                          <div className="data-item">
-                            <span className="data-label">Nutrient Load</span>
-                            <span className="data-value">{prediction.soil?.nutrients}</span>
-                          </div>
+                        <div className="card-reasoning" style={{ fontSize: prediction.isGeneral ? '1rem' : '0.95rem', lineHeight: '1.6' }}>
+                          <ReactMarkdown>{prediction.reasoning}</ReactMarkdown>
                         </div>
-                        {!cultivationPlan ? (
+                        {!prediction.isGeneral && (
+                          <div className="data-grid">
+                            <div className="data-item">
+                              <span className="data-label">Soil Matrix</span>
+                              <span className="data-value">{prediction.soil?.type}</span>
+                            </div>
+                            <div className="data-item">
+                              <span className="data-label">PH Balance</span>
+                              <span className="data-value">{prediction.soil?.pH}</span>
+                            </div>
+                            <div className="data-item">
+                              <span className="data-label">Current Climate</span>
+                              <span className="data-value">{prediction.weather?.temp} / {prediction.weather?.status}</span>
+                            </div>
+                            <div className="data-item">
+                              <span className="data-label">Nutrient Load</span>
+                              <span className="data-value">{prediction.soil?.nutrients}</span>
+                            </div>
+                          </div>
+                        )}
+                        {!prediction.isGeneral && !cultivationPlan ? (
                           <button className="btn-roadmap-launch" onClick={handleGeneratePlan} disabled={isPlanning}>
                             {isPlanning ? 'Synthesizing Vectors...' : 'Synthesize Institutional Roadmap'}
                           </button>
@@ -463,7 +485,7 @@ export default function Home() {
                           <div className="roadmap-reveal fade-in">
                             <h4 className="roadmap-title">Cultivation Vector Roadmap</h4>
                             <div className="roadmap-steps">
-                              {cultivationPlan.phases.map((p: any, idx: number) => (
+                              {cultivationPlan?.phases?.map((p: any, idx: number) => (
                                 <div key={idx} className="roadmap-node glass">
                                   <div className="node-icon">{idx + 1}</div>
                                   <div className="node-text">
@@ -487,23 +509,26 @@ export default function Home() {
         <div className="chat-footer">
           <div className="input-capsule-wrapper">
             {messages.length < 3 && !prediction && (
-              <div className="suggestions">
+              <div className="suggestions-rail">
                 {QUICK_ACTIONS.map(a => (
-                  <button key={a} className="suggestion-btn" onClick={() => handleSubmit(undefined, a)}>{a}</button>
+                  <button key={a.label} className="suggestion-pill" onClick={() => handleSubmit(undefined, a.text)}>
+                    <span className="pill-icon">{a.icon}</span>
+                    <span className="pill-text">{a.label}</span>
+                  </button>
                 ))}
               </div>
             )}
-            <div className="input-capsule">
-              <form onSubmit={handleSubmit} className="input-form">
+            <div className="premium-input-box">
+              <form onSubmit={handleSubmit} className="input-flex">
                 <input 
                   type="text" 
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about your farm location..."
-                  className="main-input"
+                  className="chat-field"
                 />
-                <button type="submit" className={`submit-btn ${input ? 'active' : ''}`} disabled={isProcessing}>
-                  <Send size={18} />
+                <button type="submit" className={`circle-send-btn ${input ? 'active' : ''}`} disabled={isProcessing}>
+                  <Send size={16} />
                 </button>
               </form>
             </div>
@@ -521,30 +546,26 @@ export default function Home() {
         .sidebar-header { padding: 20px; display: flex; gap: 8px; }
         .new-chat-btn { flex: 1; display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; color: #fff; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
         .toggle-sidebar { padding: 10px; border-radius: 8px; color: #666; cursor: pointer; }
-        .toggle-sidebar:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .history-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 8px; font-size: 0.85rem; color: #888; cursor: pointer; transition: 0.2s; text-decoration: none; }
+        .history-item.active { background: rgba(255,255,255,0.05); color: #fff; }
+        .history-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
+        .link-item { border: 1px dashed rgba(16,185,129,0.2); margin-top: 4px; }
+        .link-item:hover { border-style: solid; border-color: #10b981; }
 
         .sidebar-scroll { flex: 1; padding: 0 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 32px; }
         .section-label { font-size: 0.65rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1.5px; }
         
-        .whatsapp-card-v2 { padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); }
-        .whatsapp-card-v2.subscribed { border-color: #10b981; background: rgba(16,185,129,0.03); }
-        .card-top { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ececec; margin-bottom: 16px; }
-        
-        .sub-form p { font-size: 0.75rem; color: #888; margin-bottom: 12px; }
-        .phone-input-group { display: flex; gap: 4px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 4px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .country-select { background: transparent; border: none; color: #fff; font-size: 0.75rem; padding: 0 4px; outline: none; }
-        .phone-field { flex: 1; background: transparent; border: none; color: #fff; font-size: 0.85rem; padding: 8px; outline: none; width: 100%; }
-        .btn-sub-action { width: 100%; padding: 10px; background: #10b981; color: #000; border: none; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
-        .btn-sub-action:hover { background: #34d399; }
-
-        .active-badge { font-size: 0.8rem; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
-        .btn-unsub-action { width: 100%; padding: 8px; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
 
         .weather-widget { padding: 20px; border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
         .weather-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .temp { font-size: 1.5rem; font-weight: 900; color: #fff; }
         .condition { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: #f59e0b; }
-        .location { display: flex; align-items: center; gap: 4px; font-size: 0.7rem; color: #666; font-weight: 600; }
+        .location { display: flex; align-items: center; gap: 4px; font-size: 0.7rem; color: #666; font-weight: 600; margin-bottom: 8px; }
+        .weather-meta { display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid rgba(255,255,255,0.05); pt: 8px; margin-top: 8px; }
+        .meta-item { font-size: 0.65rem; color: #888; font-weight: 700; }
+        .sync-info { width: 100%; display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+        .source-label { font-size: 0.55rem; color: #444; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sync-timestamp { font-size: 0.55rem; color: #10b981; font-weight: 700; }
 
         .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
         .vps-badge { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; color: #666; }
@@ -586,42 +607,31 @@ export default function Home() {
         .node-name { font-weight: 800; color: #10b981; margin-bottom: 4px; }
         .node-task { font-size: 0.85rem; color: #999; line-height: 1.5; }
 
-        .chat-footer { padding: 20px 20px 60px 20px; }
-        .input-capsule-wrapper { max-width: 768px; margin: 0 auto; width: 100%; }
-        .input-capsule { background: #2f2f2f; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 10px 16px; }
-        .main-input { flex: 1; background: transparent; border: none; color: #fff; outline: none; padding: 10px; }
-        .submit-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: none; background: #555; color: #212121; cursor: pointer; }
-        .submit-btn.active { background: #fff; }
-        .footer-disclaimer { font-size: 0.65rem; color: #555; text-align: center; margin-top: 16px; }
+        .chat-footer { padding: 20px 20px 40px 20px; background: linear-gradient(to top, #212121 80%, transparent); }
+        .input-capsule-wrapper { max-width: 768px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 16px; }
+        
+        .suggestions-rail { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; animation: fadeInUp 0.4s ease; }
+        .suggestion-pill { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #2f2f2f; border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; color: #ececec; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .suggestion-pill:hover { background: #383838; border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        .pill-icon { color: #10b981; display: flex; }
+        
+        .premium-input-box { background: #2f2f2f; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 8px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.3s; }
+        .premium-input-box:focus-within { border-color: rgba(255,255,255,0.25); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .input-flex { display: flex; align-items: center; gap: 12px; }
+        .chat-field { flex: 1; background: transparent; border: none; color: #fff; outline: none; padding: 12px 8px; font-size: 1rem; font-weight: 500; }
+        .circle-send-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: none; background: #444; color: #888; cursor: pointer; transition: 0.3s; }
+        .circle-send-btn.active { background: #fff; color: #000; transform: scale(1.1); }
+        .circle-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        @keyframes pulseAnim { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+        .footer-disclaimer { font-size: 0.65rem; color: #555; text-align: center; margin-top: 16px; font-weight: 600; letter-spacing: 0.02em; }
 
-        .whatsapp-alert {
-          position: absolute;
-          top: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 90%;
-          max-width: 400px;
-          padding: 16px;
-          border-radius: 16px;
-          background: rgba(30, 30, 30, 0.95);
-          border: 1px solid #10b981;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-          z-index: 1000;
-          backdrop-filter: blur(20px);
-        }
-        .wa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
-        .wa-brand { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; }
-        .wa-time { font-size: 0.65rem; color: #666; }
-        .wa-body p { font-size: 0.85rem; line-height: 1.5; color: #ececec; margin: 4px 0; }
-        .mb-8 { margin-bottom: 8px; }
-        .btn-pulse { animation: buttonPulse 2s infinite; }
-        @keyframes buttonPulse {
-          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); transform: scale(1); }
-          70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); transform: scale(1.02); }
-          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); transform: scale(1); }
-        }
+        .card-reasoning :global(p) { margin-bottom: 16px; }
+        .card-reasoning :global(p:last-child) { margin-bottom: 0; }
+        .card-reasoning :global(ul), .card-reasoning :global(ol) { margin-left: 20px; margin-bottom: 16px; }
+        .card-reasoning :global(li) { margin-bottom: 8px; }
+        .card-reasoning :global(strong) { color: #fff; font-weight: 800; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
     </main>
   );

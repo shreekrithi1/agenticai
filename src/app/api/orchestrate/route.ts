@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { fetchLiveWeather } from "@/lib/agents/weatherAgent";
+import { askGenericAgent, ETHICAL_GUIDELINES } from "@/lib/agents/genericAgent";
 
 // Regional Soil Database (India)
 const SOIL_DATABASE: Record<string, any> = {
@@ -24,7 +26,10 @@ export async function POST(req: Request) {
         body: JSON.stringify({
           model: OLLAMA_MODEL,
           prompt: `
-            You are AgriMind AI. Generate a 4-phase cultivation roadmap for ${query} in ${location}.
+            SYSTEM: You are AgriMind AI.
+            ${ETHICAL_GUIDELINES}
+            
+            TASK: Generate a 4-phase cultivation roadmap for ${query} in ${location}.
             Phases: 1. Sowing, 2. Growth, 3. Protection, 4. Harvest.
             
             LANGUAGE: ${language.toUpperCase()}
@@ -62,14 +67,44 @@ export async function POST(req: Request) {
       return NextResponse.json(JSON.parse(cleanJson));
     }
 
-    // 1. Extract Location (Heuristic)
+    // 1. Intent Detection
+    const isAgriRelated = /soil|crop|farm|agriculture|plant|seed|irrigation|weather|harvest|fertilizer|growing|cultivat|yield|pest|farmer/i.test(query);
+    
+    // 2. Extract Location (Heuristic)
     let searchLocation = query;
     const locationMatch = query.match(/(?:in|for|at|near|around)\s+([a-zA-Z\s,]+)/i);
-    if (locationMatch) {
+    
+    if (locationMatch && isAgriRelated) {
       searchLocation = locationMatch[1].trim();
+    } else if (!isAgriRelated) {
+       // Route to Generic Agent if it's definitely not agri-related
+       console.log("--- Routing to Generic Agent ---");
+       const genericResponse = await askGenericAgent(query, language);
+       return NextResponse.json({ 
+         steps: [{ status: "reasoning", message: "Applying General Intelligence Node...", thought: "Query detected as non-agricultural. Routing to ethical general model." }],
+         prediction: {
+           bestCrop: "General Inquiry",
+           reasoning: genericResponse,
+           probability: "N/A",
+           soil: { type: "N/A", pH: "N/A", nutrients: "N/A" },
+           weather: { status: "N/A", temp: "N/A" },
+           irrigation: "N/A",
+           isGeneral: true
+         }
+       });
+    } else if (locationMatch) {
+       searchLocation = locationMatch[1].trim();
     }
 
     let groundingData = "SOVEREIGN_MODE: Rely on regional soil database and seasonal patterns.";
+    
+    // 1.5 Fetch Live Weather for Grounding
+    try {
+      const liveWeather = await fetchLiveWeather("18.5204", "73.8567"); // Defaulting to Pune/Kharadi area
+      groundingData = `LIVE_GROUNDING: Location is experiencing ${liveWeather.status} at ${liveWeather.temp} with ${liveWeather.humidity} humidity. Data source: ${liveWeather.source}.`;
+    } catch (e) {
+      console.warn("Grounding fetch failed, falling back to sovereign knowledge.");
+    }
 
     // 2. Identify Region for Soil Lookup (Heuristic)
     const normalizedQuery = searchLocation.toLowerCase();
@@ -89,7 +124,8 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: OLLAMA_MODEL,
         prompt: `
-          You are AgriMind AI.
+          SYSTEM: You are AgriMind AI, a responsible agricultural intelligence assistant.
+          ${ETHICAL_GUIDELINES}
           
           TASK: Analyze location and predict best crop.
           LOCATION: ${searchLocation}
