@@ -124,10 +124,9 @@ export default function Home() {
       if (response.ok) {
         setIsWhatsAppSubscribed(!isWhatsAppSubscribed);
         const msg = !isWhatsAppSubscribed 
-          ? `✅ Successfully subscribed ${countryCode} ${phoneNumber} to daily weather updates.` 
+          ? `✅ Successfully subscribed ${countryCode} ${phoneNumber} to daily weather updates. **Click [Verify on Phone](https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Update%20for%20${userLocation?.city || 'Your%20Farm'}%3A%20Current%20temp%20is%20${userLocation?.temp || '29C'}%20with%20${userLocation?.status || 'Clear'}%20skies.) to receive your first report.**` 
           : `❌ Unsubscribed ${countryCode} ${phoneNumber} from all updates.`;
         setMessages(prev => [...prev, { role: "system", content: msg, type: "status" }]);
-        if (isWhatsAppSubscribed) setPhoneNumber(""); // Clear on unsub
       }
     } finally {
       setIsSubscribing(false);
@@ -300,6 +299,12 @@ export default function Home() {
                   <div className="active-badge">
                     <CheckCircle2 size={12} /> Active: {countryCode} {phoneNumber}
                   </div>
+                  <button 
+                    className="btn-sub-action mb-8" 
+                    onClick={() => window.open(`https://wa.me/${countryCode.replace('+', '')}${phoneNumber}?text=AgriMind%20Sync%3A%20Verified!%20Your%20daily%20updates%20are%20now%20linked%20to%20this%20number.`, '_blank')}
+                  >
+                    Push Test Alert
+                  </button>
                   <button 
                     className="btn-unsub-action" 
                     onClick={handleWhatsAppToggle}
@@ -610,6 +615,7 @@ export default function Home() {
         .wa-brand { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; }
         .wa-time { font-size: 0.65rem; color: #666; }
         .wa-body p { font-size: 0.85rem; line-height: 1.5; color: #ececec; margin: 4px 0; }
+        .mb-8 { margin-bottom: 8px; }
       `}</style>
     </main>
   );
