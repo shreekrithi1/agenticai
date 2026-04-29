@@ -36,7 +36,7 @@ export default function Home() {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
-  }, [messages, view, isProcessing]);
+  }, [messages, view, isProcessing, isPlanning]);
 
   const handleGeneratePlan = async () => {
     if (!prediction || isPlanning) return;
@@ -45,7 +45,7 @@ export default function Home() {
     const userMsg = messages.findLast(m => m.role === 'user')?.content || "";
     const cleanLocation = userMsg.replace(/Location Analysis: /g, "").trim();
 
-    setMessages(prev => [...prev, { role: "user", content: `Generate a detailed cultivation roadmap for ${prediction.bestCrop} in ${language}.`, type: "text" }]);
+    setMessages(prev => [...prev, { role: "user", content: `Synthesize detailed cultivation roadmap for ${prediction.bestCrop}.`, type: "text" }]);
 
     try {
       const response = await fetch("/api/orchestrate", {
@@ -62,10 +62,10 @@ export default function Home() {
       const data = await response.json();
       if (data.plan) {
         setCultivationPlan(data.plan);
-        setMessages(prev => [...prev, { role: "assistant", content: language === "English" ? "Institutional roadmap generated." : "సాగు ప్రణాళిక రూపొందించబడింది.", type: "status" }]);
+        setMessages(prev => [...prev, { role: "assistant", content: language === "English" ? "Institutional roadmap synthesized successfully." : "సాగు ప్రణాళిక విజయవంతంగా రూపొందించబడింది.", type: "status" }]);
       }
     } catch (e) {
-      setMessages(prev => [...prev, { role: "assistant", content: "Failed to generate plan. Check VPS connectivity.", type: "text" }]);
+      setMessages(prev => [...prev, { role: "assistant", content: "Failed to generate roadmap. Check VPS connection.", type: "text" }]);
     } finally {
       setIsPlanning(false);
     }
@@ -145,7 +145,6 @@ export default function Home() {
     <main className="app-container">
       <div className="premium-bg"></div>
       
-      {/* ChatGPT-style Sidebar */}
       <div className="sidebar glass">
         <div className="sidebar-header">
           <div className="logo-small" onClick={() => setView("landing")}>
@@ -228,16 +227,19 @@ export default function Home() {
                 </div>
               </div>
             ))}
-            {isProcessing && (
+            {(isProcessing || isPlanning) && (
               <div className="chat-row assistant">
                 <div className="avatar">🤖</div>
-                <div className="typing-indicator">
-                  <span></span><span></span><span></span>
+                <div className="message-content">
+                   <div className="sender-name">Agri-Brain</div>
+                   <div className="typing-indicator">
+                    <span></span><span></span><span></span>
+                    <span className="typing-text">{isPlanning ? 'Synthesizing Roadmap...' : 'Analyzing Data...'}</span>
+                   </div>
                 </div>
               </div>
             )}
             
-            {/* Dynamic Result Card inside Chat (ChatGPT style) */}
             {prediction && (
               <div className="chat-row assistant">
                 <div className="avatar">🧠</div>
@@ -255,21 +257,27 @@ export default function Home() {
                       <div className="stat"><span>PH</span> <strong>{prediction.soil?.pH}</strong></div>
                       <div className="stat"><span>SOIL</span> <strong>{prediction.soil?.type}</strong></div>
                       <div className="stat"><span>TEMP</span> <strong>{prediction.weather?.temp}</strong></div>
+                      <div className="stat"><span>NPK</span> <strong>{prediction.soil?.nutrients}</strong></div>
                     </div>
                     
                     {!cultivationPlan ? (
                       <button className="btn-action" onClick={handleGeneratePlan} disabled={isPlanning}>
-                        {isPlanning ? 'Constructing Vector...' : 'Generate Roadmap'}
+                        {isPlanning ? 'Analyzing Growth Vectors...' : 'Synthesize Roadmap'}
                       </button>
                     ) : (
-                      <div className="roadmap-inline">
+                      <div className="roadmap-inline fade-in">
                         <h4>Roadmap Vector</h4>
-                        {cultivationPlan.phases.map((p: any, i: number) => (
-                          <div key={i} className="roadmap-step">
-                            <span className="step-num">{i+1}</span>
-                            <div className="step-text"><strong>{p.name}</strong>: {p.task}</div>
-                          </div>
-                        ))}
+                        <div className="roadmap-grid">
+                          {cultivationPlan.phases.map((p: any, i: number) => (
+                            <div key={i} className="roadmap-step glass">
+                              <span className="step-num">{i+1}</span>
+                              <div className="step-text">
+                                <div className="p-name">{p.name}</div>
+                                <div className="p-task">{p.task}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -301,7 +309,7 @@ export default function Home() {
               {isProcessing ? '⌛' : '↑'}
             </button>
           </form>
-          <div className="disclaimer">AgriMind can make mistakes. Verify critical farming decisions.</div>
+          <div className="disclaimer">AgriMind institutional intelligence is grounded by Real-time climate data.</div>
         </div>
       </div>
 
@@ -309,86 +317,62 @@ export default function Home() {
         .app-container { height: 100vh; display: flex; background: #0a0a0a; color: #ececec; font-family: 'Outfit', sans-serif; overflow: hidden; }
         .premium-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #0d1a0d 0%, #050505 100%); }
 
-        /* Sidebar */
-        .sidebar { width: 260px; height: 100%; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 12px; }
-        .logo-small { display: flex; align-items: center; gap: 8px; padding: 12px; cursor: pointer; }
-        .logo-icon { font-size: 24px; }
-        .logo-name { font-weight: 800; font-size: 1.1rem; }
-        .new-chat-btn { margin-top: 12px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; color: #fff; text-align: left; cursor: pointer; transition: 0.2s; }
-        .new-chat-btn:hover { background: rgba(255,255,255,0.05); }
-        .sidebar-content { flex: 1; margin-top: 24px; }
-        .sidebar-label { font-size: 0.7rem; color: #666; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; padding: 0 12px; }
-        .history-item { padding: 10px 12px; font-size: 0.85rem; color: #999; cursor: pointer; border-radius: 8px; }
-        .history-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
-        .vps-status { font-size: 0.75rem; color: #10b981; display: flex; align-items: center; gap: 8px; padding: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .dot.pulse { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
-
-        /* Chat Interface */
-        .chat-interface { flex: 1; display: flex; flex-direction: column; position: relative; }
-        .chat-header { height: 60px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .chat-header h2 { font-size: 0.95rem; font-weight: 700; }
-        .model-tag { color: #666; font-weight: 400; margin-left: 8px; }
-        .lang-selector { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; }
-        .lang-selector select { background: transparent; border: none; color: #fff; outline: none; }
-
-        .chat-viewport { flex: 1; overflow-y: auto; padding: 40px 0; }
-        .message-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; padding: 0 20px; }
-        .chat-row { display: flex; gap: 24px; animation: fadeIn 0.4s ease-out; }
-        .avatar { width: 36px; height: 36px; border-radius: 8px; background: #222; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.05); }
-        .user .avatar { background: #065f46; }
-        .message-content { flex: 1; }
-        .sender-name { font-size: 0.85rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
-        .bubble { font-size: 1rem; line-height: 1.6; color: #d1d1d1; }
-        .bubble.status { color: #10b981; font-weight: 600; }
-        .bubble.thought { color: #34d399; font-size: 0.85rem; padding: 12px; background: rgba(16,185,129,0.05); border-radius: 12px; margin-top: 12px; }
-
-        /* ChatGPT-style Result Card */
-        .result-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 32px; margin-top: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #10b981; font-weight: 800; }
-        .card-header h3 { font-size: 1.8rem; font-weight: 900; margin-top: 4px; color: #fff; }
-        .match-score { padding: 6px 14px; background: rgba(16,185,129,0.1); border: 1px solid #10b981; border-radius: 20px; color: #10b981; font-size: 0.8rem; font-weight: 800; }
-        .reasoning { font-size: 1rem; color: #aaa; margin-bottom: 24px; line-height: 1.6; }
-        .mini-stats { display: flex; gap: 24px; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 16px; margin-bottom: 24px; }
-        .stat { display: flex; flex-direction: column; gap: 4px; }
-        .stat span { font-size: 0.6rem; font-weight: 800; color: #666; text-transform: uppercase; }
-        .stat strong { font-size: 0.9rem; color: #fff; }
+        .sidebar { width: 280px; height: 100%; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; padding: 16px; background: rgba(0,0,0,0.2); }
+        .logo-small { display: flex; align-items: center; gap: 10px; padding: 12px; cursor: pointer; }
+        .logo-icon { font-size: 28px; }
+        .logo-name { font-weight: 900; font-size: 1.3rem; letter-spacing: -1px; }
+        .new-chat-btn { margin-top: 20px; padding: 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; background: rgba(255,255,255,0.02); color: #fff; text-align: left; cursor: pointer; font-weight: 700; transition: 0.2s; }
+        .new-chat-btn:hover { background: rgba(255,255,255,0.08); border-color: #10b981; }
+        .sidebar-content { flex: 1; margin-top: 32px; }
+        .sidebar-label { font-size: 0.65rem; color: #555; font-weight: 900; text-transform: uppercase; margin-bottom: 16px; padding: 0 12px; letter-spacing: 2px; }
+        .history-item { padding: 12px; font-size: 0.9rem; color: #888; cursor: pointer; border-radius: 10px; display: flex; align-items: center; gap: 8px; }
+        .history-item:hover { background: rgba(255,255,255,0.03); color: #10b981; }
         
-        .btn-action { width: 100%; padding: 16px; background: #10b981; color: #020602; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.2s; }
-        .btn-action:hover { background: #34d399; }
+        .chat-interface { flex: 1; display: flex; flex-direction: column; }
+        .chat-header { height: 70px; padding: 0 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .chat-header h2 { font-size: 1rem; font-weight: 800; }
+        .model-tag { color: #10b981; font-weight: 900; font-size: 0.7rem; background: rgba(16,185,129,0.1); padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+        .lang-selector { padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.1); }
+        .lang-selector select { background: transparent; border: none; color: #fff; outline: none; font-weight: 700; }
 
-        .roadmap-inline { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; }
-        .roadmap-inline h4 { font-size: 0.9rem; color: #10b981; margin-bottom: 16px; }
-        .roadmap-step { display: flex; gap: 16px; margin-bottom: 16px; }
-        .step-num { width: 24px; height: 24px; background: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #000; font-weight: 900; flex-shrink: 0; }
-        .step-text { font-size: 0.9rem; color: #999; }
+        .chat-viewport { flex: 1; overflow-y: auto; padding: 40px 0; scroll-behavior: smooth; }
+        .message-list { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; padding: 0 30px; }
+        .chat-row { display: flex; gap: 28px; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .avatar { width: 42px; height: 42px; border-radius: 12px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.08); }
+        .user .avatar { background: linear-gradient(135deg, #10b981, #065f46); }
+        .sender-name { font-size: 0.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 10px; }
+        .bubble { font-size: 1.1rem; line-height: 1.7; color: #d1d1d1; max-width: 90%; }
+        .bubble.status { color: #10b981; font-weight: 700; }
 
-        /* Input Area */
-        .chat-input-area { max-width: 800px; margin: 0 auto; width: 100%; padding: 20px; }
-        .quick-actions { display: flex; gap: 12px; margin-bottom: 16px; justify-content: center; flex-wrap: wrap; }
-        .action-pill { padding: 8px 16px; background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #999; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
-        .action-pill:hover { background: rgba(255,255,255,0.05); color: #fff; }
-        .input-box { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); background: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .chat-input { flex: 1; background: transparent; border: none; padding: 12px; color: #fff; font-size: 1rem; outline: none; }
-        .send-btn { width: 40px; height: 40px; background: #fff; color: #000; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; transition: 0.2s; }
-        .send-btn:disabled { background: #333; color: #666; }
-        .disclaimer { font-size: 0.65rem; color: #555; text-align: center; margin-top: 12px; }
+        .result-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 40px; margin-top: 15px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.5); backdrop-filter: blur(20px); }
+        .card-header h3 { font-size: 2.5rem; font-weight: 900; margin-top: 8px; letter-spacing: -1px; }
+        .match-score { font-size: 0.9rem; padding: 8px 20px; border-radius: 30px; }
+        .reasoning { font-size: 1.1rem; color: #999; margin: 30px 0; }
+        .mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; background: rgba(255,255,255,0.03); padding: 25px; border-radius: 20px; margin-bottom: 30px; }
+        .stat span { color: #10b981; }
+        .stat strong { font-size: 1.1rem; }
 
-        .typing-indicator { display: flex; gap: 4px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; }
-        .typing-indicator span { width: 6px; height: 6px; background: #666; border-radius: 50%; animation: bounce 1.4s infinite; }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        .btn-action { padding: 20px; font-size: 1.1rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
+        
+        .roadmap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .roadmap-step { padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .step-num { position: absolute; top: -10px; left: -10px; }
+        .p-name { color: #10b981; font-weight: 800; margin-bottom: 6px; }
+        .p-task { font-size: 0.85rem; color: #888; }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .typing-indicator { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); padding: 12px 20px; border-radius: 15px; border: 1px solid rgba(16,185,129,0.1); }
+        .typing-text { font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-left: 8px; }
 
-        @media (max-width: 768px) {
-          .sidebar { display: none; }
-          .chat-viewport { padding: 20px 0; }
-          .message-list { padding: 0 16px; }
-          .chat-row { gap: 12px; }
-          .card-header h3 { font-size: 1.4rem; }
+        .chat-input-area { max-width: 1000px; margin: 0 auto; padding: 20px 30px 40px 30px; }
+        .input-box { border-radius: 24px; padding: 10px 15px; }
+        .chat-input { font-size: 1.1rem; padding: 15px; }
+        .send-btn { width: 50px; height: 50px; border-radius: 15px; font-size: 1.2rem; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 1000px) {
+          .roadmap-grid { grid-template-columns: 1fr; }
+          .mini-stats { grid-template-columns: 1fr 1fr; }
         }
       `}</style>
     </main>
