@@ -128,10 +128,35 @@ export default function Home() {
               onChange={(e) => setLanguage(e.target.value)}
               className="select-lang"
             >
-              <option value="English">English</option>
-              <option value="Telugu">తెలుగు</option>
-              <option value="Tamil">தமிழ்</option>
-              <option value="Malayalam">മലയാളం</option>
+              <optgroup label="Primary">
+                <option value="English">English</option>
+                <option value="Hindi">हिन्दी (Hindi)</option>
+              </optgroup>
+              <optgroup label="Regional">
+                <option value="Telugu">తెలుగు (Telugu)</option>
+                <option value="Tamil">தமிழ் (Tamil)</option>
+                <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+                <option value="Malayalam">മലയാളം (Malayalam)</option>
+                <option value="Bengali">বাংলা (Bengali)</option>
+                <option value="Marathi">मराठी (Marathi)</option>
+                <option value="Gujarati">ગુજરાતી (Gujarati)</option>
+                <option value="Odia">ଓଡ଼ିଆ (Odia)</option>
+                <option value="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+                <option value="Assamese">অসমীয়া (Assamese)</option>
+                <option value="Maithili">मैथिली (Maithili)</option>
+                <option value="Santali">ᱥᱟᱱᱛᱟᱲᱤ (Santali)</option>
+                <option value="Kashmiri">کٲشُر (Kashmiri)</option>
+                <option value="Nepali">नेपाली (Nepali)</option>
+                <option value="Sindhi">سنڌي (Sindhi)</option>
+                <option value="Konkani">कोंкणी (Konkani)</option>
+                <option value="Dogri">डोगरी (Dogri)</option>
+                <option value="Manipuri">মৈতেইলোন (Manipuri)</option>
+                <option value="Sanskrit">संस्कृतम् (Sanskrit)</option>
+                <option value="Bodo">बर' (Bodo)</option>
+                <option value="Tulu">ತುಳು (Tulu)</option>
+                <option value="Haryanvi">हरियाणवी (Haryanvi)</option>
+                <option value="Bhojpuri">भोजपुरी (Bhojpuri)</option>
+              </optgroup>
             </select>
           </div>
           <div className="badge glass-glow green">Sovereign Agri-Core</div>
