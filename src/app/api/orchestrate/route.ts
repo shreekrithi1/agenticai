@@ -74,7 +74,11 @@ export async function POST(req: Request) {
       const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+soil+type+in+${encodeURIComponent(searchLocation)}+India`, {
         headers: { "X-API-Key": process.env.YOU_API_KEY || "" }
       });
-      if (searchResponse.ok) {
+      
+      if (searchResponse.status === 401 || searchResponse.status === 403) {
+        console.warn("AgriMind WARNING: Invalid Search API Key. Falling back to local heuristics.");
+        groundingData = "FALLBACK: Use regional soil database. Weather is likely typical for the season.";
+      } else if (searchResponse.ok) {
         const data = await searchResponse.json();
         groundingData = data.hits?.map((h: any) => h.snippets?.join(" ")).join("\n") || "";
       }
