@@ -21,6 +21,7 @@ export default function Home() {
   const [prediction, setPrediction] = useState<any>(null);
   const [cultivationPlan, setCultivationPlan] = useState<any>(null);
   const [isPlanning, setIsPlanning] = useState(false);
+  const [language, setLanguage] = useState("English");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,12 +34,7 @@ export default function Home() {
     if (!prediction || isPlanning) return;
     setIsPlanning(true);
     setCultivationPlan(null);
-    
-    // Extract the original location query more robustly
-    const userMsg = messages.findLast(m => m.role === 'user')?.content || "";
-    const cleanLocation = userMsg.replace("Location: ", "");
-
-    setMessages(prev => [...prev, { role: "user", content: `Generate a detailed cultivation plan for ${prediction.bestCrop} in ${cleanLocation}.`, type: "text" }]);
+    setMessages(prev => [...prev, { role: "user", content: `Generate a detailed cultivation plan for ${prediction.bestCrop} in ${language}.`, type: "text" }]);
 
     try {
       const response = await fetch("/api/orchestrate", {
@@ -46,15 +42,16 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           query: prediction.bestCrop, 
-          location: cleanLocation, 
-          type: "cultivation" 
+          location: messages.findLast(m => m.role === 'user')?.content.replace("Location: ", ""),
+          type: "cultivation",
+          language: language
         }),
       });
 
       const data = await response.json();
       if (data.plan) {
         setCultivationPlan(data.plan);
-        setMessages(prev => [...prev, { role: "assistant", content: "Cultivation roadmap generated successfully.", type: "status" }]);
+        setMessages(prev => [...prev, { role: "assistant", content: language === "English" ? "Cultivation roadmap generated successfully." : "సాగు ప్రణాళిక విజయవంతంగా రూపొందించబడింది.", type: "status" }]);
       }
     } catch (e) {
       setMessages(prev => [...prev, { role: "assistant", content: "Failed to generate plan. Check VPS connectivity.", type: "text" }]);
@@ -71,14 +68,14 @@ export default function Home() {
     setInput("");
     setPrediction(null);
     setCultivationPlan(null);
-    setMessages(prev => [...prev, { role: "user", content: `Location: ${locationQuery}`, type: "text" }]);
+    setMessages(prev => [...prev, { role: "user", content: `Location: ${locationQuery} (Lang: ${language})`, type: "text" }]);
     setIsProcessing(true);
 
     try {
       const response = await fetch("/api/orchestrate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: locationQuery }),
+        body: JSON.stringify({ query: locationQuery, language: language }),
       });
 
       const data = await response.json();
@@ -114,8 +111,17 @@ export default function Home() {
           <h1>AgriMind <span className="tag">INDIA</span></h1>
         </div>
         <div className="nav-badges">
+          <select 
+            value={language} 
+            onChange={(e) => setLanguage(e.target.value)}
+            className="badge glass select-lang"
+          >
+            <option value="English">English</option>
+            <option value="Telugu">తెలుగు (Telugu)</option>
+            <option value="Tamil">தமிழ் (Tamil)</option>
+            <option value="Malayalam">മലയാളം (Malayalam)</option>
+          </select>
           <div className="badge glass green">Sovereign Agri-AI</div>
-          <div className="badge glass yellow">Gemma 3 Powered</div>
         </div>
       </div>
 
@@ -228,6 +234,8 @@ export default function Home() {
         .badge { padding: 8px 16px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; border-radius: 20px; }
         .badge.green { color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
         .badge.yellow { color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .select-lang { background: rgba(255,255,255,0.05); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); outline: none; cursor: pointer; appearance: none; }
+        .select-lang option { background: #040d04; color: white; }
 
         .main-grid { flex: 1; display: grid; grid-template-columns: 1fr ${prediction ? '480px' : '0fr'}; gap: 24px; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; }
         .chat-section { display: flex; flex-direction: column; overflow: hidden; background: rgba(255, 255, 255, 0.02); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05); }

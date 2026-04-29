@@ -12,7 +12,7 @@ const SOIL_DATABASE: Record<string, any> = {
 
 export async function POST(req: Request) {
   try {
-    const { query, type, location } = await req.json(); 
+    const { query, type, location, language = "English" } = await req.json(); 
 
     const OLLAMA_HOST = process.env.OLLAMA_HOST || "http://72.62.97.202:11434";
     const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "gemma3:4b";
@@ -26,14 +26,16 @@ export async function POST(req: Request) {
             You are AgriMind AI. Generate a 4-phase cultivation roadmap for ${query} in ${location}.
             Phases should include: 1. Sowing, 2. Growth/Nutrients, 3. Pest Management, 4. Harvest.
             
+            IMPORTANT: ALL CONTENT MUST BE IN ${language.toUpperCase()} LANGUAGE.
+            
             RESPONSE FORMAT: JSON ONLY.
             {
               "plan": {
                 "phases": [
-                  { "name": "Sowing", "task": "..." },
-                  { "name": "Growth", "task": "..." },
-                  { "name": "Protection", "task": "..." },
-                  { "name": "Harvest", "task": "..." }
+                  { "name": "...", "task": "..." },
+                  { "name": "...", "task": "..." },
+                  { "name": "...", "task": "..." },
+                  { "name": "...", "task": "..." }
                 ]
               }
             }
@@ -90,6 +92,8 @@ export async function POST(req: Request) {
           REGIONAL SOIL DATA: ${JSON.stringify(regionalSoil)}
           REAL-TIME WEATHER GROUNDING: ${groundingData}
           
+          IMPORTANT: ALL TEXT CONTENT (Best Crop, Reasoning, Strategy, etc.) MUST BE IN ${language.toUpperCase()} LANGUAGE.
+          
           ANALYSIS REQUIREMENTS:
           - Compare current weather (Temp, Humidity, Rainfall) with soil N-P-K needs.
           - Predict the top crop and provide a "Success Probability".
@@ -99,22 +103,22 @@ export async function POST(req: Request) {
           RESPONSE FORMAT: JSON ONLY.
           {
             "steps": [
-              { "status": "analyzing", "message": "Cross-referencing soil pH with moisture levels...", "thought": "Analyzing the synergy between the current monsoon status and regional black soil." }
+              { "status": "analyzing", "message": "...", "thought": "..." }
             ],
             "prediction": {
-              "bestCrop": "Cotton",
-              "probability": "88%",
-              "reasoning": "High humidity and rich black soil profile in ${query} are ideal for this sowing season.",
+              "bestCrop": "...",
+              "probability": "...",
+              "reasoning": "...",
               "soil": {
-                "type": "${regionalSoil.type}",
-                "pH": "6.8",
-                "nutrients": "${regionalSoil.nutrients}"
+                "type": "...",
+                "pH": "...",
+                "nutrients": "..."
               },
               "weather": {
-                "status": "Monsoon/Humid",
-                "temp": "28°C"
+                "status": "...",
+                "temp": "..."
               },
-              "irrigation": "Low - Natural rainfall sufficient for the next 15 days."
+              "irrigation": "..."
             }
           }
         `,
