@@ -175,10 +175,40 @@ export default function Home() {
           </div>
           <div className="lang-selector glass">
             🌐 <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-              <option value="English">English</option>
-              <option value="Telugu">తెలుగు</option>
-              <option value="Tamil">தமிழ்</option>
-              <option value="Hindi">हिन्दी</option>
+              <optgroup label="Common">
+                <option value="English">English</option>
+                <option value="Hindi">हिन्दी (Hindi)</option>
+              </optgroup>
+              <optgroup label="South">
+                <option value="Telugu">తెలుగు (Telugu)</option>
+                <option value="Tamil">தமிழ் (Tamil)</option>
+                <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+                <option value="Malayalam">മലയാളം (Malayalam)</option>
+                <option value="Tulu">ತುಳು (Tulu)</option>
+              </optgroup>
+              <optgroup label="North & West">
+                <option value="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+                <option value="Gujarati">ગુજરાતી (Gujarati)</option>
+                <option value="Marathi">मराठी (Marathi)</option>
+                <option value="Haryanvi">हरियाणवी (Haryanvi)</option>
+                <option value="Bhojpuri">भोजपुरी (Bhojpuri)</option>
+                <option value="Dogri">डोगरी (Dogri)</option>
+                <option value="Kashmiri">کٲشُر (Kashmiri)</option>
+                <option value="Sindhi">سنڌي (Sindhi)</option>
+              </optgroup>
+              <optgroup label="East & North East">
+                <option value="Bengali">বাংলা (Bengali)</option>
+                <option value="Odia">ଓଡ଼ିଆ (Odia)</option>
+                <option value="Assamese">অসমীয়া (Assamese)</option>
+                <option value="Maithili">मैथिली (Maithili)</option>
+                <option value="Santali">ᱥᱟᱱᱛᱟᱲᱤ (Santali)</option>
+                <option value="Manipuri">মৈতেইলোন (Manipuri)</option>
+                <option value="Bodo">बर' (Bodo)</option>
+                <option value="Nepali">नेपाली (Nepali)</option>
+              </optgroup>
+              <optgroup label="Classical">
+                <option value="Sanskrit">संस्कृतम् (Sanskrit)</option>
+              </optgroup>
             </select>
           </div>
         </div>
