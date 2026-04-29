@@ -70,20 +70,28 @@ export async function POST(req: Request) {
     }
 
     let groundingData = "";
-    try {
-      const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+soil+type+in+${encodeURIComponent(searchLocation)}+India`, {
-        headers: { "X-API-Key": process.env.YOU_API_KEY || "" }
-      });
-      
-      if (searchResponse.status === 401 || searchResponse.status === 403) {
-        console.warn("AgriMind WARNING: Invalid Search API Key. Falling back to local heuristics.");
-        groundingData = "FALLBACK: Use regional soil database. Weather is likely typical for the season.";
-      } else if (searchResponse.ok) {
-        const data = await searchResponse.json();
-        groundingData = data.hits?.map((h: any) => h.snippets?.join(" ")).join("\n") || "";
+    // Pre-flight check: Only fetch if key seems valid and not the known-invalid one
+    const isKeyValid = process.env.YOU_API_KEY && process.env.YOU_API_KEY.startsWith("ydc-sk-") && !process.env.YOU_API_KEY.includes("invalid");
+    
+    if (isKeyValid) {
+      try {
+        const searchResponse = await fetch(`https://api.ydc-index.io/search?query=current+weather+and+soil+type+in+${encodeURIComponent(searchLocation)}+India`, {
+          headers: { "X-API-Key": process.env.YOU_API_KEY || "" }
+        });
+        
+        if (searchResponse.status === 401 || searchResponse.status === 403) {
+          console.warn("AgriMind WARNING: Invalid Search API Key. Switching to Sovereign Mode.");
+          groundingData = "FALLBACK: Use regional soil database logic.";
+        } else if (searchResponse.ok) {
+          const data = await searchResponse.json();
+          groundingData = data.hits?.map((h: any) => h.snippets?.join(" ")).join("\n") || "";
+        }
+      } catch (e) {
+        console.error("Grounding failed:", e);
       }
-    } catch (e) {
-      console.error("Grounding failed:", e);
+    } else {
+      console.log("AgriMind: Running in Sovereign Mode (No Search API Key).");
+      groundingData = "SOVEREIGN_MODE: Rely on regional soil database and seasonal patterns.";
     }
 
     // 2. Identify Region for Soil Lookup (Heuristic)
