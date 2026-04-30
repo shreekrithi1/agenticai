@@ -27,7 +27,8 @@ import {
   TrendingUp,
   ArrowLeft,
   Sparkles,
-  Zap
+  Zap,
+  Wind
 } from "lucide-react";
 import Link from "next/link";
 
