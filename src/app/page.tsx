@@ -299,11 +299,11 @@ export default function Home() {
           .hub-brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0; }
           .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
           
-          .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+          .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; }
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
           .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; }
           
-          .compact-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+          .compact-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
           
           .compact-card { 
             background: #fff; 
@@ -315,6 +315,9 @@ export default function Home() {
             transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             border: 1px solid #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
           }
           .compact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: #cbd5e1; }
 
