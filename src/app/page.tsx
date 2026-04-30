@@ -219,6 +219,21 @@ export default function Home() {
               </div>
             </Link>
 
+            <Link href="/payments" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm">STRIPE 26</div>
+              </div>
+              <div className="card-accent-bar red sm">
+                <span>GLOBAL PAYMENTS</span>
+                <Globe size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Velocity Pay</h3>
+                <p>Agentic money movement via Stripe Link.</p>
+                <button className="read-more red-text sm">Launch</button>
+              </div>
+            </Link>
+
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
                 <div className="card-badge sm">26 APR</div>
@@ -287,7 +302,7 @@ export default function Home() {
           .hub-brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0; }
           .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
           
-          .hub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch; }
+          .hub-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: stretch; }
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
           .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; margin-bottom: 4px; }
           
