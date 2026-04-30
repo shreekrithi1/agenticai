@@ -263,24 +263,24 @@ export default function Home() {
             <footer className="hub-footer">
               <div className="powered-label">ORCHESTRATED BY</div>
               <div className="tech-stack">
-                <div className="tech-item">
+                <div className="tech-item next">
                   <span className="tech-icon">▲</span>
                   <span className="tech-name">Next.js 15</span>
                 </div>
-                <div className="tech-item">
+                <div className="tech-item react">
                   <div className="tech-icon atom">⚛</div>
                   <span className="tech-name">React 19</span>
                 </div>
-                <div className="tech-item">
-                  <Cpu size={14} className="tech-icon" />
-                  <span className="tech-name">Gemma 3 Core</span>
+                <div className="tech-item gemma">
+                  <Cpu size={48} className="tech-icon" />
+                  <span className="tech-name">Gemma 3</span>
                 </div>
-                <div className="tech-item">
-                  <Zap size={14} className="tech-icon" color="#f59e0b" />
+                <div className="tech-item ollama">
+                  <Zap size={48} className="tech-icon" />
                   <span className="tech-name">Ollama</span>
                 </div>
-                <div className="tech-item">
-                  <Globe size={14} className="tech-icon" color="#3b82f6" />
+                <div className="tech-item dpi">
+                  <Globe size={48} className="tech-icon" />
                   <span className="tech-name">Bharat DPI</span>
                 </div>
               </div>
@@ -343,14 +343,20 @@ export default function Home() {
           .fade-in { animation: fadeIn 0.8s ease-out; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          .hub-footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05); text-align: center; }
-          .powered-label { font-size: 0.55rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
-          .tech-stack { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; }
-          .tech-item { display: flex; align-items: center; gap: 8px; filter: grayscale(1); opacity: 0.5; transition: 0.3s; }
-          .tech-item:hover { filter: grayscale(0); opacity: 1; transform: translateY(-2px); }
-          .tech-icon { font-size: 1rem; display: flex; align-items: center; }
-          .tech-icon.atom { color: #61dafb; animation: spin 10s linear infinite; }
-          .tech-name { font-size: 0.7rem; font-weight: 700; color: #475569; }
+          .hub-footer { margin-top: 80px; padding: 40px 0; border-top: 1px solid rgba(0,0,0,0.05); text-align: center; }
+          .powered-label { font-size: 0.8rem; font-weight: 900; color: #1e293b; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 32px; opacity: 0.8; }
+          .tech-stack { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
+          .tech-item { display: flex; flex-direction: column; align-items: center; gap: 12px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+          .tech-item:hover { transform: translateY(-10px) scale(1.1); }
+          
+          .tech-icon { font-size: 3rem; display: flex; align-items: center; justify-content: center; }
+          .tech-icon.atom { color: #61dafb; animation: spin 10s linear infinite; font-size: 3.5rem; }
+          .tech-name { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+
+          .tech-item.next .tech-icon { color: #000; }
+          .tech-item.gemma .tech-icon { color: #3b82f6; }
+          .tech-item.ollama .tech-icon { color: #f59e0b; }
+          .tech-item.dpi .tech-icon { color: #10b981; }
 
           @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         `}</style>
