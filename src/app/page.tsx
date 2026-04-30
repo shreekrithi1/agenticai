@@ -189,77 +189,66 @@ export default function Home() {
           </header>
 
           <div className="hub-grid">
-            {/* Market Intelligence */}
-            <div className="hub-group">
-              <div className="group-label">Market Intelligence</div>
-              <div className="compact-pair">
-                <Link href="/stocks?type=india" className="compact-card">
-                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_stocks.png')" }}>
-                    <div className="card-badge sm">26 APR</div>
-                  </div>
-                  <div className="card-accent-bar blue sm">
-                    <span>INDIA NIFTY 100</span>
-                    <Zap size={12} />
-                  </div>
-                  <div className="card-body sm">
-                    <h3>Bharat Velocity</h3>
-                    <p>Institutional 2s telemetry.</p>
-                    <button className="read-more blue-text sm">Launch</button>
-                  </div>
-                </Link>
+            <Link href="/stocks?type=india" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_stocks.png')" }}>
+                <div className="card-badge sm">26 APR</div>
+              </div>
+              <div className="card-accent-bar blue sm">
+                <span>INDIA NIFTY 100</span>
+                <Zap size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Bharat Velocity</h3>
+                <p>Institutional 2s telemetry.</p>
+                <button className="read-more blue-text sm">Launch</button>
+              </div>
+            </Link>
 
-                <Link href="/stocks?type=top" className="compact-card">
-                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_stocks.png')" }}>
-                    <div className="card-badge sm">26 APR</div>
-                  </div>
-                  <div className="card-accent-bar orange sm">
-                    <span>US FORTUNE 20</span>
-                    <Zap size={12} />
-                  </div>
-                  <div className="card-body sm">
-                    <h3>Wall Street Intel</h3>
-                    <p>Global tech execution signals.</p>
-                    <button className="read-more orange-text sm">Launch</button>
-                  </div>
-                </Link>
+            <Link href="/stocks?type=top" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_stocks.png')" }}>
+                <div className="card-badge sm">26 APR</div>
+              </div>
+              <div className="card-accent-bar orange sm">
+                <span>US FORTUNE 20</span>
+                <Zap size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Wall Street Intel</h3>
+                <p>Global tech execution signals.</p>
+                <button className="read-more orange-text sm">Launch</button>
+              </div>
+            </Link>
+
+            <div className="compact-card" onClick={() => setView("app")}>
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
+                <div className="card-badge sm">26 APR</div>
+              </div>
+              <div className="card-accent-bar green sm">
+                <span>BHARAT SOIL</span>
+                <Sparkles size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Soil Matrix</h3>
+                <p>Predictive regional modeling.</p>
+                <button className="read-more green-text sm">Launch</button>
               </div>
             </div>
 
-            {/* Agri Intelligence */}
-            <div className="hub-group">
-              <div className="group-label">Agri Intelligence</div>
-              <div className="compact-pair">
-                <div className="compact-card" onClick={() => setView("app")}>
-                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
-                    <div className="card-badge sm">26 APR</div>
-                  </div>
-                  <div className="card-accent-bar green sm">
-                    <span>BHARAT SOIL</span>
-                    <Sparkles size={12} />
-                  </div>
-                  <div className="card-body sm">
-                    <h3>Soil Matrix</h3>
-                    <p>Predictive regional modeling.</p>
-                    <button className="read-more green-text sm">Launch</button>
-                  </div>
-                </div>
-
-                <div className="compact-card" onClick={() => setView("app")}>
-                  <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_agri.png')" }}>
-                    <div className="card-badge sm">26 APR</div>
-                  </div>
-                  <div className="card-accent-bar green sm">
-                    <span>US PRECISION AG</span>
-                    <Sparkles size={12} />
-                  </div>
-                  <div className="card-body sm">
-                    <h3>Ag-Tech Pro</h3>
-                    <p>Advanced climate grounding.</p>
-                    <button className="read-more green-text sm">Launch</button>
-                  </div>
-                </div>
+            <div className="compact-card" onClick={() => setView("app")}>
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_agri.png')" }}>
+                <div className="card-badge sm">26 APR</div>
+              </div>
+              <div className="card-accent-bar green sm">
+                <span>US PRECISION AG</span>
+                <Sparkles size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Ag-Tech Pro</h3>
+                <p>Advanced climate grounding.</p>
+                <button className="read-more green-text sm">Launch</button>
               </div>
             </div>
+          </div>
 
             <footer className="hub-footer">
               <div className="footer-inline">
@@ -292,14 +281,14 @@ export default function Home() {
         </div>
         <style jsx>{`
           .hub-page { height: 100vh; background: #f8fafc; color: #1a1a1a; padding: 20px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-          .hub-container { width: 100%; max-width: 1000px; }
+          .hub-container { width: 100%; max-width: 1200px; }
           
-          .hub-header { text-align: center; margin-bottom: 30px; }
+          .hub-header { text-align: center; margin-bottom: 40px; }
           .hub-brand { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 4px; }
           .hub-brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0; }
           .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
           
-          .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; }
+          .hub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch; }
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
           .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; margin-bottom: 4px; }
           
