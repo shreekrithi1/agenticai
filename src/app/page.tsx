@@ -260,8 +260,33 @@ export default function Home() {
               </div>
             </div>
 
-            </div>
+            <footer className="hub-footer">
+              <div className="powered-label">ORCHESTRATED BY</div>
+              <div className="tech-stack">
+                <div className="tech-item">
+                  <span className="tech-icon">▲</span>
+                  <span className="tech-name">Next.js 15</span>
+                </div>
+                <div className="tech-item">
+                  <div className="tech-icon atom">⚛</div>
+                  <span className="tech-name">React 19</span>
+                </div>
+                <div className="tech-item">
+                  <Cpu size={14} className="tech-icon" />
+                  <span className="tech-name">Gemma 3 Core</span>
+                </div>
+                <div className="tech-item">
+                  <Zap size={14} className="tech-icon" color="#f59e0b" />
+                  <span className="tech-name">Ollama</span>
+                </div>
+                <div className="tech-item">
+                  <Globe size={14} className="tech-icon" color="#3b82f6" />
+                  <span className="tech-name">Bharat DPI</span>
+                </div>
+              </div>
+            </footer>
           </div>
+        </div>
         <style jsx>{`
           .hub-page { height: 100vh; background: #f8fafc; color: #1a1a1a; padding: 20px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; overflow: hidden; }
           .hub-container { width: 100%; max-width: 1000px; }
@@ -317,6 +342,17 @@ export default function Home() {
           .gradient-text { background: linear-gradient(135deg, #10b981, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
           .fade-in { animation: fadeIn 0.8s ease-out; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+          .hub-footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.05); text-align: center; }
+          .powered-label { font-size: 0.55rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+          .tech-stack { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; }
+          .tech-item { display: flex; align-items: center; gap: 8px; filter: grayscale(1); opacity: 0.5; transition: 0.3s; }
+          .tech-item:hover { filter: grayscale(0); opacity: 1; transform: translateY(-2px); }
+          .tech-icon { font-size: 1rem; display: flex; align-items: center; }
+          .tech-icon.atom { color: #61dafb; animation: spin 10s linear infinite; }
+          .tech-name { font-size: 0.7rem; font-weight: 700; color: #475569; }
+
+          @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         `}</style>
       </main>
     );
