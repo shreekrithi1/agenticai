@@ -294,37 +294,37 @@ export default function Home() {
           .compact-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; }
           
           .compact-card { 
-            background: #fff; 
-            border-radius: 8px; 
+            background: #ffffff; 
+            border-radius: 16px; 
             overflow: hidden; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); 
             text-decoration: none; 
             color: inherit;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            border: 1px solid #f1f5f9;
+            border: 1px solid rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             width: 100%;
-            min-height: 260px;
+            min-height: 300px;
           }
-          .compact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+          .compact-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); }
 
-          .card-image.sm { height: 110px; min-height: 110px; background-size: cover; background-position: center; position: relative; }
-          .card-badge.sm { position: absolute; top: 0; right: 0; background: #3b82f6; color: #fff; padding: 4px 10px; font-size: 0.55rem; font-weight: 900; }
+          .card-image.sm { height: 140px; min-height: 140px; background-size: cover; background-position: center; position: relative; }
+          .card-badge.sm { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.5px; }
           
-          .card-accent-bar.sm { padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 0.6rem; font-weight: 900; letter-spacing: 0.5px; }
+          .card-accent-bar.sm { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 0.65rem; font-weight: 900; letter-spacing: 1px; }
           .card-accent-bar.blue { background: #3b82f6; }
           .card-accent-bar.orange { background: #f59e0b; }
           .card-accent-bar.green { background: #10b981; }
-          .card-accent-bar.red { background: #bb1919; }
+          .card-accent-bar.red { background: #ef4444; }
           
-          .card-body.sm { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-          .card-body.sm h3 { font-size: 1rem; font-weight: 800; color: #0f172a; margin: 0; }
-          .card-body.sm p { font-size: 0.75rem; color: #64748b; line-height: 1.4; margin: 0; flex: 1; }
+          .card-body.sm { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+          .card-body.sm h3 { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin: 0; letter-spacing: -0.02em; }
+          .card-body.sm p { font-size: 0.85rem; color: #64748b; line-height: 1.5; margin: 0; flex: 1; }
           
-          .read-more.sm { background: transparent; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: fit-content; margin-top: 4px; }
-          .read-more:hover { background: #f8fafc; border-color: #cbd5e1; }
+          .read-more.sm { background: #f1f5f9; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: fit-content; margin-top: 12px; }
+          .read-more.sm:hover { background: #e2e8f0; }
           
           .blue-text { color: #3b82f6; }
           .orange-text { color: #f59e0b; }
