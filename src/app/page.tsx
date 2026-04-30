@@ -278,7 +278,6 @@ export default function Home() {
               </div>
             </footer>
           </div>
-        </div>
         <style jsx>{`
           .hub-page { height: 100vh; background: #f8fafc; color: #1a1a1a; padding: 20px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; overflow: hidden; }
           .hub-container { width: 100%; max-width: 1200px; }
