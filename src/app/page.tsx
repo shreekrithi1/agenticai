@@ -261,27 +261,29 @@ export default function Home() {
             </div>
 
             <footer className="hub-footer">
-              <div className="powered-label">ORCHESTRATED BY</div>
-              <div className="tech-stack">
-                <div className="tech-item next">
-                  <span className="tech-icon">▲</span>
-                  <span className="tech-name">Next.js 15</span>
-                </div>
-                <div className="tech-item react">
-                  <div className="tech-icon atom">⚛</div>
-                  <span className="tech-name">React 19</span>
-                </div>
-                <div className="tech-item gemma">
-                  <Cpu size={48} className="tech-icon" />
-                  <span className="tech-name">Gemma 3</span>
-                </div>
-                <div className="tech-item ollama">
-                  <Zap size={48} className="tech-icon" />
-                  <span className="tech-name">Ollama</span>
-                </div>
-                <div className="tech-item dpi">
-                  <Globe size={48} className="tech-icon" />
-                  <span className="tech-name">Bharat DPI</span>
+              <div className="footer-inline">
+                <div className="powered-label">ORCHESTRATED BY</div>
+                <div className="tech-stack">
+                  <div className="tech-item next">
+                    <span className="tech-icon sm">▲</span>
+                    <span className="tech-name">Next.js 15</span>
+                  </div>
+                  <div className="tech-item react">
+                    <div className="tech-icon atom sm">⚛</div>
+                    <span className="tech-name">React 19</span>
+                  </div>
+                  <div className="tech-item claw">
+                    <Wind size={24} className="tech-icon" color="#ec4899" />
+                    <span className="tech-name">OpenClaw</span>
+                  </div>
+                  <div className="tech-item gemma">
+                    <Cpu size={24} className="tech-icon" />
+                    <span className="tech-name">Gemma 3</span>
+                  </div>
+                  <div className="tech-item ollama">
+                    <Zap size={24} className="tech-icon" />
+                    <span className="tech-name">Ollama</span>
+                  </div>
                 </div>
               </div>
             </footer>
@@ -343,20 +345,22 @@ export default function Home() {
           .fade-in { animation: fadeIn 0.8s ease-out; }
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-          .hub-footer { margin-top: 80px; padding: 40px 0; border-top: 1px solid rgba(0,0,0,0.05); text-align: center; }
-          .powered-label { font-size: 0.8rem; font-weight: 900; color: #1e293b; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 32px; opacity: 0.8; }
-          .tech-stack { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
-          .tech-item { display: flex; flex-direction: column; align-items: center; gap: 12px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-          .tech-item:hover { transform: translateY(-10px) scale(1.1); }
+          .hub-footer { margin-top: 80px; padding: 20px 0; border-top: 1px solid rgba(0,0,0,0.05); }
+          .footer-inline { display: flex; align-items: center; justify-content: center; gap: 40px; }
+          .powered-label { font-size: 0.65rem; font-weight: 900; color: #1e293b; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; white-space: nowrap; }
+          .tech-stack { display: flex; align-items: center; gap: 32px; }
+          .tech-item { display: flex; align-items: center; gap: 10px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+          .tech-item:hover { transform: translateY(-2px) scale(1.05); }
           
-          .tech-icon { font-size: 3rem; display: flex; align-items: center; justify-content: center; }
-          .tech-icon.atom { color: #61dafb; animation: spin 10s linear infinite; font-size: 3.5rem; }
-          .tech-name { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+          .tech-icon { font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
+          .tech-icon.sm { font-size: 1.2rem; }
+          .tech-icon.atom { color: #61dafb; animation: spin 10s linear infinite; font-size: 1.4rem; }
+          .tech-name { font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
 
           .tech-item.next .tech-icon { color: #000; }
           .tech-item.gemma .tech-icon { color: #3b82f6; }
           .tech-item.ollama .tech-icon { color: #f59e0b; }
-          .tech-item.dpi .tech-icon { color: #10b981; }
+          .tech-item.claw .tech-icon { color: #ec4899; }
 
           @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         `}</style>
