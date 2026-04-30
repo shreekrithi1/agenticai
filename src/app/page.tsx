@@ -301,9 +301,9 @@ export default function Home() {
           
           .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; }
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
-          .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; }
+          .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; margin-bottom: 4px; }
           
-          .compact-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+          .compact-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; }
           
           .compact-card { 
             background: #fff; 
@@ -317,11 +317,12 @@ export default function Home() {
             border: 1px solid #f1f5f9;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            width: 100%;
+            min-height: 260px;
           }
           .compact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: #cbd5e1; }
 
-          .card-image.sm { height: 100px; background-size: cover; background-position: center; position: relative; }
+          .card-image.sm { height: 110px; min-height: 110px; background-size: cover; background-position: center; position: relative; }
           .card-badge.sm { position: absolute; top: 0; right: 0; background: #3b82f6; color: #fff; padding: 4px 10px; font-size: 0.55rem; font-weight: 900; }
           
           .card-accent-bar.sm { padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 0.6rem; font-weight: 900; letter-spacing: 0.5px; }
@@ -330,9 +331,9 @@ export default function Home() {
           .card-accent-bar.green { background: #10b981; }
           .card-accent-bar.red { background: #bb1919; }
           
-          .card-body.sm { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+          .card-body.sm { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
           .card-body.sm h3 { font-size: 1rem; font-weight: 800; color: #0f172a; margin: 0; }
-          .card-body.sm p { font-size: 0.75rem; color: #64748b; line-height: 1.4; margin: 0; }
+          .card-body.sm p { font-size: 0.75rem; color: #64748b; line-height: 1.4; margin: 0; flex: 1; }
           
           .read-more.sm { background: transparent; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: fit-content; margin-top: 4px; }
           .read-more:hover { background: #f8fafc; border-color: #cbd5e1; }
