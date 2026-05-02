@@ -216,16 +216,16 @@ export default function LegendsFromIndia() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fdfaf5] text-[#3e2723] font-serif pb-24 overflow-x-hidden">
+    <main className="min-h-screen bg-[#f8fafc] text-[#1e293b] font-sans pb-24 overflow-x-hidden">
       
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#fdfaf5]/90 backdrop-blur-md border-b border-[#3e2723]/10">
+      <header className="sticky top-0 z-50 bg-[#f8fafc]/90 backdrop-blur-md border-b border-[#1e293b]/5">
         <div className="max-w-md mx-auto px-6 h-16 flex items-center justify-between">
-          <button className="p-2 -ml-2" onClick={view !== 'states' ? goBack : undefined}>
+          <button className="p-2 -ml-2 text-[#64748b] hover:text-[#1e293b] transition-colors" onClick={view !== 'states' ? goBack : undefined}>
             {view === 'states' ? <Menu size={20} /> : <ArrowLeft size={20} />}
           </button>
-          <h2 className="text-xl font-black tracking-tight text-[#5d4037]">Legends from India</h2>
-          <button className="p-2 -mr-2">
+          <h2 className="text-xl font-black tracking-tighter text-[#1e293b]">India Legends</h2>
+          <button className="p-2 -mr-2 text-[#64748b] hover:text-[#1e293b] transition-colors">
             <Globe size={20} />
           </button>
         </div>
@@ -237,26 +237,26 @@ export default function LegendsFromIndia() {
         {view === 'states' && (
           <motion.div 
             key="states"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             className="max-w-md mx-auto px-6 py-8"
           >
             <div className="text-center mb-10">
-              <h1 className="text-4xl md:text-5xl font-black text-[#5d4037] mb-4 leading-tight">
-                Choose a State to Explore Legends
+              <h1 className="text-4xl md:text-5xl font-black text-[#1e293b] mb-4 leading-tight tracking-tighter">
+                Explore <span className="text-[#10b981]">Bharat</span>
               </h1>
-              <p className="text-sm leading-relaxed text-[#795548] opacity-80 max-w-sm mx-auto">
-                Journey through the vibrant tapestry of Bharat. From the Himalayan peaks to the coastal backwaters, every region holds a story of gods, heroes, and ancient wisdom.
+              <p className="text-sm leading-relaxed text-[#64748b] font-medium max-w-sm mx-auto">
+                Journey through the vibrant tapestry of national icons and state legends.
               </p>
             </div>
 
             <div className="relative mb-10">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#795548]/50" size={18} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8]" size={18} />
               <input 
                 type="text" 
-                placeholder="Search for a state or region..." 
-                className="w-full bg-white border border-[#3e2723]/10 rounded-xl py-4 pl-12 pr-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/20 transition-all text-sm"
+                placeholder="Search for a state..." 
+                className="w-full bg-[#f1f5f9] border-none rounded-2xl py-4 pl-12 pr-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#10b981]/20 transition-all text-sm font-medium"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -267,12 +267,12 @@ export default function LegendsFromIndia() {
                 <div 
                   key={state.name}
                   onClick={() => openState(state)}
-                  className="bg-white rounded-[24px] overflow-hidden shadow-md cursor-pointer group border border-[#3e2723]/5 transition-all hover:shadow-xl hover:-translate-y-1"
+                  className="bg-white rounded-[28px] overflow-hidden shadow-sm cursor-pointer group border border-[#1e293b]/5 transition-all hover:shadow-xl hover:-translate-y-1"
                 >
                   <div className="relative aspect-[2/1] overflow-hidden">
                     <img src={state.image} alt={state.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     {idx === 0 && (
-                      <div className="absolute top-4 left-4 bg-[#ff9f1c] text-white text-[8px] font-black px-2 py-1 rounded-sm uppercase tracking-widest shadow-lg">
+                      <div className="absolute top-4 left-4 bg-[#10b981] text-white text-[8px] font-black px-2 py-1 rounded-full uppercase tracking-widest shadow-lg">
                         Featured
                       </div>
                     )}
@@ -280,13 +280,13 @@ export default function LegendsFromIndia() {
                   
                   <div className="p-6 flex justify-between items-end">
                     <div className="flex-1">
-                      <h3 className="text-2xl font-black text-[#3e2723] mb-2">{state.name}</h3>
-                      <p className="text-xs text-[#795548] leading-relaxed opacity-70 line-clamp-2 max-w-[80%]">
+                      <h3 className="text-2xl font-black text-[#1e293b] mb-2 tracking-tighter">{state.name}</h3>
+                      <p className="text-xs text-[#64748b] font-medium leading-relaxed line-clamp-2 max-w-[85%]">
                         {state.description}
                       </p>
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] font-black text-[#795548] uppercase tracking-widest">
-                      Explore <ChevronRight size={14} className="text-[#795548]" />
+                    <div className="flex items-center gap-1 text-[10px] font-black text-[#10b981] uppercase tracking-widest">
+                      Explore <ChevronRight size={14} />
                     </div>
                   </div>
                 </div>
@@ -328,36 +328,36 @@ export default function LegendsFromIndia() {
             exit={{ opacity: 0, x: -20 }}
             className="max-w-md mx-auto"
           >
-            <div className="px-6 py-8 bg-gradient-to-br from-[#ff9f1c]/10 to-transparent">
-              <div className="flex items-center gap-2 text-[10px] font-black text-[#795548]/60 uppercase tracking-widest mb-4">
+            <div className="px-6 py-8 bg-gradient-to-br from-[#10b981]/5 to-transparent">
+              <div className="flex items-center gap-2 text-[10px] font-bold text-[#64748b] uppercase tracking-widest mb-4">
                 <span>ARCHIVE</span> <ChevronRight size={10} /> <span>{selectedState.name}</span>
               </div>
-              <h1 className="text-4xl font-black text-[#5d4037] mb-8 leading-tight">
+              <h1 className="text-4xl font-black text-[#1e293b] mb-8 leading-tight tracking-tighter">
                 {selectedState.tagline}
               </h1>
 
               {/* Featured Personality */}
               {selectedState.legends.length > 0 && (
-                <div className="bg-white rounded-[32px] overflow-hidden shadow-2xl border border-[#3e2723]/5 mb-10">
+                <div className="bg-white rounded-[32px] overflow-hidden shadow-sm border border-[#1e293b]/5 mb-10 transition-all hover:shadow-md">
                   <img src={selectedState.legends[0].image} className="w-full h-64 object-cover" />
                   <div className="p-8">
-                    <span className="text-[10px] font-black text-[#ff9f1c] uppercase tracking-[0.2em] mb-2 block">
+                    <span className="text-[10px] font-bold text-[#10b981] uppercase tracking-[0.2em] mb-2 block">
                       {selectedState.legends[0].translations[lang].tag}
                     </span>
-                    <h2 className="text-2xl font-black text-[#3e2723] mb-2">
+                    <h2 className="text-2xl font-black text-[#1e293b] mb-2 tracking-tighter">
                       {selectedState.legends[0].translations[lang].name}
                     </h2>
-                    <p className="text-sm italic text-[#795548] mb-4 opacity-80">
+                    <p className="text-sm italic font-serif text-[#64748b] mb-4 opacity-80">
                       "{selectedState.legends[0].translations[lang].title}"
                     </p>
-                    <p className="text-sm leading-relaxed text-[#5d4037] mb-6">
+                    <p className="text-sm leading-relaxed text-[#475569] font-medium mb-6">
                       {selectedState.legends[0].translations[lang].bio}
                     </p>
                     <button 
                       onClick={() => openLegend(selectedState.legends[0])}
-                      className="w-full bg-[#8b4513] text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest flex items-center justify-center gap-2"
+                      className="w-full bg-[#1e293b] text-white py-4 rounded-2xl font-bold uppercase text-xs tracking-widest flex items-center justify-center gap-2 transition-all hover:bg-[#0f172a]"
                     >
-                      Explore His Journey +
+                      Read Biography <ChevronRight size={14} />
                     </button>
                   </div>
                 </div>
@@ -375,20 +375,20 @@ export default function LegendsFromIndia() {
                 <div 
                   key={legend.id}
                   onClick={() => openLegend(legend)}
-                  className="bg-white rounded-2xl p-4 shadow-md flex gap-4 border border-[#3e2723]/5"
+                  className="bg-white rounded-[24px] p-4 shadow-sm flex gap-4 border border-[#1e293b]/5 transition-all hover:shadow-md"
                 >
-                  <div className="w-24 h-32 rounded-xl overflow-hidden flex-shrink-0">
+                  <div className="w-24 h-32 rounded-2xl overflow-hidden flex-shrink-0">
                     <img src={legend.image} className="w-full h-full object-cover" />
                   </div>
-                  <div className="flex-1 py-2 relative">
-                    <span className="text-[8px] font-black bg-[#ff9f1c]/10 text-[#ff9f1c] px-2 py-1 rounded mb-2 inline-block uppercase tracking-widest">
+                  <div className="flex-1 py-2 relative flex flex-col">
+                    <span className="text-[8px] font-bold bg-[#10b981]/10 text-[#10b981] px-2 py-1 rounded-full mb-2 inline-block uppercase tracking-widest w-fit">
                       {legend.translations[lang].tag}
                     </span>
-                    <h3 className="text-lg font-black text-[#3e2723] mb-1">{legend.translations[lang].name}</h3>
-                    <p className="text-[10px] italic text-[#795548] mb-4">{legend.translations[lang].title}</p>
+                    <h3 className="text-lg font-black text-[#1e293b] mb-1 tracking-tighter">{legend.translations[lang].name}</h3>
+                    <p className="text-[10px] italic font-serif text-[#64748b] mb-4">{legend.translations[lang].title}</p>
                     <div className="flex items-center justify-between mt-auto">
-                      <span className="text-[10px] font-bold text-[#795548]/50">{legend.translations[lang].years}</span>
-                      <Bookmark size={14} className="text-[#795548]/30" />
+                      <span className="text-[10px] font-bold text-[#94a3b8]">{legend.translations[lang].years}</span>
+                      <Bookmark size={14} className="text-[#94a3b8]" />
                     </div>
                   </div>
                 </div>
@@ -419,16 +419,16 @@ export default function LegendsFromIndia() {
           >
             <div className="relative h-[80vh] w-full">
               <img src={selectedLegend.image} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#fdfaf5] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#f8fafc] via-transparent to-transparent" />
               
               <div className="absolute bottom-0 left-0 p-8 w-full">
-                <span className="text-[10px] font-black text-[#ff9f1c] uppercase tracking-[0.3em] mb-2 block">
+                <span className="text-[10px] font-bold text-[#10b981] uppercase tracking-[0.3em] mb-2 block">
                   ARCHIVE ID: {selectedLegend.id.toUpperCase()}-1923
                 </span>
-                <h1 className="text-3xl font-black text-[#3e2723] mb-2">
+                <h1 className="text-4xl font-black text-[#1e293b] mb-2 tracking-tighter">
                   {selectedLegend.translations[lang].name}
                 </h1>
-                <p className="text-lg italic text-[#795548] opacity-80">
+                <p className="text-lg italic font-serif text-[#64748b] opacity-80">
                   "{selectedLegend.translations[lang].title}"
                 </p>
               </div>
@@ -436,8 +436,8 @@ export default function LegendsFromIndia() {
 
             <div className="px-8 py-10 space-y-10">
               <div className="space-y-6">
-                <h3 className="text-sm font-black uppercase tracking-widest text-[#8b4513]">The Titan of the Telugu Land</h3>
-                <p className="text-sm leading-relaxed text-[#5d4037]">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-[#10b981]">Biography</h3>
+                <p className="text-base leading-relaxed text-[#475569] font-medium">
                   {selectedLegend.translations[lang].fullBio || selectedLegend.translations[lang].bio}
                 </p>
               </div>
@@ -498,45 +498,51 @@ export default function LegendsFromIndia() {
       </AnimatePresence>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#3e2723]/10 px-6 py-4">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <button onClick={() => setView('states')} className={`flex flex-col items-center gap-1 ${view === 'states' ? 'text-[#ff9f1c]' : 'text-[#795548]/40'}`}>
-            <MapIcon size={20} />
-            <span className="text-[8px] font-black uppercase tracking-widest">States</span>
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-[#1e293b]/5 px-6 py-4">
+        <div className="max-w-md mx-auto flex items-center justify-around">
+          <button onClick={() => setView('states')} className={`flex flex-col items-center gap-1 transition-all ${view === 'states' ? 'text-[#10b981]' : 'text-[#64748b]'}`}>
+            <div className={`p-1 px-4 rounded-full transition-all ${view === 'states' ? 'bg-[#10b981]/10' : ''}`}>
+              <MapIcon size={22} strokeWidth={view === 'states' ? 2.5 : 2} />
+            </div>
+            <span className="text-[10px] font-bold tracking-tight">States</span>
           </button>
-          <button className="flex flex-col items-center gap-1 text-[#795548]/40">
-            <Clock size={20} />
-            <span className="text-[8px] font-black uppercase tracking-widest">Timeline</span>
+          <button className="flex flex-col items-center gap-1 text-[#64748b]">
+            <div className="p-1 px-4 rounded-full">
+              <Clock size={22} />
+            </div>
+            <span className="text-[10px] font-bold tracking-tight">Timeline</span>
           </button>
-          <button onClick={() => selectedState && setView('personalities')} className={`flex flex-col items-center gap-1 ${view === 'personalities' ? 'text-[#ff9f1c]' : 'text-[#795548]/40'}`}>
-            <Archive size={20} />
-            <span className="text-[8px] font-black uppercase tracking-widest">Archive</span>
+          <button onClick={() => selectedState && setView('personalities')} className={`flex flex-col items-center gap-1 transition-all ${view === 'personalities' ? 'text-[#10b981]' : 'text-[#64748b]'}`}>
+            <div className={`p-1 px-4 rounded-full transition-all ${view === 'personalities' ? 'bg-[#10b981]/10' : ''}`}>
+              <Archive size={22} strokeWidth={view === 'personalities' ? 2.5 : 2} />
+            </div>
+            <span className="text-[10px] font-bold tracking-tight">Archive</span>
           </button>
-          <button className="flex flex-col items-center gap-1 text-[#795548]/40">
-            <Book size={20} />
-            <span className="text-[8px] font-black uppercase tracking-widest">Library</span>
+          <button className="flex flex-col items-center gap-1 text-[#64748b]">
+            <div className="p-1 px-4 rounded-full">
+              <Book size={22} />
+            </div>
+            <span className="text-[10px] font-bold tracking-tight">Library</span>
           </button>
         </div>
       </nav>
 
       {/* FAB */}
       <div className="fixed bottom-28 right-6 z-50">
-        <button className="w-14 h-14 bg-[#8b4513] text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95">
-          <Sparkles size={24} />
+        <button className="w-16 h-16 bg-[#10b981] text-white rounded-[20px] shadow-xl flex items-center justify-center transition-all hover:shadow-2xl hover:-translate-y-1 active:scale-95">
+          <Sparkles size={28} />
         </button>
       </div>
 
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=Playfair+Display:ital,wght@1,400&display=swap');
         
         .font-serif {
           font-family: 'Playfair Display', serif;
         }
 
-        .glass-morphism {
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+        .font-sans {
+          font-family: 'Outfit', sans-serif;
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
