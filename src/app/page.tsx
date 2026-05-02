@@ -318,7 +318,7 @@ export default function Home() {
             </Link>
 
             <a href="https://paygentic.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
-              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974714014-4b50d6ca8379?auto=format&fit=crop&q=80&w=800')" }}>
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/paygentic.png')" }}>
                 <div className="card-badge sm">LIVE</div>
               </div>
               <div className="card-accent-bar purple sm">
