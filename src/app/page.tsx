@@ -332,6 +332,21 @@ export default function Home() {
               </div>
             </a>
 
+            <Link href="/telugu-legends" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/telugu_legends.png')" }}>
+                <div className="card-badge sm">HERITAGE</div>
+              </div>
+              <div className="card-accent-bar gold sm">
+                <span>TELUGU LEGENDS</span>
+                <History size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>తెలుగు మహనీయులు</h3>
+                <p>Eminent personalities and their history in Telugu.</p>
+                <button className="read-more gold-text sm">Explore</button>
+              </div>
+            </Link>
+
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
                 <div className="card-badge sm">26 APR</div>
@@ -453,6 +468,7 @@ export default function Home() {
           .card-accent-bar.green { background: #10b981; }
           .card-accent-bar.red { background: #ef4444; }
           .card-accent-bar.purple { background: #8b5cf6; }
+          .card-accent-bar.gold { background: #fbbf24; }
           
           .card-body.sm { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
           .card-body.sm h3 { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin: 0; letter-spacing: -0.02em; }
@@ -466,6 +482,7 @@ export default function Home() {
           .green-text { color: #10b981; }
           .red-text { color: #bb1919; }
           .purple-text { color: #8b5cf6; }
+          .gold-text { color: #fbbf24; }
           
           .compact-pair.full-width { grid-template-columns: 1fr; }
           .card-badge.sm.red { background: #bb1919; }
