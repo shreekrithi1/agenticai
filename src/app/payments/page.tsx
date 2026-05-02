@@ -34,21 +34,43 @@ export default function VelocityPayments() {
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState<"email" | "mobile" | "stablecoin">("email");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[]>([
     { id: "TX-9021", recipient: "brother@email.com", amount: "50.00", currency: "USD", status: "completed", type: "email", timestamp: "2m ago" },
     { id: "TX-9018", recipient: "+91 98XXX XXXXX", amount: "2500.00", currency: "INR", status: "verified", type: "mobile", timestamp: "1h ago" }
   ]);
   const [agentThought, setAgentThought] = useState("");
 
+  const pipelineSteps = [
+    { label: "Initiate", desc: "KYC/AML Analysis", icon: <ShieldCheck size={16} /> },
+    { label: "Verify", desc: "SPT Token Check", icon: <Cpu size={16} /> },
+    { label: "Authorize", desc: "Stripe Settlement", icon: <Zap size={16} /> },
+    { label: "Finalize", desc: "Global Payout", icon: <CheckCircle2 size={16} /> }
+  ];
+
   const handleSend = () => {
     if (!recipient || !amount) return;
     
     setIsProcessing(true);
+    setCurrentStep(0);
     setAgentThought("Analyzing KYC/AML requirements for cross-border movement...");
     
+    // Pipeline Simulation
     setTimeout(() => {
-      setAgentThought("Verifying Shared Payment Token (SPT) limit for recipient " + recipient + "...");
-    }, 1500);
+      setCurrentStep(1);
+      setAgentThought("Verifying Shared Payment Token (SPT) limit for recipient...");
+    }, 1200);
+
+    setTimeout(() => {
+      setCurrentStep(2);
+      setAgentThought("Authorizing Stripe settlement rails for " + amount + " USD...");
+    }, 2400);
+
+    setTimeout(() => {
+      setCurrentStep(3);
+      setAgentThought("Executing final global payout vector...");
+    }, 3600);
 
     setTimeout(() => {
       const newTx: Transaction = {
@@ -56,16 +78,15 @@ export default function VelocityPayments() {
         recipient,
         amount,
         currency: "USD",
-        status: "processing",
+        status: "completed",
         type: method,
         timestamp: "just now"
       };
       setTransactions([newTx, ...transactions]);
       setIsProcessing(false);
-      setRecipient("");
-      setAmount("");
+      setShowSuccess(true);
       setAgentThought("");
-    }, 4000);
+    }, 4800);
   };
 
   return (
@@ -177,6 +198,22 @@ export default function VelocityPayments() {
             </div>
 
             <div className="transfer-form">
+              {/* Pipeline Stepper */}
+              <div className="payment-pipeline">
+                {pipelineSteps.map((step, idx) => (
+                  <div key={idx} className={`pipeline-step ${idx <= currentStep && isProcessing ? 'active' : ''} ${showSuccess ? 'completed' : ''}`}>
+                    <div className="step-node">
+                      {showSuccess || idx < currentStep ? <CheckCircle2 size={12} /> : step.icon}
+                    </div>
+                    <div className="step-label">
+                      <span className="main">{step.label}</span>
+                      <span className="desc">{step.desc}</span>
+                    </div>
+                    {idx < 3 && <div className="step-line" />}
+                  </div>
+                ))}
+              </div>
+
               <div className="input-group">
                 <label>Recipient {method === "email" ? "Email" : method === "mobile" ? "Number" : "Wallet"}</label>
                 <input 
@@ -215,11 +252,49 @@ export default function VelocityPayments() {
                 onClick={handleSend}
                 disabled={isProcessing}
               >
-                {isProcessing ? "Verifying Transaction..." : "Authorize Global Payout"}
+                {isProcessing ? "Processing Pipeline..." : "Authorize Global Payout"}
                 <Zap size={18} fill="currentColor" />
               </button>
             </div>
           </div>
+
+          <AnimatePresence>
+            {showSuccess && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="success-overlay"
+              >
+                <div className="success-modal">
+                  <div className="success-icon">
+                    <CheckCircle2 size={48} color="#10b981" />
+                  </div>
+                  <h2>Payout Orchestrated</h2>
+                  <p>Transaction ID: {transactions[0].id}</p>
+                  
+                  <div className="success-pipeline">
+                    {pipelineSteps.map((step, idx) => (
+                      <div key={idx} className="success-step">
+                        <div className="s-node active"><CheckCircle2 size={12} /></div>
+                        <span>{step.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="success-details">
+                    <div className="s-row"><span>Amount</span> <span>${transactions[0].amount}</span></div>
+                    <div className="s-row"><span>Recipient</span> <span>{transactions[0].recipient}</span></div>
+                  </div>
+
+                  <button className="done-btn" onClick={() => {
+                    setShowSuccess(false);
+                    setRecipient("");
+                    setAmount("");
+                  }}>Done</button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
         {/* Right Column: Telemetry */}
@@ -350,6 +425,41 @@ export default function VelocityPayments() {
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+
+        /* Pipeline Styles */
+        .payment-pipeline { display: flex; justify-content: space-between; margin-bottom: 20px; position: relative; padding: 0 10px; }
+        .pipeline-step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; opacity: 0.3; transition: 0.5s; }
+        .pipeline-step.active, .pipeline-step.completed { opacity: 1; }
+        .step-node { width: 32px; height: 32px; background: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; border: 2px solid transparent; transition: 0.3s; }
+        .active .step-node { background: #ef4444; color: #000; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
+        .completed .step-node { background: #10b981; color: #000; }
+        .step-label { text-align: center; }
+        .step-label .main { display: block; font-size: 0.65rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+        .step-label .desc { display: block; font-size: 0.55rem; color: #666; font-weight: 700; }
+        .step-line { position: absolute; top: 16px; left: calc(50% + 20px); right: calc(-50% + 20px); height: 2px; background: rgba(255,255,255,0.05); z-index: 1; }
+        .active .step-line, .completed .step-line { background: linear-gradient(90deg, #ef4444, #10b981); }
+
+        /* Success Overlay */
+        .success-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        .success-modal { background: #151516; padding: 40px; border-radius: 32px; width: 100%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .success-icon { margin-bottom: 24px; animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .success-modal h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 8px; }
+        .success-modal p { font-size: 0.8rem; color: #666; font-weight: 600; margin-bottom: 32px; }
+        
+        .success-pipeline { display: flex; gap: 8px; justify-content: center; margin-bottom: 32px; }
+        .success-step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .s-node { width: 24px; height: 24px; background: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; }
+        .success-step span { font-size: 0.5rem; font-weight: 900; color: #10b981; text-transform: uppercase; }
+
+        .success-details { background: #0a0a0b; padding: 20px; border-radius: 16px; margin-bottom: 32px; border: 1px solid rgba(255,255,255,0.05); }
+        .s-row { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; }
+        .s-row:last-child { margin-bottom: 0; }
+        .s-row span:first-child { color: #666; }
+        
+        .done-btn { width: 100%; background: #fff; color: #000; border: none; padding: 16px; border-radius: 16px; font-weight: 900; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
+        .done-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+
+        @keyframes scaleIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         @media (max-width: 1200px) {
           .payments-grid { grid-template-columns: 1fr; height: auto; padding: 20px; }
