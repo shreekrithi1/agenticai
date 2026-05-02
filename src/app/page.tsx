@@ -29,7 +29,8 @@ import {
   Sparkles,
   Zap,
   Wind,
-  History
+  History,
+  Heart
 } from "lucide-react";
 import Link from "next/link";
 
@@ -128,6 +129,38 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [likes, setLikes] = useState<Record<string, number>>({});
+  const [userLiked, setUserLiked] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    // Fetch total likes from "DB"
+    fetch("/api/likes")
+      .then(res => res.json())
+      .then(data => setLikes(data));
+    
+    // Fetch user liked status from localStorage
+    const saved = localStorage.getItem("agrimind_likes");
+    if (saved) setUserLiked(JSON.parse(saved));
+  }, []);
+
+  const handleLike = async (e: React.MouseEvent, cardId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (userLiked[cardId]) return; // Already liked
+
+    const newLikes = { ...likes, [cardId]: (likes[cardId] || 0) + 1 };
+    const newUserLiked = { ...userLiked, [cardId]: true };
+    
+    setLikes(newLikes);
+    setUserLiked(newUserLiked);
+    localStorage.setItem("agrimind_likes", JSON.stringify(newUserLiked));
+
+    await fetch("/api/likes", {
+      method: "POST",
+      body: JSON.stringify({ cardId })
+    });
+  };
   const [prediction, setPrediction] = useState<any>(null);
   const [cultivationPlan, setCultivationPlan] = useState<any>(null);
   const [isPlanning, setIsPlanning] = useState(false);
@@ -277,6 +310,13 @@ export default function Home() {
             <a href="https://paygentic.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/paygentic.png')" }}>
                 <div className="card-badge sm rank">RANK #1</div>
+                <button 
+                  className={`like-btn ${userLiked['paygentic'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'paygentic')}
+                >
+                  <Heart size={16} fill={userLiked['paygentic'] ? "currentColor" : "none"} />
+                  <span>{likes['paygentic'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar purple sm">
                 <span>PAYGENTIC</span>
@@ -298,6 +338,13 @@ export default function Home() {
             <Link href="/payments" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800')" }}>
                 <div className="card-badge sm rank">RANK #2</div>
+                <button 
+                  className={`like-btn ${userLiked['velocity-pay'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'velocity-pay')}
+                >
+                  <Heart size={16} fill={userLiked['velocity-pay'] ? "currentColor" : "none"} />
+                  <span>{likes['velocity-pay'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar red sm">
                 <span>GLOBAL PAYMENTS</span>
@@ -319,6 +366,13 @@ export default function Home() {
             <a href="https://prescreenbeta.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800')" }}>
                 <div className="card-badge sm rank">RANK #3</div>
+                <button 
+                  className={`like-btn ${userLiked['prescreen'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'prescreen')}
+                >
+                  <Heart size={16} fill={userLiked['prescreen'] ? "currentColor" : "none"} />
+                  <span>{likes['prescreen'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar purple sm">
                 <span>PRESCREEN BETA</span>
@@ -340,6 +394,13 @@ export default function Home() {
             <a href="https://beyondgravity.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800')" }}>
                 <div className="card-badge sm rank">RANK #4</div>
+                <button 
+                  className={`like-btn ${userLiked['college-counsellor'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'college-counsellor')}
+                >
+                  <Heart size={16} fill={userLiked['college-counsellor'] ? "currentColor" : "none"} />
+                  <span>{likes['college-counsellor'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar blue sm">
                 <span>COLLEGE COUNSELLOR</span>
@@ -361,6 +422,13 @@ export default function Home() {
             <Link href="/stocks?type=top" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_stocks.png')" }}>
                 <div className="card-badge sm rank">RANK #5</div>
+                <button 
+                  className={`like-btn ${userLiked['wall-street'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'wall-street')}
+                >
+                  <Heart size={16} fill={userLiked['wall-street'] ? "currentColor" : "none"} />
+                  <span>{likes['wall-street'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar orange sm">
                 <span>US FORTUNE 20</span>
@@ -382,6 +450,13 @@ export default function Home() {
             <Link href="/stocks?type=india" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_stocks.png')" }}>
                 <div className="card-badge sm rank">RANK #6</div>
+                <button 
+                  className={`like-btn ${userLiked['bharat-velocity'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'bharat-velocity')}
+                >
+                  <Heart size={16} fill={userLiked['bharat-velocity'] ? "currentColor" : "none"} />
+                  <span>{likes['bharat-velocity'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar blue sm">
                 <span>INDIA NIFTY 100</span>
@@ -403,6 +478,13 @@ export default function Home() {
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
                 <div className="card-badge sm rank">RANK #7</div>
+                <button 
+                  className={`like-btn ${userLiked['soil-matrix'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'soil-matrix')}
+                >
+                  <Heart size={16} fill={userLiked['soil-matrix'] ? "currentColor" : "none"} />
+                  <span>{likes['soil-matrix'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar green sm">
                 <span>BHARAT SOIL</span>
@@ -424,6 +506,13 @@ export default function Home() {
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_agri.png')" }}>
                 <div className="card-badge sm rank">RANK #8</div>
+                <button 
+                  className={`like-btn ${userLiked['ag-tech-pro'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'ag-tech-pro')}
+                >
+                  <Heart size={16} fill={userLiked['ag-tech-pro'] ? "currentColor" : "none"} />
+                  <span>{likes['ag-tech-pro'] || 0}</span>
+                </button>
               </div>
               <div className="card-accent-bar green sm">
                 <span>US PRECISION AG</span>
@@ -526,6 +615,11 @@ export default function Home() {
           .card-image.sm { height: 140px; min-height: 140px; background-size: cover; background-position: center; position: relative; }
           .card-badge.sm { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.5px; }
           .card-badge.sm.rank { background: #1e293b; color: #fff; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); }
+          
+          .like-btn { position: absolute; bottom: 12px; right: 12px; background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; font-size: 0.7rem; font-weight: 800; cursor: pointer; transition: 0.3s; z-index: 10; }
+          .like-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+          .like-btn.active { background: #ef4444; border-color: #ef4444; color: #fff; }
+          .like-btn.active span { color: #fff; }
           
           .card-accent-bar.sm { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 0.65rem; font-weight: 900; letter-spacing: 1px; }
           .card-accent-bar.blue { background: #3b82f6; }
