@@ -283,6 +283,11 @@ export default function Home() {
                 <Zap size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>OpenClaw</span>
+                  <span>Vercel</span>
+                  <span>Gemma 3</span>
+                </div>
                 <h3>Paygentic</h3>
                 <p>Autonomous payment orchestration for AI agents.</p>
                 <button className="read-more purple-text sm">Explore</button>
@@ -299,6 +304,11 @@ export default function Home() {
                 <Globe size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Stripe Link</span>
+                  <span>Ollama</span>
+                  <span>React 19</span>
+                </div>
                 <h3>Velocity Pay</h3>
                 <p>Agentic money movement via Stripe Link.</p>
                 <button className="read-more red-text sm">Launch</button>
@@ -315,24 +325,34 @@ export default function Home() {
                 <Cpu size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>AI Audit</span>
+                  <span>OpenClaw</span>
+                  <span>Gemma 3</span>
+                </div>
                 <h3>PreScreen</h3>
                 <p>Agentic recruitment auditing and candidate intelligence.</p>
                 <button className="read-more purple-text sm">Explore</button>
               </div>
             </a>
 
-            {/* Rank 4: Beyond Gravity */}
+            {/* Rank 4: College Counsellor */}
             <a href="https://beyondgravity.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800')" }}>
                 <div className="card-badge sm rank">RANK #4</div>
               </div>
               <div className="card-accent-bar blue sm">
-                <span>BEYOND GRAVITY</span>
+                <span>COLLEGE COUNSELLOR</span>
                 <Globe size={12} />
               </div>
               <div className="card-body sm">
-                <h3>Beyond Gravity</h3>
-                <p>Advanced aerospace orchestration and logistics intelligence.</p>
+                <div className="tech-tags">
+                  <span>Vercel</span>
+                  <span>Ollama</span>
+                  <span>Gemma 3</span>
+                </div>
+                <h3>College Counsellor</h3>
+                <p>Advanced orchestration and student path intelligence.</p>
                 <button className="read-more blue-text sm">Explore</button>
               </div>
             </a>
@@ -347,6 +367,11 @@ export default function Home() {
                 <Zap size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Next.js</span>
+                  <span>Vercel</span>
+                  <span>Python</span>
+                </div>
                 <h3>Wall Street Intel</h3>
                 <p>Global tech execution signals.</p>
                 <button className="read-more orange-text sm">Launch</button>
@@ -363,6 +388,11 @@ export default function Home() {
                 <Zap size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Nifty 100</span>
+                  <span>Next.js</span>
+                  <span>Vercel</span>
+                </div>
                 <h3>Bharat Velocity</h3>
                 <p>Institutional 2s telemetry.</p>
                 <button className="read-more blue-text sm">Launch</button>
@@ -379,6 +409,11 @@ export default function Home() {
                 <Sparkles size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Ollama</span>
+                  <span>Gemma 3</span>
+                  <span>Vercel</span>
+                </div>
                 <h3>Soil Matrix</h3>
                 <p>Predictive regional modeling.</p>
                 <button className="read-more green-text sm">Launch</button>
@@ -395,6 +430,11 @@ export default function Home() {
                 <Sparkles size={12} />
               </div>
               <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Climate AI</span>
+                  <span>Vercel</span>
+                  <span>Gemma 3</span>
+                </div>
                 <h3>Ag-Tech Pro</h3>
                 <p>Advanced climate grounding.</p>
                 <button className="read-more green-text sm">Launch</button>
@@ -498,6 +538,9 @@ export default function Home() {
           .card-body.sm { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
           .card-body.sm h3 { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin: 0; letter-spacing: -0.02em; }
           .card-body.sm p { font-size: 0.85rem; color: #64748b; line-height: 1.5; margin: 0; flex: 1; }
+          
+          .tech-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+          .tech-tags span { font-size: 0.55rem; font-weight: 900; color: #94a3b8; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(0,0,0,0.02); }
           
           .read-more.sm { background: #f1f5f9; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; width: fit-content; margin-top: 12px; }
           .read-more.sm:hover { background: #e2e8f0; }
