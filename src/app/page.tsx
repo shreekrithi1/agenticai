@@ -28,7 +28,8 @@ import {
   ArrowLeft,
   Sparkles,
   Zap,
-  Wind
+  Wind,
+  History
 } from "lucide-react";
 import Link from "next/link";
 
