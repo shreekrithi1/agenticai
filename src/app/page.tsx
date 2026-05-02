@@ -53,15 +53,78 @@ const COUNTRIES = [
   { code: "+61", name: "Australia", flag: "🇦🇺" }
 ];
 
+const TRANSLATIONS: Record<string, any> = {
+  English: {
+    greeting: "Hello! I am **AgriMind**, your institutional agriculture intelligence. Tell me your location in India, and I'll provide a precision analysis.",
+    placeholder: "Ask about your farm location...",
+    history: "Institutional History",
+    climate: "Local Climate Monitoring",
+    returnHub: "Return to Hub",
+    launchRoadmap: "Synthesize Institutional Roadmap",
+    processing: "Synthesizing Vectors...",
+    error: "Agri-Intelligence engine encountered an error. Is Hostinger VPS online?",
+    roadmapError: "Failed to generate roadmap. Check VPS connection."
+  },
+  Telugu: {
+    greeting: "నమస్కారం! నేను **AgriMind**. మీ ప్రాంతం పేరు చెప్పండి, నేను మట్టి మరియు వాతావరణం గురించి సమాచారం అందిస్తాను.",
+    placeholder: "మీ పొలం ఉన్న ప్రాంతం గురించి అడగండి...",
+    history: "చరిత్ర",
+    climate: "స్థానిక వాతావరణం",
+    returnHub: "తిరిగి వెళ్ళండి",
+    launchRoadmap: "సాగు ప్రణాళికను రూపొందించండి",
+    processing: "విశ్లేషిస్తున్నాము...",
+    error: "లోపం సంభవించింది. దయచేసి మళ్ళీ ప్రయత్నించండి.",
+    roadmapError: "ప్రణాళికను రూపొందించడంలో విఫలమైంది."
+  },
+  Tamil: {
+    greeting: "வணக்கம்! நான் **AgriMind**. உங்கள் இருப்பிடத்தைக் கூறினால், மண் மற்றும் காலநிலை பற்றிய துல்லியமான பகுப்பாய்வை வழங்குவேன்.",
+    placeholder: "உங்கள் பண்ணை இருப்பிடத்தைப் பற்றி கேளுங்கள்...",
+    history: "வரலாறு",
+    climate: "உள்ளூர் காலநிலை",
+    returnHub: "முகப்புக்குத் திரும்பு",
+    launchRoadmap: "பயிர் திட்டத்தை உருவாக்கு",
+    processing: "பகுப்பாய்வு செய்கிறது...",
+    error: "பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.",
+    roadmapError: "திட்டத்தை உருவாக்குவதில் தோல்வி."
+  },
+  Kannada: {
+    greeting: "ನಮಸ್ಕಾರ! ನಾನು **AgriMind**. ನಿಮ್ಮ ಪ್ರದೇಶದ ಹೆಸರನ್ನು ತಿಳಿಸಿ, ಮಣ್ಣು ಮತ್ತು ಹವಾಮಾನದ ಬಗ್ಗೆ ಮಾಹಿತಿ ನೀಡುತ್ತೇನೆ.",
+    placeholder: "ನಿಮ್ಮ ಫಾರ್ಮ್ ಬಗ್ಗೆ ಕೇಳಿ...",
+    history: "ಇತಿಹಾಸ",
+    climate: "ಸ್ಥಳೀಯ ಹವಾಮಾನ",
+    returnHub: "ಹಿಂದಕ್ಕೆ ಹೋಗಿ",
+    launchRoadmap: "ಬೆಳೆ ಯೋಜನೆ ಸಿದ್ಧಪಡಿಸಿ",
+    processing: "ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+    error: "ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    roadmapError: "ಯೋಜನೆ ಸಿದ್ಧಪಡಿಸುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ."
+  },
+  Malayalam: {
+    greeting: "നമസ്കാരം! ഞാൻ **AgriMind**. നിങ്ങളുടെ പ്രദേശം ഏതാണെന്ന് പറയൂ, കൃഷി സംബന്ധമായ വിവരങ്ങൾ ഞാൻ നൽകാം.",
+    placeholder: "കൃഷിയിടത്തെക്കുറിച്ച് ചോദിക്കൂ...",
+    history: "ചരിത്രം",
+    climate: "പ്രാദേശിക കാലാവസ്ഥ",
+    returnHub: "തിരികെ പോവുക",
+    launchRoadmap: "കൃഷി പ്ലാൻ തയ്യാറാക്കുക",
+    processing: "വിശകലനം ചെയ്യുന്നു...",
+    error: "ഒരു പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക.",
+    roadmapError: "പ്ലാൻ തയ്യാറാക്കുന്നതിൽ പരാജയപ്പെട്ടു."
+  },
+  Hindi: {
+    greeting: "नमस्ते! मैं **AgriMind** हूँ। अपने स्थान के बारे में बताएं, और मैं सटीक कृषि विश्लेषण प्रदान करूँगा।",
+    placeholder: "अपने खेत के स्थान के बारे में पूछें...",
+    history: "संस्थागत इतिहास",
+    climate: "स्थानीय जलवायु निगरानी",
+    returnHub: "हब पर वापस जाएं",
+    launchRoadmap: "संस्थागत रोडमैप तैयार करें",
+    processing: "प्रसंस्करण हो रहा है...",
+    error: "त्रुटि हुई। कृपया पुन: प्रयास करें।",
+    roadmapError: "रोडमैप बनाने में विफल।"
+  }
+};
+
 export default function Home() {
   const [view, setView] = useState<"landing" | "app">("landing");
-  const [messages, setMessages] = useState<Message[]>([
-    { 
-      role: "assistant", 
-      content: "Hello! I am **AgriMind**, your institutional agriculture intelligence. I'm connected to a **Hostinger VPS** running **Gemma 3 (4B)**. \n\nTell me your location in India, and I'll provide a precision analysis of soil, climate, and cultivation roadmaps.",
-      type: "text"
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [prediction, setPrediction] = useState<any>(null);
@@ -69,6 +132,19 @@ export default function Home() {
   const [isPlanning, setIsPlanning] = useState(false);
   const [language, setLanguage] = useState("English");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  // Update initial message based on language
+  useEffect(() => {
+    if (messages.length === 0 || (messages.length === 1 && messages[0].role === 'assistant')) {
+      setMessages([
+        { 
+          role: "assistant", 
+          content: TRANSLATIONS[language]?.greeting || TRANSLATIONS.English.greeting,
+          type: "text"
+        }
+      ]);
+    }
+  }, [language]);
   
   const [userLocation, setUserLocation] = useState<{ city: string; temp: string; status: string; humidity?: string; wind?: string; source?: string; lastSync?: string } | null>(null);
 
@@ -120,10 +196,17 @@ export default function Home() {
       const data = await response.json();
       if (data.plan) {
         setCultivationPlan(data.plan);
-        setMessages(prev => [...prev, { role: "assistant", content: language === "English" ? "Institutional roadmap synthesized successfully." : "సాగు ప్రణాళిక రూపొందించబడింది.", type: "status" }]);
+        let statusMsg = "Institutional roadmap synthesized successfully.";
+        if (language === "Telugu") statusMsg = "సాగు ప్రణాళిక రూపొందించబడింది.";
+        else if (language === "Tamil") statusMsg = "பயிர் திட்டம் உருவாக்கப்பட்டது.";
+        else if (language === "Kannada") statusMsg = "ಬೆಳೆ ಯೋಜನೆ ಸಿದ್ಧವಾಗಿದೆ.";
+        else if (language === "Malayalam") statusMsg = "കൃഷി റോഡ്മാപ്പ് തയ്യാറാക്കി.";
+        else if (language === "Hindi") statusMsg = "खेती का रोडमैप तैयार किया गया।";
+        
+        setMessages(prev => [...prev, { role: "assistant", content: statusMsg, type: "status" }]);
       }
     } catch (e) {
-      setMessages(prev => [...prev, { role: "assistant", content: "Failed to generate roadmap. Check VPS connection.", type: "text" }]);
+      setMessages(prev => [...prev, { role: "assistant", content: TRANSLATIONS[language]?.roadmapError || TRANSLATIONS.English.roadmapError, type: "text" }]);
     } finally {
       setIsPlanning(false);
     }
@@ -166,7 +249,7 @@ export default function Home() {
         }
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: "assistant", content: "Agri-Intelligence engine encountered an error. Is Hostinger VPS online?", type: "text" }]);
+      setMessages(prev => [...prev, { role: "assistant", content: TRANSLATIONS[language]?.error || TRANSLATIONS.English.error, type: "text" }]);
     } finally {
       setIsProcessing(false);
     }
@@ -303,6 +386,21 @@ export default function Home() {
           .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
           
           .hub-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: stretch; }
+          
+          @media (max-width: 1024px) {
+            .hub-grid { grid-template-columns: repeat(3, 1fr); }
+          }
+          @media (max-width: 768px) {
+            .hub-grid { grid-template-columns: repeat(2, 1fr); }
+            .hub-header h1 { font-size: 1.8rem; }
+            .footer-inline { flex-direction: column; gap: 20px; }
+            .tech-stack { flex-wrap: wrap; justify-content: center; gap: 16px; }
+          }
+          @media (max-width: 480px) {
+            .hub-grid { grid-template-columns: 1fr; }
+            .hub-page { height: auto; min-height: 100vh; overflow-y: auto; padding: 40px 20px; }
+          }
+
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
           .group-label { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; margin-bottom: 4px; }
           
@@ -382,13 +480,13 @@ export default function Home() {
         <div className="sidebar-header">
           <div className="new-chat-btn" onClick={() => setView("landing")}>
             <ArrowLeft size={16} />
-            <span>Return to Hub</span>
+            <span>{TRANSLATIONS[language]?.returnHub || TRANSLATIONS.English.returnHub}</span>
           </div>
         </div>
         
         <div className="sidebar-scroll">
           <div className="sidebar-section">
-            <div className="section-label">Institutional History</div>
+            <div className="section-label">{TRANSLATIONS[language]?.history || TRANSLATIONS.English.history}</div>
             <div className="history-item active">
               <MessageSquare size={16} />
               <span>Current Analysis</span>
@@ -402,7 +500,7 @@ export default function Home() {
 
           {userLocation && (
             <div className="sidebar-section">
-              <div className="section-label">Local Climate Monitoring</div>
+              <div className="section-label">{TRANSLATIONS[language]?.climate || TRANSLATIONS.English.climate}</div>
               <div className="weather-widget glass">
                 <div className="weather-main">
                   <div className="temp">{userLocation.temp}</div>
@@ -451,6 +549,9 @@ export default function Home() {
             <select value={language} onChange={(e) => setLanguage(e.target.value)}>
               <option value="English">English</option>
               <option value="Telugu">తెలుగు</option>
+              <option value="Tamil">தமிழ்</option>
+              <option value="Kannada">ಕನ್ನಡ</option>
+              <option value="Malayalam">മലയാളം</option>
               <option value="Hindi">हिन्दी</option>
             </select>
           </div>
@@ -532,7 +633,7 @@ export default function Home() {
                         )}
                         {!prediction.isGeneral && !cultivationPlan ? (
                           <button className="btn-roadmap-launch" onClick={handleGeneratePlan} disabled={isPlanning}>
-                            {isPlanning ? 'Synthesizing Vectors...' : 'Synthesize Institutional Roadmap'}
+                            {isPlanning ? (TRANSLATIONS[language]?.processing || TRANSLATIONS.English.processing) : (TRANSLATIONS[language]?.launchRoadmap || TRANSLATIONS.English.launchRoadmap)}
                           </button>
                         ) : (
                           <div className="roadmap-reveal fade-in">
@@ -577,7 +678,7 @@ export default function Home() {
                   type="text" 
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about your farm location..."
+                  placeholder={TRANSLATIONS[language]?.placeholder || TRANSLATIONS.English.placeholder}
                   className="chat-field"
                 />
                 <button type="submit" className={`circle-send-btn ${input ? 'active' : ''}`} disabled={isProcessing}>
@@ -594,8 +695,14 @@ export default function Home() {
 
       <style jsx>{`
         .chat-container { display: flex; height: 100vh; background: #212121; color: #ececec; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow: hidden; }
-        .sidebar { width: 300px; background: #171717; height: 100%; display: flex; flex-direction: column; transition: 0.3s; border-right: 1px solid rgba(255,255,255,0.05); }
+        .sidebar { width: 300px; background: #171717; height: 100%; display: flex; flex-direction: column; transition: 0.3s; border-right: 1px solid rgba(255,255,255,0.05); z-index: 100; }
         .sidebar.closed { width: 0; overflow: hidden; }
+        
+        @media (max-width: 768px) {
+          .sidebar { position: absolute; left: 0; top: 0; bottom: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
+          .sidebar.closed { transform: translateX(-100%); width: 300px; }
+        }
+
         .sidebar-header { padding: 20px; display: flex; gap: 8px; }
         .new-chat-btn { flex: 1; display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; color: #fff; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
         .toggle-sidebar { padding: 10px; border-radius: 8px; color: #666; cursor: pointer; }
