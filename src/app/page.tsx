@@ -333,6 +333,21 @@ export default function Home() {
               </div>
             </a>
 
+            <Link href="/india-legends" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm">BHARAT</div>
+              </div>
+              <div className="card-accent-bar blue sm">
+                <span>INDIA LEGENDS</span>
+                <Globe size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>భారత మహనీయులు</h3>
+                <p>National icons and state legends across Bharat.</p>
+                <button className="read-more blue-text sm">Explore</button>
+              </div>
+            </Link>
+
             <Link href="/telugu-legends" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/telugu_legends.png')" }}>
                 <div className="card-badge sm">HERITAGE</div>
