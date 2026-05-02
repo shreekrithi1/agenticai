@@ -253,9 +253,23 @@ export default function TruthVelocityNews() {
         .audit-btn { background: transparent; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 8px; color: #fff; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .audit-btn:hover { background: rgba(255,255,255,0.05); border-color: #fff; }
 
+        @media (max-width: 1200px) {
+          .feed-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 900px) {
-          .truth-hero h1 { font-size: 3rem; }
+          .truth-hero { padding: 60px 20px; }
+          .truth-hero h1 { font-size: 3rem; letter-spacing: -2px; }
           .feed-grid { grid-template-columns: 1fr; }
+          .nav-content { padding: 0 20px; }
+          .search-pill { display: none; }
+        }
+
+        @media (max-width: 600px) {
+          .truth-hero h1 { font-size: 2.2rem; }
+          .brand-text .title { font-size: 1rem; }
+          .lang-toggle span { display: none; }
+          .cat-pill { padding: 8px 16px; font-size: 0.75rem; }
         }
       `}</style>
     </main>

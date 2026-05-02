@@ -352,9 +352,28 @@ export default function VelocityPayments() {
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-4px); } }
 
         @media (max-width: 1200px) {
-          .payments-grid { grid-template-columns: 1fr; height: auto; }
+          .payments-grid { grid-template-columns: 1fr; height: auto; padding: 20px; }
           .agent-column, .telemetry-column { order: 2; }
           .execution-column { order: 1; }
+          .payments-page { padding-top: 100px; }
+        }
+
+        @media (max-width: 768px) {
+          .payments-nav { height: auto; padding: 15px 20px; flex-direction: column; gap: 12px; }
+          .nav-right { width: 100%; justify-content: space-between; }
+          .security-badge { padding: 6px 12px; }
+          .transfer-card { padding: 20px; }
+          .method-tabs { flex-wrap: wrap; }
+          .tab { font-size: 0.75rem; padding: 10px; }
+          .input-group input { font-size: 0.95rem; }
+          .payments-page { padding-top: 160px; }
+        }
+
+        @media (max-width: 480px) {
+          .nav-brand h1 { font-size: 1.1rem; }
+          .security-badge span { display: none; }
+          .user-info { display: none; }
+          .intelligence-card { height: 400px; }
         }
       `}</style>
     </main>

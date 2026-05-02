@@ -369,7 +369,26 @@ export default function StockAnalysis() {
       <style jsx>{`
         .stock-page { min-height: 100vh; background: #0a0a0a; color: #ececec; font-family: 'Inter', sans-serif; padding: 0 40px 80px 40px; position: relative; overflow-x: hidden; }
         
+        @media (max-width: 1024px) {
+          .stock-page { padding: 0 20px 80px 20px; }
+          .stock-header { flex-direction: column; align-items: flex-start; gap: 40px; }
+          .header-controls { align-items: flex-start; width: 100%; }
+          .search-bar { width: 100%; }
+          .tabs-container { width: 100%; overflow-x: auto; }
+          .tab-btn { flex: 1; white-space: nowrap; }
+        }
+
         .stock-nav { height: 80px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; }
+        
+        @media (max-width: 768px) {
+          .stock-nav { height: auto; padding: 20px 0; flex-direction: column; gap: 16px; align-items: flex-start; }
+          .stock-header h1 { font-size: 2.5rem; }
+          .table-container { margin: 0 -20px; border-radius: 0; border-left: none; border-right: none; }
+          .stock-table { display: block; overflow-x: auto; white-space: nowrap; }
+          .chat-trigger { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 0.9rem; }
+          .chat-modal { width: 100%; height: 100%; border-radius: 0; }
+        }
+
         .back-link { display: flex; align-items: center; gap: 8px; color: #888; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
         .nav-brand { font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #666; font-size: 0.75rem; }
         .refresh-status { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #10b981; font-weight: 700; }
@@ -427,7 +446,7 @@ export default function StockAnalysis() {
         .chat-trigger:hover { transform: scale(1.05); background: rgba(255,255,255,0.05); }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .chat-modal { width: 600px; height: 700px; display: flex; flex-direction: column; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .chat-modal { width: 600px; max-width: 90vw; height: 700px; max-height: 85vh; display: flex; flex-direction: column; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
         .modal-header { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
         .header-info { display: flex; align-items: center; gap: 12px; }
         .ai-status { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
