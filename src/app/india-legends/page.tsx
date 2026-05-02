@@ -1,359 +1,518 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Globe, MapPin, BookOpen, Briefcase, GraduationCap, Sparkles, MessageCircle } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Search, 
+  Bookmark, 
+  Map as MapIcon, 
+  Clock, 
+  Archive, 
+  Book, 
+  Menu, 
+  Globe, 
+  ChevronRight,
+  Sparkles,
+  Zap,
+  Quote
+} from "lucide-react";
 import Link from "next/link";
 
-const LANGUAGES = [
-  { code: "en", name: "English" },
-  { code: "te", name: "తెలుగు" },
-  { code: "hi", name: "हिन्दी" },
-  { code: "ta", name: "தமிழ்" }
-];
+// --- Types ---
+type ViewState = 'states' | 'personalities' | 'detail';
 
-const STATES = [
-  "Maharashtra",
-  "Tamil Nadu",
-  "West Bengal",
-  "Gujarat",
-  "Punjab",
-  "Karnataka",
-  "Kerala"
-];
+interface Lesson {
+  title: string;
+  description: string;
+  color: string;
+}
+
+interface Milestone {
+  year: string;
+  event: string;
+}
 
 interface Translation {
   name: string;
-  dob: string;
-  origin: string;
-  earlyLife: string;
-  career: string;
-  genZLearn: string;
-  references: string;
+  title: string;
+  tag: string;
+  bio: string;
+  fullBio?: string;
+  years: string;
+  lessons?: Lesson[];
+  milestones?: Milestone[];
+  quote?: string;
 }
 
 interface Legend {
   id: string;
   image: string;
+  historicalImage?: string;
   translations: Record<string, Translation>;
 }
 
-const LEGENDS_DATA: Record<string, Legend[]> = {
-  "Maharashtra": [
-    {
-      id: "shivaji",
-      image: "https://images.unsplash.com/photo-1626291664852-514e2277d37d?auto=format&fit=crop&q=80&w=800",
-      translations: {
-        en: {
-          name: "Chhatrapati Shivaji Maharaj",
-          dob: "February 19, 1630",
-          origin: "Shivneri Fort, Maharashtra",
-          earlyLife: "Born to Shahaji Bhonsle and Jijabai, Shivaji was raised with a strong sense of justice and independence. He was mentored by his mother and Dadoji Konddeo in administration and warfare.",
-          career: "Founder of the Maratha Empire. He pioneered 'Shiva Sutra' or guerrilla warfare. Known for his administrative skills, he established a progressive civil rule with well-structured cabinet (Ashta Pradhan).",
-          genZLearn: "Innovation in adversity and ethical leadership. He built a navy from scratch and valued merit over birth. His focus on 'Swarajya' (Self-rule) is the ultimate startup mindset.",
-          references: "Raigad Fort, Maratha Navy Records, Adnyapatra."
-        },
-        te: {
-          name: "ఛత్రపతి శివాజీ మహారాజ్",
-          dob: "ఫిబ్రవరి 19, 1630",
-          origin: "శివనేరి కోట, మహారాష్ట్ర",
-          earlyLife: "షాహాజీ భోంస్లే మరియు జిజాబాయి దంపతులకు జన్మించిన శివాజీ, బలమైన న్యాయం మరియు స్వాతంత్ర్య భావంతో పెరిగారు. ఆయనకు ఆయన తల్లి మరియు దాదోజీ కొండదేవ్ పరిపాలన మరియు యుద్ధతంత్రంలో శిక్షణ ఇచ్చారు.",
-          career: "మరాఠా సామ్రాజ్య స్థాపకుడు. గెరిల్లా యుద్ధతంత్రానికి ఆద్యుడు. అష్టప్రధాన్ అనే మంత్రిమండలితో అద్భుతమైన పరిపాలన అందించారు.",
-          genZLearn: "ప్రతికూల పరిస్థితుల్లో ఆవిష్కరణ మరియు నైతిక నాయకత్వం. పుట్టుక కంటే ప్రతిభకే ప్రాధాన్యత ఇచ్చారు. స్వరాజ్య సాధనలో ఆయన పట్టుదల నేటి తరానికి స్ఫూర్తిదాయకం.",
-          references: "రాయగఢ్ కోట, మరాఠా నావికాదళ రికార్డులు."
-        }
-      }
-    }
-  ],
-  "Tamil Nadu": [
-    {
-      id: "apj",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800", // Representative lab/science image
-      translations: {
-        en: {
-          name: "Dr. A.P.J. Abdul Kalam",
-          dob: "October 15, 1931",
-          origin: "Rameswaram, Tamil Nadu",
-          earlyLife: "Grew up in a humble family, selling newspapers to support his education. He studied physics and aerospace engineering, driven by a dream to fly.",
-          career: "The 'Missile Man of India'. Led India's space and missile programs (SLV-III, Agni, Prithvi). Served as the 11th President of India, becoming the 'People's President'.",
-          genZLearn: "Humility and Vision 2020. He proved that background doesn't define destiny. His dedication to youth and education is a blueprint for mentorship and lifelong learning.",
-          references: "Wings of Fire, Ignited Minds, ISRO Archives."
-        },
-        te: {
-          name: "డాక్టర్ ఎ.పి.జె. అబ్దుల్ కలాం",
-          dob: "అక్టోబర్ 15, 1931",
-          origin: "రామేశ్వరం, తమిళనాడు",
-          earlyLife: "పేద కుటుంబంలో జన్మించారు, చదువు కోసం వార్తాపత్రికలు అమ్మారు. విమానం ఎగరాలనే కోరికతో ఫిజిక్స్ మరియు ఏరోస్పేస్ ఇంజనీరింగ్ చదివారు.",
-          career: "భారత క్షిపణి పితామహుడు. ఇస్రో మరియు డిఆర్డిఓలో కీలక పాత్ర పోషించారు. భారత 11వ రాష్ట్రపతిగా సామాన్య ప్రజలకు చేరువయ్యారు.",
-          genZLearn: "వినయం మరియు విజన్ 2020. మీ గతం మీ భవిష్యత్తును నిర్ణయించదని ఆయన నిరూపించారు. యువతకు ఆయన నిరంతర స్ఫూర్తి ప్రదాత.",
-          references: "అగ్ని రెక్కలు (Wings of Fire), ఇస్రో."
-        }
-      }
-    }
-  ],
-  "West Bengal": [
-    {
-      id: "tagore",
-      image: "https://images.unsplash.com/photo-1471970103260-f58b13f959b4?auto=format&fit=crop&q=80&w=800", // Artistic library image
-      translations: {
-        en: {
-          name: "Rabindranath Tagore",
-          dob: "May 7, 1861",
-          origin: "Calcutta, West Bengal",
-          earlyLife: "A polymath from a prominent family, he reshaped Bengali literature and music. He was the first non-European to win the Nobel Prize in Literature.",
-          career: "Author of Gitanjali. He founded Visva-Bharati University, emphasizing education in nature. He composed the national anthems of India and Bangladesh.",
-          genZLearn: "Global Citizenship and Creativity. He believed in a world 'where the mind is without fear'. His ability to blend tradition with modern thought is essential for today's creators.",
-          references: "Gitanjali, Santiniketan Records, Nobel Archives."
-        },
-        te: {
-          name: "రవీంద్రనాథ్ ఠాగూర్",
-          dob: "మే 7, 1861",
-          origin: "కలకత్తా, పశ్చిమ బెంగాల్",
-          earlyLife: "బెంగాలీ సాహిత్యం మరియు సంగీతాన్ని పునర్నిర్మించిన మహనీయుడు. సాహిత్యంలో నోబెల్ బహుమతి పొందిన మొదటి భారతీయుడు.",
-          career: "గీతాంజలి రచయిత. శాంతినికేతన్ వ్యవస్థాపకుడు. భారత్ మరియు బంగ్లాదేశ్ జాతీయ గీతాలను ఆయనే స్వరపరిచారు.",
-          genZLearn: "ప్రపంచ పౌరసత్వం మరియు సృజనాత్మకత. భయం లేని మనస్సుతో జీవించాలని ఆయన ఆకాంక్షించారు. కళ మరియు విద్యల పట్ల ఆయన దృక్పథం అద్భుతం.",
-          references: "గీతాంజలి, శాంతినికేతన్."
-        }
-      }
-    }
-  ],
-  "Gujarat": [
-    {
-      id: "patel",
-      image: "https://images.unsplash.com/photo-1605371924599-2c03d64d0dd3?auto=format&fit=crop&q=80&w=800", // Representative statue/iron image
-      translations: {
-        en: {
-          name: "Sardar Vallabhbhai Patel",
-          dob: "October 31, 1875",
-          origin: "Nadiad, Gujarat",
-          earlyLife: "Born into a farming family, he was a self-taught lawyer who practiced in Ahmedabad. He was deeply influenced by Mahatma Gandhi's non-violence movement.",
-          career: "The 'Iron Man of India'. As the first Home Minister, he unified 562 princely states into the Indian Union. He was a master organizer and crisis manager.",
-          genZLearn: "Unification and Grit. He showed that true power lies in bringing people together under a single vision. His 'Iron' resolve is the ultimate lesson in resilience.",
-          references: "Statue of Unity Records, Home Ministry Archives."
-        },
-        te: {
-          name: "సర్దార్ వల్లభభాయ్ పటేల్",
-          dob: "అక్టోబర్ 31, 1875",
-          origin: "నదియాడ్, గుజరాత్",
-          earlyLife: "రైతు కుటుంబంలో జన్మించారు, స్వయంగా న్యాయశాస్త్రం అభ్యసించారు. మహాత్మా గాంధీ అహింసా సిద్ధాంతాలకు ప్రభావితమయ్యారు.",
-          career: "భారత ఉక్కు మనిషి. స్వతంత్ర భారత మొదటి హోం మంత్రిగా 562 సంస్థానాలను విలీనం చేసి అఖండ భారతాన్ని నిర్మించారు.",
-          genZLearn: "ఐక్యత మరియు పట్టుదల. ఒకే లక్ష్యం కోసం ప్రజలను ఎలా ఏకం చేయాలో ఆయన నేర్పించారు. ఆయన 'ఉక్కు' సంకల్పం నేటి తరానికి ఆదర్శం.",
-          references: "స్టాట్యూ ఆఫ్ యూనిటీ, భారత హోం శాఖ."
-        }
-      }
-    }
-  ],
-  "Punjab": [
-    {
-      id: "bhagat",
-      image: "https://images.unsplash.com/photo-1599427303058-f06cbdf4bb91?auto=format&fit=crop&q=80&w=800", // Representative courage image
-      translations: {
-        en: {
-          name: "Bhagat Singh",
-          dob: "September 28, 1907",
-          origin: "Banga, Punjab (now in Pakistan)",
-          earlyLife: "Born into a family of freedom fighters. At age 12, he visited Jallianwala Bagh and was deeply moved by the massacre, which fueled his revolutionary spirit.",
-          career: "A socialist revolutionary and a brilliant intellectual. He founded the Naujawan Bharat Sabha. He became a martyr at the young age of 23, inspiring millions.",
-          genZLearn: "Intellectual Courage and Radical Thinking. He wasn't just about action; he was a deep reader and thinker. He teaches us to question the status quo and stand for one's beliefs.",
-          references: "Why I am an Atheist, Jail Notebooks."
-        },
-        te: {
-          name: "భగత్ సింగ్",
-          dob: "సెప్టెంబర్ 28, 1907",
-          origin: "బంగా, పంజాబ్",
-          earlyLife: "స్వాతంత్ర్య సమరయోధుల కుటుంబంలో జన్మించారు. జలియన్ వాలా బాగ్ మారణకాండ ఆయనను తీవ్రంగా కలిచివేసింది మరియు విప్లవ భావాలను రగిల్చింది.",
-          career: "సోషలిస్ట్ విప్లవకారుడు మరియు గొప్ప మేధావి. 23 ఏళ్ల చిన్న వయసులోనే దేశం కోసం ప్రాణత్యాగం చేసి కోట్లాది మందికి స్ఫూర్తిగా నిలిచారు.",
-          genZLearn: "మేధోపరమైన ధైర్యం మరియు ఆలోచనా విధానం. ఆయన కేవలం పోరాట యోధుడే కాదు, గొప్ప పాఠకుడు కూడా. నమ్మిన సిద్ధాంతం కోసం ఎలా నిలబడాలో ఆయన నేర్పారు.",
-          references: "భగత్ సింగ్ జైలు డైరీ."
-        }
-      }
-    }
-  ],
-  "Karnataka": [
-    {
-      id: "visvesvaraya",
-      image: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=800", // Engineering/Construction image
-      translations: {
-        en: {
-          name: "Sir M. Visvesvaraya",
-          dob: "September 15, 1861",
-          origin: "Muddenahalli, Karnataka",
-          earlyLife: "Born into a family of scholars, he struggled with poverty but excelled in academics. He studied civil engineering in Pune.",
-          career: "The 'Father of Modern Mysore'. Architect of the Krishna Raja Sagara dam. His birthday is celebrated as Engineer's Day in India.",
-          genZLearn: "Precision and Institutional Building. He believed in 'Industrialize or Perish'. His focus on efficiency and systematic planning is the bedrock of modern engineering.",
-          references: "Memoirs of my Working Life, KRS Dam Records."
-        },
-        te: {
-          name: "సర్ మోక్షగుండం విశ్వేశ్వరయ్య",
-          dob: "సెప్టెంబర్ 15, 1861",
-          origin: "ముద్దేనహళ్లి, కర్ణాటక",
-          earlyLife: "పేదరికంలో పుట్టినా చదువులో రాణించారు. పూణేలో సివిల్ ఇంజనీరింగ్ అభ్యసించారు.",
-          career: "ఆధునిక మైసూరు పితామహుడు. కృష్ణరాజ సాగర్ ఆనకట్ట రూపశిల్పి. ఆయన జన్మదినాన్ని ఇంజనీర్స్ డేగా జరుపుకుంటాము.",
-          genZLearn: "ఖచ్చితత్వం మరియు వ్యవస్థల నిర్మాణం. పరిశ్రమలు లేకపోతే వినాశనమే అని ఆయన నమ్మారు. ఆయన క్రమశిక్షణ నేటి యువ ఇంజనీర్లకు పాఠం.",
-          references: "కెఆర్ఎస్ డ్యామ్ రికార్డులు."
-        }
-      }
-    }
-  ]
-};
+interface StateData {
+  name: string;
+  tagline: string;
+  description: string;
+  image: string;
+  accentColor: string;
+  legends: Legend[];
+}
 
-export default function IndiaLegends() {
-  const [selectedState, setSelectedState] = useState("Maharashtra");
+// --- Data ---
+const DATA: StateData[] = [
+  {
+    name: "Andhra Pradesh",
+    tagline: "Gems of the Telugu Heartland",
+    description: "Discover the land of revolutionary fire and artistic finesse. From the hills of Manyam to the courts of Vijayanagara.",
+    image: "https://images.unsplash.com/photo-1623122176092-23f99097d740?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#ff9f1c",
+    legends: [
+      {
+        id: "ntr",
+        image: "https://images.unsplash.com/photo-1614583225154-5feade0733ec?auto=format&fit=crop&q=80&w=800", // Representative portrait
+        historicalImage: "https://images.unsplash.com/photo-1541533230302-6186a99b6f6c?auto=format&fit=crop&q=80&w=800", // Campaign crowd
+        translations: {
+          en: {
+            name: "Nandamuri Taraka Rama Rao",
+            title: "The Titan of the Telugu Land",
+            tag: "ICON OF THE PEOPLE",
+            bio: "A titan who transcended the silver screen to shape the destiny of a million lives. Known for his divine portrayals and revolutionary leadership.",
+            fullBio: "Nandmuri Taraka Rama Rao (NTR) was more than a film star; he was a cultural phenomenon who transitioned from being the quintessential celluloid god to a political messiah. Born in the humble village of Nimmakuru, his journey spanned over 300 films, where he embodied deities like Lord Krishna and Rama with such conviction that millions began to view him as a divine entity. In 1982, NTR embarked on his most significant role - the savior of Telugu pride.",
+            years: "1923 - 1996",
+            quote: "Society is the temple. The people are the Gods.",
+            lessons: [
+              { title: "Upholding Self-Respect", description: "NTR's entire political career was built on Atma Gauravam (Self-Respect). He taught that identity and dignity are the foundations of any meaningful progress.", color: "#8b4513" },
+              { title: "Power of Pace", description: "From party launch to election victory in just 9 months - proving that conviction and momentum can overcome any institutional barrier.", color: "#d2691e" },
+              { title: "People's Connection", description: "He lived among the people during his campaigns, eating their food and sleeping in his van. Genuine empathy is the only true leadership currency.", color: "#556b2f" },
+              { title: "Creative Reformist", description: "He mastered acting, screenwriting, and directing before mastering governance. He proves that creativity is not a silo, but a tool-kit for solving world problems.", color: "#2f4f4f" }
+            ],
+            milestones: [
+              { year: "1949", event: "Mana Desam debut that launched a thousand ships." },
+              { year: "1982", event: "Founded Telugu Desam Party to restore Telugu pride." },
+              { year: "1983", event: "Became Chief Minister after a historic 9-month campaign." }
+            ]
+          }
+        }
+      },
+      {
+        id: "alluri",
+        image: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6?auto=format&fit=crop&q=80&w=800", // Representative warrior
+        translations: {
+          en: {
+            name: "Alluri Sitarama Raju",
+            title: "Manyam Veerudu: Hero of the Jungles",
+            tag: "REVOLUTIONARY",
+            bio: "Led the Rampa Rebellion against British colonial rule. A master of guerrilla warfare who protected tribal rights.",
+            years: "1897 - 1924"
+          }
+        }
+      },
+      {
+        id: "sarojini",
+        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800", // Representative poet
+        translations: {
+          en: {
+            name: "Sarojini Naidu",
+            title: "The Nightingale of India",
+            tag: "POETRY",
+            bio: "A prolific poet and pivotal figure in the independence movement. The first woman to become the Governor of an Indian state.",
+            years: "1879 - 1949"
+          }
+        }
+      }
+    ]
+  },
+  {
+    name: "Rajasthan",
+    tagline: "Lord of Kings",
+    description: "Discover the valor of Rajput warriors and the timeless romance of desert ballads under the shimmering sands of Thar.",
+    image: "https://images.unsplash.com/photo-1599661046289-e318978df6b1?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#e67e22",
+    legends: []
+  },
+  {
+    name: "Kerala",
+    tagline: "God's Own Legends",
+    description: "Legends of Mahabali and the rhythmic tales of the backwaters await in this lush green coastal paradise.",
+    image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#27ae60",
+    legends: []
+  },
+  {
+    name: "Maharashtra",
+    tagline: "Saints and Warriors",
+    description: "Forts that whisper tales of Shivaji's bravery and the saints of Bhakti who reshaped Indian spirituality.",
+    image: "https://images.unsplash.com/photo-1626291664852-514e2277d37d?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#d35400",
+    legends: []
+  }
+];
+
+// --- Components ---
+
+export default function LegendsFromIndia() {
+  const [view, setView] = useState<ViewState>('states');
+  const [selectedState, setSelectedState] = useState<StateData | null>(null);
+  const [selectedLegend, setSelectedLegend] = useState<Legend | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [lang, setLang] = useState("en");
 
-  const legends = LEGENDS_DATA[selectedState] || [];
+  const filteredStates = useMemo(() => {
+    return DATA.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  }, [searchQuery]);
+
+  // View Handlers
+  const openState = (state: StateData) => {
+    setSelectedState(state);
+    setView('personalities');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const openLegend = (legend: Legend) => {
+    setSelectedLegend(legend);
+    setView('detail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goBack = () => {
+    if (view === 'detail') setView('personalities');
+    else if (view === 'personalities') setView('states');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <main className="min-h-screen bg-[#f3f4f6] text-[#1a1a1a] font-sans pb-20">
+    <main className="min-h-screen bg-[#fdfaf5] text-[#3e2723] font-serif pb-24 overflow-x-hidden">
+      
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-slate-600 hover:text-black transition-colors font-bold uppercase tracking-tighter">
-            <ArrowLeft size={20} />
-            <span>Hub</span>
-          </Link>
-          
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-lg">
-              {LANGUAGES.map(l => (
-                <button 
-                  key={l.code}
-                  onClick={() => setLang(l.code)}
-                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${lang === l.code ? 'bg-white shadow-sm text-blue-600' : 'text-slate-500 hover:text-slate-800'}`}
-                >
-                  {l.name}
-                </button>
-              ))}
-            </div>
-          </div>
+      <header className="sticky top-0 z-50 bg-[#fdfaf5]/90 backdrop-blur-md border-b border-[#3e2723]/10">
+        <div className="max-w-md mx-auto px-6 h-16 flex items-center justify-between">
+          <button className="p-2 -ml-2" onClick={view !== 'states' ? goBack : undefined}>
+            {view === 'states' ? <Menu size={20} /> : <ArrowLeft size={20} />}
+          </button>
+          <h2 className="text-xl font-black tracking-tight text-[#5d4037]">Legends from India</h2>
+          <button className="p-2 -mr-2">
+            <Globe size={20} />
+          </button>
         </div>
       </header>
 
-      {/* State Selector Rail */}
-      <div className="bg-white border-b overflow-x-auto no-scrollbar">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex gap-4">
-          {STATES.map(state => (
-            <button
-              key={state}
-              onClick={() => setSelectedState(state)}
-              className={`px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border-2 ${selectedState === state ? 'bg-[#ff6b35] border-[#ff6b35] text-white shadow-lg' : 'bg-transparent border-slate-200 text-slate-500 hover:border-slate-400'}`}
-            >
-              {state}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Content Area */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={selectedState + lang}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="flex flex-col gap-16"
+      <AnimatePresence mode="wait">
+        
+        {/* --- View: State List --- */}
+        {view === 'states' && (
+          <motion.div 
+            key="states"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="max-w-md mx-auto px-6 py-8"
           >
-            {legends.map((legend: Legend) => {
-              const content = legend.translations[lang] || legend.translations['en'];
-              return (
-                <div key={legend.id} className="legend-layout bg-white shadow-2xl rounded-[40px] overflow-hidden flex flex-col md:flex-row min-h-[700px] border border-slate-100">
-                  {/* Left Column: Image with accent blocks */}
-                  <div className="relative w-full md:w-2/5 min-h-[400px] md:min-h-full overflow-hidden">
-                    {/* Decorative Orange Blocks */}
-                    <div className="absolute top-0 left-0 w-32 h-64 bg-[#ff6b35] z-0" />
-                    <div className="absolute bottom-12 right-0 w-24 h-48 bg-[#d6511e] opacity-80 z-0" />
-                    
-                    <div className="relative z-10 h-full p-8 flex items-center justify-center">
-                      <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl group">
-                        <img 
-                          src={legend.image} 
-                          alt={content.name}
-                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
-                      </div>
+            <div className="text-center mb-10">
+              <h1 className="text-4xl md:text-5xl font-black text-[#5d4037] mb-4 leading-tight">
+                Choose a State to Explore Legends
+              </h1>
+              <p className="text-sm leading-relaxed text-[#795548] opacity-80 max-w-sm mx-auto">
+                Journey through the vibrant tapestry of Bharat. From the Himalayan peaks to the coastal backwaters, every region holds a story of gods, heroes, and ancient wisdom.
+              </p>
+            </div>
+
+            <div className="relative mb-10">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#795548]/50" size={18} />
+              <input 
+                type="text" 
+                placeholder="Search for a state or region..." 
+                className="w-full bg-white border border-[#3e2723]/10 rounded-xl py-4 pl-12 pr-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#ff9f1c]/20 transition-all text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-6">
+              {filteredStates.map(state => (
+                <div 
+                  key={state.name}
+                  onClick={() => openState(state)}
+                  className="relative h-[320px] rounded-3xl overflow-hidden shadow-xl cursor-pointer group"
+                >
+                  <img src={state.image} alt={state.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div className="mb-2">
+                      <span className="bg-[#ff9f1c] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                        {state.tagline}
+                      </span>
                     </div>
-                  </div>
-
-                  {/* Right Column: Content */}
-                  <div className="w-full md:w-3/5 p-8 md:p-16 flex flex-col justify-center bg-[#fafafa]">
-                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8 text-[#1a1a1a]">BIOGRAPHY<span className="text-[#ff6b35]">.</span></h1>
+                    <h3 className="text-3xl font-black text-white mb-4">{state.name}</h3>
                     
-                    <div className="space-y-8">
-                      <div className="space-y-2">
-                        <div className="flex gap-2 text-sm font-black uppercase tracking-widest text-[#ff6b35]">
-                          <MapPin size={14} /> Profile
-                        </div>
-                        <div className="grid grid-cols-1 gap-1">
-                          <p><span className="font-black">Name:</span> {content.name}</p>
-                          <p><span className="font-black">Date of Birth:</span> {content.dob}</p>
-                          <p><span className="font-black">Address:</span> {content.origin}</p>
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-[#ff6b35]">
-                          <GraduationCap size={16} /> Early Life and Education:
-                        </div>
-                        <p className="text-slate-600 leading-relaxed font-medium">
-                          {content.earlyLife}
-                        </p>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-[#ff6b35]">
-                          <Briefcase size={16} /> Career:
-                        </div>
-                        <p className="text-slate-600 leading-relaxed font-medium">
-                          {content.career}
-                        </p>
-                      </div>
-
-                      <div className="space-y-4 bg-[#ff6b35]/5 p-6 rounded-2xl border-l-4 border-[#ff6b35]">
-                        <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-[#ff6b35]">
-                          <Sparkles size={16} /> What Gen Z can learn:
-                        </div>
-                        <p className="text-slate-800 leading-relaxed font-bold italic">
-                          "{content.genZLearn}"
-                        </p>
-                      </div>
-
-                      <div className="pt-8 border-t border-slate-200">
-                        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
-                          <BookOpen size={14} /> Contact or References:
-                        </div>
-                        <p className="text-slate-500 text-xs font-bold mt-2">
-                          {content.references}
-                        </p>
-                      </div>
+                    <div className="glass-morphism rounded-2xl p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                      <p className="text-xs text-white/90 leading-relaxed mb-4">
+                        {state.description}
+                      </p>
+                      <button className="flex items-center gap-2 text-white text-xs font-black uppercase tracking-widest">
+                        Explore Stories <ChevronRight size={14} className="text-[#ff9f1c]" />
+                      </button>
                     </div>
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
 
-            {legends.length === 0 && (
-              <div className="text-center py-20 bg-white rounded-[40px] shadow-sm border border-dashed border-slate-300">
-                <Globe size={48} className="mx-auto text-slate-300 mb-4" />
-                <h3 className="text-xl font-bold text-slate-500">More legends coming soon for {selectedState}</h3>
-                <p className="text-slate-400 mt-2">We are digitizing history across Bharat.</p>
+            <div className="mt-16 text-center">
+              <h4 className="text-lg font-black text-[#5d4037] mb-6 tracking-wide">Browse by Historical Eras</h4>
+              <div className="flex justify-center gap-4">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 rounded-xl border-2 border-[#ff9f1c] flex items-center justify-center text-[#ff9f1c] bg-white shadow-md">
+                    <Zap size={24} />
+                  </div>
+                  <span className="text-[10px] font-black uppercase text-[#795548]">Vedic Era</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 rounded-xl border border-[#3e2723]/10 flex items-center justify-center text-[#795548] bg-white">
+                    <Archive size={24} />
+                  </div>
+                  <span className="text-[10px] font-black uppercase text-[#795548] opacity-50">Dynastic</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-14 h-14 rounded-xl border border-[#3e2723]/10 flex items-center justify-center text-[#795548] bg-white">
+                    <Book size={24} />
+                  </div>
+                  <span className="text-[10px] font-black uppercase text-[#795548] opacity-50">Classical</span>
+                </div>
               </div>
-            )}
+            </div>
           </motion.div>
-        </AnimatePresence>
-      </section>
+        )}
+
+        {/* --- View: Personalities List --- */}
+        {view === 'personalities' && selectedState && (
+          <motion.div 
+            key="personalities"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            className="max-w-md mx-auto"
+          >
+            <div className="px-6 py-8 bg-gradient-to-br from-[#ff9f1c]/10 to-transparent">
+              <div className="flex items-center gap-2 text-[10px] font-black text-[#795548]/60 uppercase tracking-widest mb-4">
+                <span>ARCHIVE</span> <ChevronRight size={10} /> <span>{selectedState.name}</span>
+              </div>
+              <h1 className="text-4xl font-black text-[#5d4037] mb-8 leading-tight">
+                {selectedState.tagline}
+              </h1>
+
+              {/* Featured Personality */}
+              {selectedState.legends.length > 0 && (
+                <div className="bg-white rounded-[32px] overflow-hidden shadow-2xl border border-[#3e2723]/5 mb-10">
+                  <img src={selectedState.legends[0].image} className="w-full h-64 object-cover" />
+                  <div className="p-8">
+                    <span className="text-[10px] font-black text-[#ff9f1c] uppercase tracking-[0.2em] mb-2 block">
+                      {selectedState.legends[0].translations[lang].tag}
+                    </span>
+                    <h2 className="text-2xl font-black text-[#3e2723] mb-2">
+                      {selectedState.legends[0].translations[lang].name}
+                    </h2>
+                    <p className="text-sm italic text-[#795548] mb-4 opacity-80">
+                      "{selectedState.legends[0].translations[lang].title}"
+                    </p>
+                    <p className="text-sm leading-relaxed text-[#5d4037] mb-6">
+                      {selectedState.legends[0].translations[lang].bio}
+                    </p>
+                    <button 
+                      onClick={() => openLegend(selectedState.legends[0])}
+                      className="w-full bg-[#8b4513] text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest flex items-center justify-center gap-2"
+                    >
+                      Explore His Journey +
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Other Personalities Grid */}
+            <div className="px-6 space-y-6">
+              <div className="flex gap-4 border-b border-[#3e2723]/10 pb-4 mb-6">
+                <span className="text-xs font-black text-[#ff9f1c] border-b-2 border-[#ff9f1c] pb-4 -mb-[18px]">ALL ERAS</span>
+                <span className="text-xs font-black text-[#795548]/40">FREEDOM STRUGGLE</span>
+              </div>
+
+              {selectedState.legends.slice(1).map(legend => (
+                <div 
+                  key={legend.id}
+                  onClick={() => openLegend(legend)}
+                  className="bg-white rounded-2xl p-4 shadow-md flex gap-4 border border-[#3e2723]/5"
+                >
+                  <div className="w-24 h-32 rounded-xl overflow-hidden flex-shrink-0">
+                    <img src={legend.image} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 py-2 relative">
+                    <span className="text-[8px] font-black bg-[#ff9f1c]/10 text-[#ff9f1c] px-2 py-1 rounded mb-2 inline-block uppercase tracking-widest">
+                      {legend.translations[lang].tag}
+                    </span>
+                    <h3 className="text-lg font-black text-[#3e2723] mb-1">{legend.translations[lang].name}</h3>
+                    <p className="text-[10px] italic text-[#795548] mb-4">{legend.translations[lang].title}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                      <span className="text-[10px] font-bold text-[#795548]/50">{legend.translations[lang].years}</span>
+                      <Bookmark size={14} className="text-[#795548]/30" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Curator's Notes */}
+            <div className="m-6 p-8 bg-[#e0e0e0]/30 rounded-3xl border border-[#3e2723]/5">
+              <div className="flex items-center gap-2 mb-4">
+                <Archive size={16} className="text-[#8b4513]" />
+                <span className="text-xs font-black uppercase tracking-widest">Curator's Notes</span>
+              </div>
+              <p className="text-xs leading-relaxed text-[#795548]">
+                {selectedState.description}
+              </p>
+            </div>
+          </motion.div>
+        )}
+
+        {/* --- View: Detail View --- */}
+        {view === 'detail' && selectedLegend && (
+          <motion.div 
+            key="detail"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            className="max-w-md mx-auto"
+          >
+            <div className="relative h-[80vh] w-full">
+              <img src={selectedLegend.image} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#fdfaf5] via-transparent to-transparent" />
+              
+              <div className="absolute bottom-0 left-0 p-8 w-full">
+                <span className="text-[10px] font-black text-[#ff9f1c] uppercase tracking-[0.3em] mb-2 block">
+                  ARCHIVE ID: {selectedLegend.id.toUpperCase()}-1923
+                </span>
+                <h1 className="text-3xl font-black text-[#3e2723] mb-2">
+                  {selectedLegend.translations[lang].name}
+                </h1>
+                <p className="text-lg italic text-[#795548] opacity-80">
+                  "{selectedLegend.translations[lang].title}"
+                </p>
+              </div>
+            </div>
+
+            <div className="px-8 py-10 space-y-10">
+              <div className="space-y-6">
+                <h3 className="text-sm font-black uppercase tracking-widest text-[#8b4513]">The Titan of the Telugu Land</h3>
+                <p className="text-sm leading-relaxed text-[#5d4037]">
+                  {selectedLegend.translations[lang].fullBio || selectedLegend.translations[lang].bio}
+                </p>
+              </div>
+
+              {selectedLegend.historicalImage && (
+                <div className="rounded-2xl overflow-hidden shadow-lg border-8 border-white">
+                  <img src={selectedLegend.historicalImage} className="w-full grayscale" />
+                  <div className="bg-white p-4 text-center">
+                    <p className="text-[10px] italic text-[#795548]/60">The Chaitanya Ratham Campaign, 1982</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-6">
+                <h3 className="text-center text-xs font-black uppercase tracking-[0.3em] text-[#8b4513]/40">Milestones of a Legacy</h3>
+                <div className="space-y-8 border-l border-[#3e2723]/10 pl-6 ml-2">
+                  {selectedLegend.translations[lang].milestones?.map((m, i) => (
+                    <div key={i} className="relative">
+                      <div className="absolute -left-[31px] top-0 w-3 h-3 rounded-full bg-[#ff9f1c] border-2 border-white" />
+                      <h4 className="text-3xl font-black text-[#ff9f1c]/30 mb-1">{m.year}</h4>
+                      <p className="text-xs font-bold text-[#5d4037]">{m.event}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-6 pt-10">
+                <h3 className="text-center text-xs font-black uppercase tracking-widest text-[#795548]/50">Lessons from his journey</h3>
+                <div className="space-y-4">
+                  {selectedLegend.translations[lang].lessons?.map((lesson, i) => (
+                    <div key={i} className="rounded-3xl p-8 text-white shadow-xl" style={{ backgroundColor: lesson.color }}>
+                      <div className="flex items-center gap-3 mb-4">
+                        <Sparkles size={20} />
+                        <h4 className="text-lg font-black">{lesson.title}</h4>
+                      </div>
+                      <p className="text-xs leading-relaxed opacity-90">{lesson.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {selectedLegend.translations[lang].quote && (
+                <div className="text-center py-20 px-4">
+                  <Quote size={40} className="mx-auto text-[#ff9f1c]/20 mb-8" />
+                  <h2 className="text-2xl font-serif italic text-[#3e2723] leading-relaxed mb-10">
+                    "{selectedLegend.translations[lang].quote}"
+                  </h2>
+                  <div className="h-1 w-20 bg-[#ff9f1c] mx-auto mb-4" />
+                  <span className="text-xs font-black uppercase tracking-widest text-[#795548]">
+                    {selectedLegend.translations[lang].name}
+                  </span>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+      </AnimatePresence>
+
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#3e2723]/10 px-6 py-4">
+        <div className="max-w-md mx-auto flex items-center justify-between">
+          <button onClick={() => setView('states')} className={`flex flex-col items-center gap-1 ${view === 'states' ? 'text-[#ff9f1c]' : 'text-[#795548]/40'}`}>
+            <MapIcon size={20} />
+            <span className="text-[8px] font-black uppercase tracking-widest">States</span>
+          </button>
+          <button className="flex flex-col items-center gap-1 text-[#795548]/40">
+            <Clock size={20} />
+            <span className="text-[8px] font-black uppercase tracking-widest">Timeline</span>
+          </button>
+          <button onClick={() => selectedState && setView('personalities')} className={`flex flex-col items-center gap-1 ${view === 'personalities' ? 'text-[#ff9f1c]' : 'text-[#795548]/40'}`}>
+            <Archive size={20} />
+            <span className="text-[8px] font-black uppercase tracking-widest">Archive</span>
+          </button>
+          <button className="flex flex-col items-center gap-1 text-[#795548]/40">
+            <Book size={20} />
+            <span className="text-[8px] font-black uppercase tracking-widest">Library</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* FAB */}
+      <div className="fixed bottom-28 right-6 z-50">
+        <button className="w-14 h-14 bg-[#8b4513] text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95">
+          <Sparkles size={24} />
+        </button>
+      </div>
 
       <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+        
+        .font-serif {
+          font-family: 'Playfair Display', serif;
+        }
+
+        .glass-morphism {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        @font-face {
-          font-family: 'Outfit';
-          src: url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+
+        h1, h2, h3, h4, button {
+          letter-spacing: -0.02em;
         }
-        
-        main { font-family: 'Outfit', sans-serif; }
       `}</style>
     </main>
   );
