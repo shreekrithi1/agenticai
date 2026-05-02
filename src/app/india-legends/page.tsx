@@ -128,15 +128,15 @@ const DATA: StateData[] = [
   {
     name: "Rajasthan",
     tagline: "Lord of Kings",
-    description: "Discover the valor of Rajput warriors and the timeless romance of desert ballads under the shimmering sands of Thar.",
+    description: "Discover the valor of Rajput warriors and the timeless romance of desert ballads.",
     image: "https://images.unsplash.com/photo-1599661046289-e318978df6b1?auto=format&fit=crop&q=80&w=800",
     accentColor: "#e67e22",
     legends: []
   },
   {
     name: "Kerala",
-    tagline: "God's Own Legends",
-    description: "Legends of Mahabali and the rhythmic tales of the emerald backwaters await.",
+    tagline: "God's Own Country",
+    description: "Legends of Mahabali and the rhythmic tales of the emerald backwaters.",
     image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&q=80&w=800",
     accentColor: "#27ae60",
     legends: []
@@ -179,6 +179,102 @@ const DATA: StateData[] = [
     description: "The stone-carved dreams of Hampi and the tech-infused spirit of Bengaluru.",
     image: "https://images.unsplash.com/photo-1600100397608-f010e445083a?auto=format&fit=crop&q=80&w=800",
     accentColor: "#3498db",
+    legends: []
+  },
+  {
+    name: "Haryana",
+    tagline: "Land of Mahabharata",
+    description: "The historic battlefield of Kurukshetra and the modern industrial spirit of Gurugram.",
+    image: "https://images.unsplash.com/photo-1610412430378-500742111b7f?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#f39c12",
+    legends: []
+  },
+  {
+    name: "Goa",
+    tagline: "Pearl of the Orient",
+    description: "The fusion of Indo-Portuguese culture and the pristine shores of the Arabian Sea.",
+    image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#1abc9c",
+    legends: []
+  },
+  {
+    name: "Uttarakhand",
+    tagline: "Land of the Gods",
+    description: "Majestic Himalayan peaks and the sacred origins of the Ganga and Yamuna.",
+    image: "https://images.unsplash.com/photo-1584285418504-03512e032f91?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#3498db",
+    legends: []
+  },
+  {
+    name: "Telangana",
+    tagline: "Pride of the Deccan",
+    description: "The land of the Kakatiya dynasty and the Nawabi grandeur of Hyderabad.",
+    image: "https://images.unsplash.com/photo-1605367102148-f6858e801458?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#f1c40f",
+    legends: []
+  },
+  {
+    name: "Gujarat",
+    tagline: "Land of Legends",
+    description: "From the salt deserts of Kutch to the home of the Asiatic lion in Gir.",
+    image: "https://images.unsplash.com/photo-1590766940554-634a7ed41450?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#e67e22",
+    legends: []
+  },
+  {
+    name: "Uttar Pradesh",
+    tagline: "Heartland of Spirituality",
+    description: "The cradle of Indian civilization and the spiritual echoes of Varanasi.",
+    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#f39c12",
+    legends: []
+  },
+  {
+    name: "Bihar",
+    tagline: "Cradle of Enlightenment",
+    description: "Where Buddha attained nirvana and the ancient Nalanda university flourished.",
+    image: "https://images.unsplash.com/photo-1622194948162-197af692295a?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#27ae60",
+    legends: []
+  },
+  {
+    name: "Assam",
+    tagline: "Gateway to the Northeast",
+    description: "The land of one-horned rhinos and the mighty Brahmaputra river.",
+    image: "https://images.unsplash.com/photo-1602758161706-e07e866699e1?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#16a085",
+    legends: []
+  },
+  {
+    name: "Odisha",
+    tagline: "Soul of Incredible India",
+    description: "The architectural marvels of Konark and the spiritual fervor of Puri.",
+    image: "https://images.unsplash.com/photo-1599341626413-989d34740cd2?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#d35400",
+    legends: []
+  },
+  {
+    name: "Madhya Pradesh",
+    tagline: "The Heart of India",
+    description: "Ancient caves of Bhimbetka and the magnificent temples of Khajuraho.",
+    image: "https://images.unsplash.com/photo-1565463740268-245c79679f2d?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#7f8c8d",
+    legends: []
+  },
+  {
+    name: "Himachal Pradesh",
+    tagline: "Abode of the Gods",
+    description: "Snow-capped Himalayan peaks and the serene valleys of Shimla and Manali.",
+    image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#3498db",
+    legends: []
+  },
+  {
+    name: "Jammu & Kashmir",
+    tagline: "Paradise on Earth",
+    description: "The floating gardens of Dal Lake and the majestic Sufi heritage of Srinagar.",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#2980b9",
     legends: []
   }
 ];
