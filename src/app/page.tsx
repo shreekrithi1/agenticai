@@ -397,12 +397,14 @@ export default function Home() {
             .tech-stack { flex-wrap: wrap; justify-content: center; gap: 16px; }
           }
           @media (max-width: 480px) {
-            .hub-grid { grid-template-columns: 1fr; }
-            .hub-page { height: auto; min-height: 100vh; overflow-y: auto; padding: 20px 10px; }
-            .hub-header { margin-bottom: 20px; }
-            .hub-brand h1 { font-size: 1.6rem; }
+            .hub-grid { grid-template-columns: 1fr; gap: 20px; }
+            .hub-page { height: auto; min-height: 100vh; overflow-y: auto !important; padding: 20px 15px; display: block; }
+            .hub-container { padding: 20px 0; }
+            .hub-header { margin-bottom: 24px; }
+            .hub-brand h1 { font-size: 1.8rem; }
             .tech-stack { gap: 12px; }
             .tech-item .tech-name { display: none; }
+            .compact-card { min-height: 280px; }
           }
 
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
