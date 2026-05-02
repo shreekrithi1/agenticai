@@ -453,7 +453,7 @@ export default function Home() {
             </footer>
           </div>
         <style jsx>{`
-          .hub-page { height: 100vh; background: #f8fafc; color: #1a1a1a; padding: 20px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+          .hub-page { min-height: 100vh; background: #f8fafc; color: #1a1a1a; padding: 40px 20px; font-family: 'Outfit', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow-y: auto; }
           .hub-container { width: 100%; max-width: 1200px; }
           
           .hub-header { text-align: center; margin-bottom: 40px; }
