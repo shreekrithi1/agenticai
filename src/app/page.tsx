@@ -363,6 +363,36 @@ export default function Home() {
               </div>
             </Link>
 
+            <a href="https://prescreenbeta.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm">AI AUDIT</div>
+              </div>
+              <div className="card-accent-bar purple sm">
+                <span>PRESCREEN BETA</span>
+                <Cpu size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>PreScreen</h3>
+                <p>Agentic recruitment auditing and candidate intelligence.</p>
+                <button className="read-more purple-text sm">Explore</button>
+              </div>
+            </a>
+
+            <a href="https://beyondgravity.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm">AEROSPACE</div>
+              </div>
+              <div className="card-accent-bar blue sm">
+                <span>BEYOND GRAVITY</span>
+                <Globe size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Beyond Gravity</h3>
+                <p>Advanced aerospace orchestration and logistics intelligence.</p>
+                <button className="read-more blue-text sm">Explore</button>
+              </div>
+            </a>
+
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
                 <div className="card-badge sm">26 APR</div>
