@@ -136,17 +136,49 @@ const DATA: StateData[] = [
   {
     name: "Kerala",
     tagline: "God's Own Legends",
-    description: "Legends of Mahabali and the rhythmic tales of the backwaters await in this lush green coastal paradise.",
+    description: "Legends of Mahabali and the rhythmic tales of the emerald backwaters await.",
     image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&q=80&w=800",
     accentColor: "#27ae60",
     legends: []
   },
   {
+    name: "Tamil Nadu",
+    tagline: "Land of Cholas",
+    description: "The land of Chola kings and the divine echoes of ancient Dravidian chants.",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#e74c3c",
+    legends: []
+  },
+  {
+    name: "West Bengal",
+    tagline: "Poetic Soul of Bharat",
+    description: "Mystical folk tales from the Sundarbans and the poetic soul of Bengal.",
+    image: "https://images.unsplash.com/photo-1590050752117-23a9d7fc217c?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#9b59b6",
+    legends: []
+  },
+  {
     name: "Maharashtra",
     tagline: "Saints and Warriors",
-    description: "Forts that whisper tales of Shivaji's bravery and the saints of Bhakti who reshaped Indian spirituality.",
+    description: "Forts that whisper tales of Shivaji's bravery and the saints of Bhakti.",
     image: "https://images.unsplash.com/photo-1626291664852-514e2277d37d?auto=format&fit=crop&q=80&w=800",
     accentColor: "#d35400",
+    legends: []
+  },
+  {
+    name: "Punjab",
+    tagline: "Land of the Five Rivers",
+    description: "The spirit of courage, the soil of sacrifice, and the rhythm of the Bhangra.",
+    image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#f1c40f",
+    legends: []
+  },
+  {
+    name: "Karnataka",
+    tagline: "Empire of Heritage",
+    description: "The stone-carved dreams of Hampi and the tech-infused spirit of Bengaluru.",
+    image: "https://images.unsplash.com/photo-1600100397608-f010e445083a?auto=format&fit=crop&q=80&w=800",
+    accentColor: "#3498db",
     legends: []
   }
 ];
@@ -230,31 +262,31 @@ export default function LegendsFromIndia() {
               />
             </div>
 
-            <div className="space-y-6">
-              {filteredStates.map(state => (
+            <div className="space-y-8">
+              {filteredStates.map((state, idx) => (
                 <div 
                   key={state.name}
                   onClick={() => openState(state)}
-                  className="relative h-[320px] rounded-3xl overflow-hidden shadow-xl cursor-pointer group"
+                  className="bg-white rounded-[24px] overflow-hidden shadow-md cursor-pointer group border border-[#3e2723]/5 transition-all hover:shadow-xl hover:-translate-y-1"
                 >
-                  <img src={state.image} alt={state.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="relative aspect-[2/1] overflow-hidden">
+                    <img src={state.image} alt={state.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    {idx === 0 && (
+                      <div className="absolute top-4 left-4 bg-[#ff9f1c] text-white text-[8px] font-black px-2 py-1 rounded-sm uppercase tracking-widest shadow-lg">
+                        Featured
+                      </div>
+                    )}
+                  </div>
                   
-                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                    <div className="mb-2">
-                      <span className="bg-[#ff9f1c] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
-                        {state.tagline}
-                      </span>
-                    </div>
-                    <h3 className="text-3xl font-black text-white mb-4">{state.name}</h3>
-                    
-                    <div className="glass-morphism rounded-2xl p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                      <p className="text-xs text-white/90 leading-relaxed mb-4">
+                  <div className="p-6 flex justify-between items-end">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-black text-[#3e2723] mb-2">{state.name}</h3>
+                      <p className="text-xs text-[#795548] leading-relaxed opacity-70 line-clamp-2 max-w-[80%]">
                         {state.description}
                       </p>
-                      <button className="flex items-center gap-2 text-white text-xs font-black uppercase tracking-widest">
-                        Explore Stories <ChevronRight size={14} className="text-[#ff9f1c]" />
-                      </button>
+                    </div>
+                    <div className="flex items-center gap-1 text-[10px] font-black text-[#795548] uppercase tracking-widest">
+                      Explore <ChevronRight size={14} className="text-[#795548]" />
                     </div>
                   </div>
                 </div>
