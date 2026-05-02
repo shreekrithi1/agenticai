@@ -317,6 +317,21 @@ export default function Home() {
               </div>
             </Link>
 
+            <a href="https://paygentic.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611974714014-4b50d6ca8379?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm">LIVE</div>
+              </div>
+              <div className="card-accent-bar purple sm">
+                <span>PAYGENTIC</span>
+                <Zap size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Paygentic</h3>
+                <p>Autonomous payment orchestration for AI agents.</p>
+                <button className="read-more purple-text sm">Explore</button>
+              </div>
+            </a>
+
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
                 <div className="card-badge sm">26 APR</div>
@@ -385,10 +400,10 @@ export default function Home() {
           .hub-brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0; }
           .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
           
-          .hub-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: stretch; }
+          .hub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
           
           @media (max-width: 1024px) {
-            .hub-grid { grid-template-columns: repeat(3, 1fr); }
+            .hub-grid { grid-template-columns: repeat(2, 1fr); }
           }
           @media (max-width: 768px) {
             .hub-grid { grid-template-columns: repeat(2, 1fr); }
@@ -437,6 +452,7 @@ export default function Home() {
           .card-accent-bar.orange { background: #f59e0b; }
           .card-accent-bar.green { background: #10b981; }
           .card-accent-bar.red { background: #ef4444; }
+          .card-accent-bar.purple { background: #8b5cf6; }
           
           .card-body.sm { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
           .card-body.sm h3 { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin: 0; letter-spacing: -0.02em; }
@@ -449,6 +465,7 @@ export default function Home() {
           .orange-text { color: #f59e0b; }
           .green-text { color: #10b981; }
           .red-text { color: #bb1919; }
+          .purple-text { color: #8b5cf6; }
           
           .compact-pair.full-width { grid-template-columns: 1fr; }
           .card-badge.sm.red { background: #bb1919; }
