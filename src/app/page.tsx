@@ -398,7 +398,11 @@ export default function Home() {
           }
           @media (max-width: 480px) {
             .hub-grid { grid-template-columns: 1fr; }
-            .hub-page { height: auto; min-height: 100vh; overflow-y: auto; padding: 40px 20px; }
+            .hub-page { height: auto; min-height: 100vh; overflow-y: auto; padding: 20px 10px; }
+            .hub-header { margin-bottom: 20px; }
+            .hub-brand h1 { font-size: 1.6rem; }
+            .tech-stack { gap: 12px; }
+            .tech-item .tech-name { display: none; }
           }
 
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
@@ -482,6 +486,9 @@ export default function Home() {
             <ArrowLeft size={16} />
             <span>{TRANSLATIONS[language]?.returnHub || TRANSLATIONS.English.returnHub}</span>
           </div>
+          <button className="sidebar-close-mobile" onClick={() => setSidebarOpen(false)}>
+            <X size={20} />
+          </button>
         </div>
         
         <div className="sidebar-scroll">
@@ -699,11 +706,23 @@ export default function Home() {
         .sidebar.closed { width: 0; overflow: hidden; }
         
         @media (max-width: 768px) {
-          .sidebar { position: absolute; left: 0; top: 0; bottom: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
-          .sidebar.closed { transform: translateX(-100%); width: 300px; }
+          .sidebar { position: absolute; left: 0; top: 0; bottom: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.5); width: 280px; }
+          .sidebar.closed { transform: translateX(-100%); width: 280px; }
+          .message-container { gap: 12px; padding: 0 12px; }
+          .institutional-card { padding: 20px; }
+          .institutional-card h2 { font-size: 1.5rem; }
+          .data-grid { grid-template-columns: 1fr; }
+          .chat-header { padding: 0 12px; }
+          .chat-footer { padding: 10px 10px 30px 10px; }
         }
 
-        .sidebar-header { padding: 20px; display: flex; gap: 8px; }
+        .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 8px; }
+        .sidebar-close-mobile { display: none; background: transparent; border: none; color: #666; cursor: pointer; padding: 4px; }
+        
+        @media (max-width: 768px) {
+          .sidebar-close-mobile { display: block; }
+        }
+        
         .new-chat-btn { flex: 1; display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: transparent; color: #fff; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
         .toggle-sidebar { padding: 10px; border-radius: 8px; color: #666; cursor: pointer; }
         .history-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 8px; font-size: 0.85rem; color: #888; cursor: pointer; transition: 0.2s; text-decoration: none; }
