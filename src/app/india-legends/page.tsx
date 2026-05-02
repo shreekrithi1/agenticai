@@ -316,7 +316,7 @@ export default function LegendsFromIndia() {
       
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#f8fafc]/90 backdrop-blur-md border-b border-[#1e293b]/5">
-        <div className="max-w-md mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <button className="p-2 -ml-2 text-[#64748b] hover:text-[#1e293b] transition-colors" onClick={view !== 'states' ? goBack : undefined}>
             {view === 'states' ? <Menu size={20} /> : <ArrowLeft size={20} />}
           </button>
@@ -336,7 +336,7 @@ export default function LegendsFromIndia() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="max-w-md mx-auto px-6 py-8"
+            className="max-w-6xl mx-auto px-6 py-8"
           >
             <div className="text-center mb-10">
               <h1 className="text-4xl md:text-5xl font-black text-[#1e293b] mb-4 leading-tight tracking-tighter">
@@ -358,32 +358,32 @@ export default function LegendsFromIndia() {
               />
             </div>
 
-            <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredStates.map((state, idx) => (
                 <div 
                   key={state.name}
                   onClick={() => openState(state)}
-                  className="bg-white rounded-[28px] overflow-hidden shadow-sm cursor-pointer group border border-[#1e293b]/5 transition-all hover:shadow-xl hover:-translate-y-1"
+                  className="bg-[#f1f5f9] rounded-[24px] overflow-hidden cursor-pointer group transition-all hover:bg-[#e2e8f0] active:scale-[0.98]"
                 >
-                  <div className="relative aspect-[2/1] overflow-hidden">
+                  <div className="relative aspect-video overflow-hidden">
                     <img src={state.image} alt={state.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     {idx === 0 && (
-                      <div className="absolute top-4 left-4 bg-[#10b981] text-white text-[8px] font-black px-2 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                      <div className="absolute top-4 left-4 bg-[#10b981] text-white text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">
                         Featured
                       </div>
                     )}
                   </div>
                   
-                  <div className="p-6 flex justify-between items-end">
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-black text-[#1e293b] mb-2 tracking-tighter">{state.name}</h3>
-                      <p className="text-xs text-[#64748b] font-medium leading-relaxed line-clamp-2 max-w-[85%]">
-                        {state.description}
-                      </p>
+                  <div className="p-5">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-xl font-black text-[#1e293b] tracking-tighter">{state.name}</h3>
+                      <div className="p-2 rounded-full bg-white/50 text-[#10b981] group-hover:bg-[#10b981] group-hover:text-white transition-colors">
+                        <ChevronRight size={16} />
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] font-black text-[#10b981] uppercase tracking-widest">
-                      Explore <ChevronRight size={14} />
-                    </div>
+                    <p className="text-[11px] text-[#64748b] font-medium leading-relaxed line-clamp-2">
+                      {state.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -422,7 +422,7 @@ export default function LegendsFromIndia() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="max-w-md mx-auto"
+            className="max-w-6xl mx-auto"
           >
             <div className="px-6 py-8 bg-gradient-to-br from-[#10b981]/5 to-transparent">
               <div className="flex items-center gap-2 text-[10px] font-bold text-[#64748b] uppercase tracking-widest mb-4">
@@ -511,7 +511,7 @@ export default function LegendsFromIndia() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            className="max-w-md mx-auto"
+            className="max-w-6xl mx-auto"
           >
             <div className="relative h-[80vh] w-full">
               <img src={selectedLegend.image} className="w-full h-full object-cover" />
@@ -595,7 +595,7 @@ export default function LegendsFromIndia() {
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-[#1e293b]/5 px-6 py-4">
-        <div className="max-w-md mx-auto flex items-center justify-around">
+        <div className="max-w-6xl mx-auto flex items-center justify-around">
           <button onClick={() => setView('states')} className={`flex flex-col items-center gap-1 transition-all ${view === 'states' ? 'text-[#10b981]' : 'text-[#64748b]'}`}>
             <div className={`p-1 px-4 rounded-full transition-all ${view === 'states' ? 'bg-[#10b981]/10' : ''}`}>
               <MapIcon size={22} strokeWidth={view === 'states' ? 2.5 : 2} />
