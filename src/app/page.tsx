@@ -273,54 +273,10 @@ export default function Home() {
           </header>
 
           <div className="hub-grid">
-            <Link href="/stocks?type=india" className="compact-card">
-              <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_stocks.png')" }}>
-                <div className="card-badge sm">26 APR</div>
-              </div>
-              <div className="card-accent-bar blue sm">
-                <span>INDIA NIFTY 100</span>
-                <Zap size={12} />
-              </div>
-              <div className="card-body sm">
-                <h3>Bharat Velocity</h3>
-                <p>Institutional 2s telemetry.</p>
-                <button className="read-more blue-text sm">Launch</button>
-              </div>
-            </Link>
-
-            <Link href="/stocks?type=top" className="compact-card">
-              <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_stocks.png')" }}>
-                <div className="card-badge sm">26 APR</div>
-              </div>
-              <div className="card-accent-bar orange sm">
-                <span>US FORTUNE 20</span>
-                <Zap size={12} />
-              </div>
-              <div className="card-body sm">
-                <h3>Wall Street Intel</h3>
-                <p>Global tech execution signals.</p>
-                <button className="read-more orange-text sm">Launch</button>
-              </div>
-            </Link>
-
-            <Link href="/payments" className="compact-card">
-              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800')" }}>
-                <div className="card-badge sm">STRIPE 26</div>
-              </div>
-              <div className="card-accent-bar red sm">
-                <span>GLOBAL PAYMENTS</span>
-                <Globe size={12} />
-              </div>
-              <div className="card-body sm">
-                <h3>Velocity Pay</h3>
-                <p>Agentic money movement via Stripe Link.</p>
-                <button className="read-more red-text sm">Launch</button>
-              </div>
-            </Link>
-
+            {/* Rank 1: Paygentic */}
             <a href="https://paygentic.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/paygentic.png')" }}>
-                <div className="card-badge sm">LIVE</div>
+                <div className="card-badge sm rank">RANK #1</div>
               </div>
               <div className="card-accent-bar purple sm">
                 <span>PAYGENTIC</span>
@@ -333,10 +289,26 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Rank 2: Velocity Pay */}
+            <Link href="/payments" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm rank">RANK #2</div>
+              </div>
+              <div className="card-accent-bar red sm">
+                <span>GLOBAL PAYMENTS</span>
+                <Globe size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Velocity Pay</h3>
+                <p>Agentic money movement via Stripe Link.</p>
+                <button className="read-more red-text sm">Launch</button>
+              </div>
+            </Link>
 
+            {/* Rank 3: PreScreen */}
             <a href="https://prescreenbeta.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800')" }}>
-                <div className="card-badge sm">AI AUDIT</div>
+                <div className="card-badge sm rank">RANK #3</div>
               </div>
               <div className="card-accent-bar purple sm">
                 <span>PRESCREEN BETA</span>
@@ -349,9 +321,10 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Rank 4: Beyond Gravity */}
             <a href="https://beyondgravity.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800')" }}>
-                <div className="card-badge sm">AEROSPACE</div>
+                <div className="card-badge sm rank">RANK #4</div>
               </div>
               <div className="card-accent-bar blue sm">
                 <span>BEYOND GRAVITY</span>
@@ -364,9 +337,42 @@ export default function Home() {
               </div>
             </a>
 
+            {/* Rank 5: Wall Street Intel */}
+            <Link href="/stocks?type=top" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_stocks.png')" }}>
+                <div className="card-badge sm rank">RANK #5</div>
+              </div>
+              <div className="card-accent-bar orange sm">
+                <span>US FORTUNE 20</span>
+                <Zap size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Wall Street Intel</h3>
+                <p>Global tech execution signals.</p>
+                <button className="read-more orange-text sm">Launch</button>
+              </div>
+            </Link>
+
+            {/* Rank 6: Bharat Velocity */}
+            <Link href="/stocks?type=india" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_stocks.png')" }}>
+                <div className="card-badge sm rank">RANK #6</div>
+              </div>
+              <div className="card-accent-bar blue sm">
+                <span>INDIA NIFTY 100</span>
+                <Zap size={12} />
+              </div>
+              <div className="card-body sm">
+                <h3>Bharat Velocity</h3>
+                <p>Institutional 2s telemetry.</p>
+                <button className="read-more blue-text sm">Launch</button>
+              </div>
+            </Link>
+
+            {/* Rank 7: Soil Matrix */}
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
-                <div className="card-badge sm">26 APR</div>
+                <div className="card-badge sm rank">RANK #7</div>
               </div>
               <div className="card-accent-bar green sm">
                 <span>BHARAT SOIL</span>
@@ -379,9 +385,10 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Rank 8: Ag-Tech Pro */}
             <div className="compact-card" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_agri.png')" }}>
-                <div className="card-badge sm">26 APR</div>
+                <div className="card-badge sm rank">RANK #8</div>
               </div>
               <div className="card-accent-bar green sm">
                 <span>US PRECISION AG</span>
@@ -478,6 +485,7 @@ export default function Home() {
 
           .card-image.sm { height: 140px; min-height: 140px; background-size: cover; background-position: center; position: relative; }
           .card-badge.sm { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.5px; }
+          .card-badge.sm.rank { background: #1e293b; color: #fff; font-weight: 900; border: 1px solid rgba(255,255,255,0.2); }
           
           .card-accent-bar.sm { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 0.65rem; font-weight: 900; letter-spacing: 1px; }
           .card-accent-bar.blue { background: #3b82f6; }
