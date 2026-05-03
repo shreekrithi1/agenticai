@@ -591,22 +591,26 @@ export default function Home() {
           .hub-brand h1 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1.5px; margin: 0; }
           .hub-subtitle { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
           
-          .hub-grid { 
-            display: flex; 
-            flex-direction: row; 
-            gap: 24px; 
-            overflow-x: auto; 
-            padding: 20px 0 40px 0;
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
-            scroll-snap-type: x mandatory;
-            cursor: grab;
+          .hub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+          
+          @media (max-width: 1024px) {
+            .hub-grid { grid-template-columns: repeat(2, 1fr); }
           }
-          .hub-grid::-webkit-scrollbar { display: none; }
-          .hub-grid:active { cursor: grabbing; }
-          .compact-card { 
-            min-width: 320px; 
-            scroll-snap-align: start;
+          @media (max-width: 768px) {
+            .hub-grid { grid-template-columns: repeat(2, 1fr); }
+            .hub-header h1 { font-size: 1.8rem; }
+            .footer-inline { flex-direction: column; gap: 20px; }
+            .tech-stack { flex-wrap: wrap; justify-content: center; gap: 16px; }
+          }
+          @media (max-width: 480px) {
+            .hub-grid { grid-template-columns: 1fr; gap: 20px; }
+            .hub-page { height: auto; min-height: 100vh; overflow-y: auto !important; padding: 20px 15px; display: block; }
+            .hub-container { padding: 20px 0; }
+            .hub-header { margin-bottom: 24px; }
+            .hub-brand h1 { font-size: 1.8rem; }
+            .tech-stack { gap: 12px; }
+            .tech-item .tech-name { display: none; }
+            .compact-card { min-height: 280px; }
           }
 
           .hub-group { display: flex; flex-direction: column; gap: 12px; }
