@@ -30,7 +30,8 @@ import {
   Zap,
   Wind,
   History,
-  Heart
+  Heart,
+  Shield
 } from "lucide-react";
 import Link from "next/link";
 
@@ -306,6 +307,28 @@ export default function Home() {
           </header>
 
           <div className="hub-grid">
+            {/* Rank 0: New Registration Flow */}
+            <Link href="/register" className="compact-card group relative overflow-hidden border-2 border-blue-500/20">
+              <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-all" />
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm rank" style={{ background: '#0070ba' }}>SECURE ENROLL</div>
+              </div>
+              <div className="card-accent-bar sm" style={{ background: '#0070ba' }}>
+                <span>INSTITUTIONAL ONBOARDING</span>
+                <Shield size={12} />
+              </div>
+              <div className="card-body sm relative z-10">
+                <div className="tech-tags">
+                  <span>Stripe Identity</span>
+                  <span>FaceID</span>
+                  <span>KYC/AML</span>
+                </div>
+                <h3>Global Payout Registration</h3>
+                <p>Register your Personal or Business account for secure cross-border movement.</p>
+                <button className="read-more sm" style={{ color: '#0070ba' }}>Get Started</button>
+              </div>
+            </Link>
+
             {/* Rank 1: Paygentic */}
             <a href="https://paygentic.vercel.app" target="_blank" rel="noopener noreferrer" className="compact-card">
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/paygentic.png')" }}>
