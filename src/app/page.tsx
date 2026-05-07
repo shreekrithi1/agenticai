@@ -7,231 +7,220 @@ import {
   ShieldCheck, 
   Zap, 
   Cpu, 
-  ArrowRight,
+  ChevronRight,
+  Info,
+  Database,
+  Cloud,
+  Layers,
   Sparkles,
   CreditCard,
   ScanFace,
   UserCheck,
   Bot,
   Video,
-  ChevronRight,
-  Info,
-  Database,
-  Cloud,
-  Layers
+  ArrowUpRight,
+  Globe,
+  Terminal
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
 const TECH_STACK = [
-  { name: "Gemini 1.5", icon: <Sparkles size={18} />, color: "#4285f4" },
-  { name: "Gemma 3", icon: <Database size={18} />, color: "#3b82f6" },
-  { name: "Ollama", icon: <Zap size={18} />, color: "#f59e0b" },
-  { name: "OpenClaw", icon: <Cpu size={18} />, color: "#ec4899" },
-  { name: "Stripe", icon: <CreditCard size={18} />, color: "#635bff" },
-  { name: "Face ID", icon: <ScanFace size={18} />, color: "#10b981" },
-  { name: "Liveness", icon: <UserCheck size={18} />, color: "#34d399" },
-  { name: "Anam AI", icon: <Bot size={18} />, color: "#8b5cf6" },
-  { name: "Tavus", icon: <Video size={18} />, color: "#ef4444" },
-  { name: "Hostinger", icon: <Server size={18} />, color: "#673ab7" },
-  { name: "Vercel", icon: <Cloud size={18} />, color: "#ffffff" },
-  { name: "Next.js", icon: <Layers size={18} />, color: "#ffffff" }
+  { name: "Gemini 1.5", icon: <Sparkles size={16} />, color: "#4285f4" },
+  { name: "Gemma 3", icon: <Database size={16} />, color: "#3b82f6" },
+  { name: "Ollama", icon: <Zap size={16} />, color: "#f59e0b" },
+  { name: "Stripe", icon: <CreditCard size={16} />, color: "#635bff" },
+  { name: "Face ID", icon: <ScanFace size={16} />, color: "#10b981" },
+  { name: "Vercel", icon: <Cloud size={16} />, color: "#ffffff" },
 ];
 
-function Server(props: any) {
-  return <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>;
-}
-
-const VALUES = [
-  { 
+const BENTO_CARDS = [
+  {
     id: "mission",
-    title: "Mission", 
-    desc: "To synchronize Indian agriculture with global agentic rails, providing every farmer with sovereign intelligence.",
-    icon: <Target size={24} />,
-    color: "#10b981",
-    image: "/assets/farm_bg.png"
+    title: "Mission",
+    desc: "Synchronizing global agentic rails with sovereign intelligence for the future of commerce.",
+    icon: <Target className="text-emerald-400" />,
+    size: "large",
+    accent: "from-emerald-500/20 to-transparent"
   },
-  { 
+  {
     id: "vision",
-    title: "Vision", 
-    desc: "A world where 'Truth Velocity' defines commerce—where AI agents negotiate and settle in milliseconds.",
-    icon: <Eye size={24} />,
-    color: "#3b82f6",
-    image: "/assets/network_bg.png"
+    title: "Vision",
+    desc: "A world of millisecond settlement and autonomous negotiation.",
+    icon: <Eye className="text-blue-400" />,
+    size: "small",
+    accent: "from-blue-500/20 to-transparent"
   },
-  { 
-    id: "values",
-    title: "Values", 
-    desc: "Institutional integrity, precision-first modeling, and absolute sovereignty for those who feed the world.",
-    icon: <ShieldCheck size={24} />,
-    color: "#f59e0b",
-    image: "/assets/greenhouse_bg.png"
+  {
+    id: "stack",
+    title: "Intelligence Stack",
+    desc: "Built on Gemini, Gemma, and OpenClaw protocols.",
+    icon: <Cpu className="text-purple-400" />,
+    size: "small",
+    accent: "from-purple-500/20 to-transparent"
   }
 ];
 
 export default function WelcomePage() {
-  const [activeTab, setActiveTab] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return <div className="fixed inset-0 bg-black" />;
+  if (!mounted) return <div className="fixed inset-0 bg-[#020402]" />;
 
   return (
-    <main className="fixed inset-0 bg-black text-slate-50 font-['Outfit'] overflow-hidden selection:bg-emerald-500/30">
-      {/* Background Layer */}
-      <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={activeTab}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.15 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0 bg-cover bg-center grayscale brightness-[0.4]"
-            style={{ backgroundImage: `url('${VALUES[activeTab].image}')` }}
-          />
-        </AnimatePresence>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(0,0,0,0.4)_0%,#000000_100%)]" />
+    <main className="min-h-screen bg-[#020402] text-slate-50 font-['Outfit'] selection:bg-emerald-500/30 overflow-x-hidden">
+      
+      {/* Cinematic Background */}
+      <div className="fixed inset-0 z-0">
+        <Image 
+          src="/assets/master_bg.png" 
+          alt="Background" 
+          fill
+          className="object-cover opacity-40 scale-110 animate-slow-zoom"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020402]/80 via-transparent to-[#020402]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)]" />
       </div>
 
-      {/* Content Layer */}
-      <div className="relative z-10 h-full grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-10 p-10 lg:p-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
         
-        {/* Left Section: Branding */}
-        <section className="flex flex-col justify-center">
+        {/* Header / Branding Section */}
+        <header className="flex flex-col items-center text-center mb-24">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-10 mb-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
           >
-            <div className="w-44 h-44 bg-white/5 border border-white/10 rounded-[48px] flex items-center justify-center shadow-2xl p-5 animate-float">
-              <Image 
-                src="/assets/futuristic_logo_v2.png" 
-                alt="Logo" 
-                width={160} 
-                height={160}
-                className="drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]"
-                priority 
-              />
-            </div>
-            <div>
-              <h1 className="text-8xl font-black tracking-tighter leading-none bg-gradient-to-br from-emerald-400 to-blue-500 bg-clip-text text-transparent">
-                Futuristic
-              </h1>
-              <p className="text-2xl text-slate-400 font-semibold tracking-widest uppercase mt-2">
-                Sovereign Intelligence v4.0
-              </p>
+            <div className="relative group">
+              <div className="absolute inset-[-20px] bg-emerald-500/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="w-32 h-32 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[32px] flex items-center justify-center p-6 shadow-2xl relative">
+                <Image 
+                  src="/assets/futuristic_logo_v2.png" 
+                  alt="Futuristic Logo" 
+                  width={80} 
+                  height={80}
+                  className="drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                />
+              </div>
             </div>
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-24"
+            transition={{ delay: 0.2 }}
           >
-            <Link href="/hub" className="group relative inline-flex items-center gap-5 px-14 py-6 bg-emerald-500 text-white rounded-3xl font-black text-xl shadow-[0_6px_0_#065f46] active:translate-y-1 active:shadow-none transition-all hover:-translate-y-1 hover:bg-emerald-400">
-              <span>Initialize Hub Access</span>
-              <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
-              <div className="absolute inset-[-20px] bg-emerald-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            <h1 className="text-7xl lg:text-9xl font-black tracking-tighter mb-4 bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
+              FUTURISTIC
+            </h1>
+            <p className="text-lg lg:text-xl text-slate-400 font-medium tracking-[0.4em] uppercase">
+              Sovereign Intelligence • Autonomous Rails
+            </p>
+          </motion.div>
+        </header>
+
+        {/* Action Section */}
+        <section className="flex justify-center mb-32">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Link 
+              href="/hub" 
+              className="group relative flex items-center gap-4 pl-10 pr-4 py-4 bg-emerald-500 hover:bg-emerald-400 text-[#010401] rounded-full font-black text-xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_rgba(16,185,129,0.3)]"
+            >
+              <span>INITIALIZE HUB ACCESS</span>
+              <div className="w-12 h-12 bg-[#010401] rounded-full flex items-center justify-center text-emerald-500 group-hover:rotate-45 transition-transform">
+                <ArrowUpRight size={24} />
+              </div>
             </Link>
           </motion.div>
+        </section>
 
-          <div className="max-w-2xl">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-6">Institutional Stack</p>
-            <div className="flex flex-wrap gap-3">
-              {TECH_STACK.map((tech, i) => (
-                <motion.div 
-                  key={tech.name}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.04 }}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-white/[0.03] border border-white/[0.05] rounded-2xl backdrop-blur-md hover:bg-white/[0.08] transition-colors"
-                >
+        {/* Bento Intelligence Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+          {BENTO_CARDS.map((card, i) => (
+            <motion.div
+              key={card.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.1 }}
+              className={`group relative overflow-hidden bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-[40px] p-10 hover:border-white/10 transition-all ${card.size === 'large' ? 'md:col-span-2' : ''}`}
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${card.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+              
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-8 border border-white/5">
+                  {card.icon}
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold mb-3">{card.title}</h3>
+                  <p className="text-slate-400 text-lg leading-relaxed">{card.desc}</p>
+                </div>
+              </div>
+
+              <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-20 transition-opacity">
+                <Info size={40} />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Institutional Stack Ticker */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="border-t border-white/5 pt-12"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="flex items-center gap-3">
+              <Terminal size={18} className="text-emerald-500" />
+              <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Institutional Stack</span>
+            </div>
+            <div className="flex flex-wrap justify-center gap-6">
+              {TECH_STACK.map((tech) => (
+                <div key={tech.name} className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all opacity-40 hover:opacity-100">
                   <span style={{ color: tech.color }}>{tech.icon}</span>
-                  <span className="text-sm font-bold">{tech.name}</span>
-                </motion.div>
+                  <span className="text-xs font-bold tracking-wider">{tech.name}</span>
+                </div>
               ))}
             </div>
           </div>
-        </section>
+        </motion.div>
 
-        {/* Right Section: Info Panel */}
-        <section className="bg-white/[0.015] backdrop-blur-[40px] border border-white/[0.05] rounded-[64px] flex flex-col p-12 overflow-hidden relative">
-          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-10">
-            <div className="w-8 h-[1px] bg-emerald-500/50" />
-            <Info size={14} className="text-emerald-500" />
-            <span>Core Grounding Protocol</span>
-          </div>
-
-          <div className="flex gap-2 bg-black/40 p-1.5 rounded-[24px] border border-white/[0.05] mb-12">
-            {VALUES.map((val, i) => (
-              <button 
-                key={val.id}
-                onClick={() => setActiveTab(i)}
-                className={`flex-1 py-3.5 rounded-[18px] text-sm font-extrabold transition-all relative ${activeTab === i ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
-              >
-                {val.title}
-                {activeTab === i && (
-                  <motion.div 
-                    layoutId="tab-active" 
-                    className="absolute inset-0 bg-white/[0.05] rounded-[18px] z-[-1]" 
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex-1">
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={activeTab}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div className="flex items-center gap-5">
-                  <div className="w-20 h-20 bg-white/[0.02] border border-white/10 rounded-3xl flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-10 blur-xl" style={{ background: VALUES[activeTab].color }} />
-                    <div className="relative z-10">{VALUES[activeTab].icon}</div>
-                  </div>
-                  <h2 className="text-5xl font-black tracking-tight">{VALUES[activeTab].title}</h2>
-                </div>
-                <p className="text-xl text-slate-400 leading-relaxed max-w-[90%]">
-                  {VALUES[activeTab].desc}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="mt-12 pt-8 border-t border-white/[0.05] flex justify-between items-center">
-            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-500">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                <span>Gemma-3-Node Online</span>
-              </div>
-              <span className="opacity-20">|</span>
-              <span>Latency: 24ms</span>
+        {/* Footer Telemetry */}
+        <footer className="mt-32 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,1)]" />
+              <span>Gemma-3-Node: Active</span>
             </div>
-            <div className="text-[10px] font-black text-slate-600 uppercase">
-              © 2026 Sovereign Systems
+            <div className="flex items-center gap-2">
+              <Globe size={12} />
+              <span>Asia-South-1 Deployment</span>
             </div>
           </div>
-        </section>
+          <div>
+            © 2026 Sovereign Systems • Ver: 4.0.2-Stable
+          </div>
+        </footer>
+
       </div>
 
       <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
+        @keyframes slow-zoom {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.15); }
         }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
+        .animate-slow-zoom {
+          animation: slow-zoom 30s linear infinite alternate;
         }
       `}</style>
     </main>
