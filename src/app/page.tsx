@@ -308,18 +308,18 @@ export default function Home() {
               <h1>Futuristic <span className="gradient-text">Beyond</span></h1>
             </motion.div>
             <div className="hub-subtitle" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '16px', marginTop: '12px', fontSize: '0.75rem', opacity: 0.8, maxWidth: '800px', margin: '12px auto 0' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Wind size={14} className="text-pink-400" /> OpenClaw</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Cpu size={14} className="text-blue-400" /> Gemma 3</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Zap size={14} className="text-yellow-400" /> Ollama</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Globe size={14} className="text-indigo-400" /> Stripe Link</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Cpu size={14} className="text-emerald-400" /> Parallel AI</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>▲ Vercel</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><b style={{fontFamily:'serif'}}>N</b> Next.js 15</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span className="text-cyan-400 text-lg leading-none" style={{animation: 'spin 10s linear infinite'}}>⚛</span> React 19</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Zap size={14} className="text-green-500" /> Node.js</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-blue-500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> Postgres</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span className="text-yellow-300 font-mono font-bold">Py</span> Python</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Sun size={14} className="text-orange-400" /> Climate AI</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Wind size={14} color="#ec4899" /> OpenClaw</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Cpu size={14} color="#4285F4" /> Gemma 3</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Zap size={14} color="#f4f4f5" /> Ollama</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Globe size={14} color="#635BFF" /> Stripe Link</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Cpu size={14} color="#10b981" /> Parallel AI</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ color: "#ffffff" }}>▲</span> Vercel</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><b style={{fontFamily:'serif', color: "#ffffff"}}>N</b> Next.js 15</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{color: '#61DAFB', fontSize: '1.125rem', lineHeight: 1, animation: 'spin 10s linear infinite'}}>⚛</span> React 19</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Zap size={14} color="#8CC84B" /> Node.js</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#336791" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> Postgres</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{color: '#FFD343', fontFamily: 'monospace', fontWeight: 'bold'}}>Py</span> Python</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Sun size={14} color="#F59E0B" /> Climate AI</span>
             </div>
           </header>
 
