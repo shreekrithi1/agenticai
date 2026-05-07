@@ -570,6 +570,7 @@ export default function Home() {
             </footer>
             <div className="footer-links">
               <Link href="/" className="footer-link">Mission & Vision</Link>
+              <Link href="/flow" className="footer-link">Architecture Flow</Link>
             </div>
           </div>
         <style jsx>{`
