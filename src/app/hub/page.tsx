@@ -134,6 +134,10 @@ export default function Home() {
   const [userLiked, setUserLiked] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [view]);
+
+  useEffect(() => {
     // Fetch total likes from "DB"
     fetch("/api/likes")
       .then(res => res.json())
@@ -475,8 +479,7 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* Rank 7: Soil Matrix */}
-            <div className="compact-card" onClick={() => setView("app")}>
+            <div className="compact-card" role="button" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/india_agri.png')" }}>
                 <div className="card-badge sm rank">RANK #7</div>
                 <button 
@@ -504,7 +507,7 @@ export default function Home() {
             </div>
 
             {/* Rank 8: Ag-Tech Pro */}
-            <div className="compact-card" onClick={() => setView("app")}>
+            <div className="compact-card" role="button" onClick={() => setView("app")}>
               <div className="card-image sm" style={{ backgroundImage: "url('/assets/us_agri.png')" }}>
                 <div className="card-badge sm rank">RANK #8</div>
                 <button 
@@ -907,8 +910,8 @@ export default function Home() {
       </div>
 
       <style jsx>{`
-        .chat-container { display: flex; height: 100vh; background: #212121; color: #ececec; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow: hidden; }
-        .sidebar { width: 300px; background: #171717; height: 100%; display: flex; flex-direction: column; transition: 0.3s; border-right: 1px solid rgba(255,255,255,0.05); z-index: 100; }
+        .chat-container { display: flex; height: 100vh; height: 100dvh; background: #212121; color: #ececec; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow: hidden; position: fixed; inset: 0; width: 100%; }
+        .sidebar { width: 300px; background: #171717; height: 100%; display: flex; flex-direction: column; transition: 0.3s; border-right: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .sidebar.closed { width: 0; overflow: hidden; }
         
         @media (max-width: 768px) {

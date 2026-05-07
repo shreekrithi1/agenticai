@@ -79,7 +79,7 @@ export default function WelcomePage() {
           <motion.div 
             key={activeTab}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.3 }}
+            animate={{ opacity: 0.2 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
             className="bg-image"
@@ -87,7 +87,6 @@ export default function WelcomePage() {
           />
         </AnimatePresence>
         <div className="bg-overlay" />
-        <div className="bg-scanline" />
       </div>
 
       <div className="main-content">
@@ -220,7 +219,7 @@ export default function WelcomePage() {
           font-family: 'Outfit', sans-serif;
         }
 
-        /* High Quality Background */
+        /* Neutral High Quality Background */
         .bg-canvas {
           position: absolute;
           inset: 0;
@@ -232,22 +231,14 @@ export default function WelcomePage() {
           inset: 0;
           background-size: cover;
           background-position: center;
-          filter: blur(2px) contrast(1.1);
+          filter: blur(2px) grayscale(0.5); /* Neutralize green in images */
           transition: 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .bg-overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at 30% 50%, rgba(1, 4, 1, 0.6) 0%, #010401 100%);
-        }
-
-        .bg-scanline {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to bottom, transparent 50%, rgba(16, 185, 129, 0.02) 50%);
-          background-size: 100% 4px;
-          pointer-events: none;
+          background: radial-gradient(circle at 30% 50%, rgba(0, 0, 0, 0.5) 0%, #010401 100%);
         }
 
         .main-content {
@@ -311,7 +302,7 @@ export default function WelcomePage() {
           margin-top: 8px;
         }
 
-        /* Tactile Button Redesign */
+        /* Tactile Button */
         .tactile-button {
           position: relative;
           display: inline-flex;
