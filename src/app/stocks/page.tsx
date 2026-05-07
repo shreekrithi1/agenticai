@@ -23,8 +23,17 @@ import {
   Sparkles,
   User,
   Bot,
-  Copy
+  Copy,
+  TrendingUp,
+  TrendingDown
 } from "lucide-react";
+
+// Parallel Logo Component
+const ParallelLogo = ({ size = 14, className = "" }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 3V21M17 3V21" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -154,7 +163,13 @@ export default function StockAnalysis() {
         <div className="header-content">
           <h1>Market <span className="gradient-text">Velocity</span></h1>
           <p>Real-time technical analysis for high-conviction portfolios.</p>
-          <div className="as-on-date">Data as on: April 29, 2026</div>
+          <div className="flex items-center gap-4 mt-2">
+            <div className="as-on-date">Data as on: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric'})} 06:00 AM PST</div>
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-bold text-slate-300">
+              <ParallelLogo size={12} className="text-cyan-400" />
+              <span>Powered by Parallel Web Search</span>
+            </div>
+          </div>
         </div>
         
         <div className="header-controls">
@@ -237,8 +252,12 @@ export default function StockAnalysis() {
                       <Clock size={12} /> {s.bestTime}
                     </td>
                     <td>
-                      <div className={`signal-badge ${s.signal.toLowerCase()}`}>
-                         {s.signal}
+                      <div className={`signal-badge ${s.signal.toLowerCase()} flex items-center gap-1.5 justify-center`}>
+                        {s.signal === "Buy" && <TrendingUp size={12} />}
+                        {s.signal === "Sell" && <TrendingDown size={12} />}
+                        {s.signal === "Hold" && <Activity size={12} />}
+                        {s.signal}
+                        <ParallelLogo size={10} className="ml-1 opacity-70" />
                       </div>
                     </td>
                   </motion.tr>
@@ -263,7 +282,10 @@ export default function StockAnalysis() {
               <div key={s.symbol} className="execution-card glass">
                 <div className="card-top">
                   <span className="card-symbol">{s.symbol}</span>
-                  <span className={`card-signal ${s.signal.toLowerCase()}`}>{s.signal}</span>
+                  <span className={`card-signal ${s.signal.toLowerCase()} flex items-center gap-1`}>
+                    <ParallelLogo size={10} />
+                    {s.signal}
+                  </span>
                 </div>
                 <div className="card-data">
                   <div className="data-point"><span className="label">Entry</span><span className="value">{activeTab === 'india' ? '₹' : '$'}{s.entryPrice}</span></div>
@@ -423,9 +445,9 @@ export default function StockAnalysis() {
         .pill-green { background: rgba(16,185,129,0.1); color: #10b981; }
         .pill-red { background: rgba(239,68,68,0.1); color: #ef4444; }
         
-        .signal-badge { padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; background: #333; color: #888; }
-        .signal-badge.buy { background: #10b981; color: #000; }
-        .signal-badge.sell { background: #ef4444; color: #fff; }
+        .signal-badge { padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; background: #333; color: #888; border: 1px solid rgba(255,255,255,0.05); }
+        .signal-badge.buy { background: rgba(16,185,129,0.15); color: #10b981; border-color: rgba(16,185,129,0.3); }
+        .signal-badge.sell { background: rgba(239,68,68,0.15); color: #ef4444; border-color: rgba(239,68,68,0.3); }
 
         .execution-matrix { margin-top: 60px; }
         .signals-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
@@ -433,9 +455,9 @@ export default function StockAnalysis() {
         .execution-card { padding: 24px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
         .card-top { display: flex; justify-content: space-between; margin-bottom: 16px; }
         .card-symbol { font-weight: 900; font-size: 1.1rem; }
-        .card-signal { font-size: 0.65rem; font-weight: 900; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
-        .card-signal.buy { background: #10b981; color: #000; }
-        .card-signal.sell { background: #ef4444; color: #fff; }
+        .card-signal { font-size: 0.65rem; font-weight: 900; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.05); }
+        .card-signal.buy { background: rgba(16,185,129,0.15); color: #10b981; border-color: rgba(16,185,129,0.3); }
+        .card-signal.sell { background: rgba(239,68,68,0.15); color: #ef4444; border-color: rgba(239,68,68,0.3); }
         .card-data { display: flex; flex-direction: column; gap: 10px; }
         .data-point { display: flex; justify-content: space-between; font-size: 0.85rem; }
         .data-point .label { color: #666; }
