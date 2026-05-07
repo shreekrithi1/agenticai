@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TripMind AI | Agentic Travel Orchestrator",
-  description: "Plan your perfect trip with autonomous AI agents that handle calendar, bookings, weather, and budget.",
+  title: "Futuristic | Sovereign Intelligence v4.0",
+  description: "Institutional agentic rails for the next generation of sovereign intelligence and commerce.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-black">
         {children}
       </body>
     </html>

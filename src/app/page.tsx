@@ -8,23 +8,21 @@ import {
   Zap, 
   Cpu, 
   ArrowRight,
-  Code2,
-  Layers,
-  Database,
-  Cloud,
-  CreditCard,
   Sparkles,
-  Server,
+  CreditCard,
   ScanFace,
   UserCheck,
   Bot,
   Video,
   ChevronRight,
-  Info
+  Info,
+  Database,
+  Cloud,
+  Layers
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const TECH_STACK = [
   { name: "Gemini 1.5", icon: <Sparkles size={18} />, color: "#4285f4" },
@@ -40,6 +38,10 @@ const TECH_STACK = [
   { name: "Vercel", icon: <Cloud size={18} />, color: "#ffffff" },
   { name: "Next.js", icon: <Layers size={18} />, color: "#ffffff" }
 ];
+
+function Server(props: any) {
+  return <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>;
+}
 
 const VALUES = [
   { 
@@ -70,12 +72,18 @@ const VALUES = [
 
 export default function WelcomePage() {
   const [activeTab, setActiveTab] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <div className="fixed inset-0 bg-black" />;
 
   return (
-    <main className="material-welcome">
-      {/* Absolute Neutral Background */}
-      <div className="bg-canvas">
-        <div className="bg-overlay" />
+    <main className="fixed inset-0 bg-black text-slate-50 font-['Outfit'] overflow-hidden selection:bg-emerald-500/30">
+      {/* Background Layer */}
+      <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.div 
             key={activeTab}
@@ -83,33 +91,40 @@ export default function WelcomePage() {
             animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
-            className="bg-image"
+            className="absolute inset-0 bg-cover bg-center grayscale brightness-[0.4]"
             style={{ backgroundImage: `url('${VALUES[activeTab].image}')` }}
           />
         </AnimatePresence>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(0,0,0,0.4)_0%,#000000_100%)]" />
       </div>
 
-      <div className="main-content">
-        {/* Left Section: Hero & Branding */}
-        <section className="hero-pane">
+      {/* Content Layer */}
+      <div className="relative z-10 h-full grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-10 p-10 lg:p-16">
+        
+        {/* Left Section: Branding */}
+        <section className="flex flex-col justify-center">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="brand-block"
+            className="flex items-center gap-10 mb-20"
           >
-            <div className="m3-logo-surface float">
+            <div className="w-44 h-44 bg-white/5 border border-white/10 rounded-[48px] flex items-center justify-center shadow-2xl p-5 animate-float">
               <Image 
                 src="/assets/futuristic_logo_v2.png" 
                 alt="Logo" 
                 width={160} 
                 height={160}
-                className="main-logo"
+                className="drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]"
                 priority 
               />
             </div>
-            <div className="brand-text">
-              <h1 className="m3-display">Futuristic</h1>
-              <p className="m3-headline-small">Sovereign Intelligence v4.0</p>
+            <div>
+              <h1 className="text-8xl font-black tracking-tighter leading-none bg-gradient-to-br from-emerald-400 to-blue-500 bg-clip-text text-transparent">
+                Futuristic
+              </h1>
+              <p className="text-2xl text-slate-400 font-semibold tracking-widest uppercase mt-2">
+                Sovereign Intelligence v4.0
+              </p>
             </div>
           </motion.div>
 
@@ -117,429 +132,106 @@ export default function WelcomePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="m3-button-container"
+            className="mb-24"
           >
-            <Link href="/hub" className="tactile-button">
-              <div className="button-surface">
-                <span className="button-label">Initialize Hub Access</span>
-                <ChevronRight size={24} />
-              </div>
-              <div className="button-shadow" />
-              <div className="button-glow" />
+            <Link href="/hub" className="group relative inline-flex items-center gap-5 px-14 py-6 bg-emerald-500 text-white rounded-3xl font-black text-xl shadow-[0_6px_0_#065f46] active:translate-y-1 active:shadow-none transition-all hover:-translate-y-1 hover:bg-emerald-400">
+              <span>Initialize Hub Access</span>
+              <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
+              <div className="absolute inset-[-20px] bg-emerald-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
           </motion.div>
 
-          <div className="tech-chips-pane">
-            <p className="pane-label">Institutional Stack</p>
-            <div className="chips-grid">
+          <div className="max-w-2xl">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-6">Institutional Stack</p>
+            <div className="flex flex-wrap gap-3">
               {TECH_STACK.map((tech, i) => (
                 <motion.div 
                   key={tech.name}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 + i * 0.04 }}
-                  className="m3-chip glass-chip"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-white/[0.03] border border-white/[0.05] rounded-2xl backdrop-blur-md hover:bg-white/[0.08] transition-colors"
                 >
-                  <span className="chip-icon" style={{ color: tech.color }}>{tech.icon}</span>
-                  <span className="chip-label">{tech.name}</span>
+                  <span style={{ color: tech.color }}>{tech.icon}</span>
+                  <span className="text-sm font-bold">{tech.name}</span>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Right Section: Interactive Info Surface */}
-        <section className="info-pane glass-panel">
-          <div className="pane-header">
-            <div className="header-decoration" />
-            <Info size={16} className="text-emerald-500" />
+        {/* Right Section: Info Panel */}
+        <section className="bg-white/[0.015] backdrop-blur-[40px] border border-white/[0.05] rounded-[64px] flex flex-col p-12 overflow-hidden relative">
+          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-10">
+            <div className="w-8 h-[1px] bg-emerald-500/50" />
+            <Info size={14} className="text-emerald-500" />
             <span>Core Grounding Protocol</span>
           </div>
 
-          <div className="m3-tabs glass-tabs">
+          <div className="flex gap-2 bg-black/40 p-1.5 rounded-[24px] border border-white/[0.05] mb-12">
             {VALUES.map((val, i) => (
               <button 
                 key={val.id}
                 onClick={() => setActiveTab(i)}
-                className={`m3-tab ${activeTab === i ? 'active' : ''}`}
+                className={`flex-1 py-3.5 rounded-[18px] text-sm font-extrabold transition-all relative ${activeTab === i ? 'text-white' : 'text-slate-500 hover:text-slate-300'}`}
               >
                 {val.title}
-                {activeTab === i && <motion.div layoutId="tab-active" className="tab-indicator" />}
+                {activeTab === i && (
+                  <motion.div 
+                    layoutId="tab-active" 
+                    className="absolute inset-0 bg-white/[0.05] rounded-[18px] z-[-1]" 
+                  />
+                )}
               </button>
             ))}
           </div>
 
-          <div className="pane-body">
+          <div className="flex-1">
             <AnimatePresence mode="wait">
               <motion.div 
                 key={activeTab}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="value-display"
+                className="space-y-6"
               >
-                <div className="value-header">
-                  <div className="m3-icon-surface-high" style={{ borderColor: `${VALUES[activeTab].color}44` }}>
-                    <div className="icon-glow" style={{ background: VALUES[activeTab].color }} />
-                    <div className="icon-inner">{VALUES[activeTab].icon}</div>
+                <div className="flex items-center gap-5">
+                  <div className="w-20 h-20 bg-white/[0.02] border border-white/10 rounded-3xl flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-10 blur-xl" style={{ background: VALUES[activeTab].color }} />
+                    <div className="relative z-10">{VALUES[activeTab].icon}</div>
                   </div>
-                  <h2 className="m3-title-large">{VALUES[activeTab].title}</h2>
+                  <h2 className="text-5xl font-black tracking-tight">{VALUES[activeTab].title}</h2>
                 </div>
-                <p className="m3-body-large">{VALUES[activeTab].desc}</p>
+                <p className="text-xl text-slate-400 leading-relaxed max-w-[90%]">
+                  {VALUES[activeTab].desc}
+                </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div className="pane-footer-high">
-            <div className="system-telemetry">
-              <div className="telemetry-item">
-                <div className="dot pulse" />
+          <div className="mt-12 pt-8 border-t border-white/[0.05] flex justify-between items-center">
+            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-500">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                 <span>Gemma-3-Node Online</span>
               </div>
-              <div className="telemetry-item separator">|</div>
-              <div className="telemetry-item">
-                <span>Latency: 24ms</span>
-              </div>
+              <span className="opacity-20">|</span>
+              <span>Latency: 24ms</span>
             </div>
-            <div className="footer-copyright-high">
+            <div className="text-[10px] font-black text-slate-600 uppercase">
               © 2026 Sovereign Systems
             </div>
           </div>
         </section>
       </div>
 
-      <style jsx>{`
-        .material-welcome {
-          height: 100vh;
-          width: 100vw;
-          overflow: hidden;
-          background: #000000; /* Absolute black */
-          color: #f8fafc;
-          position: relative;
-          font-family: 'Outfit', sans-serif;
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-15px); }
         }
-
-        .bg-canvas {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          background: #000000;
-        }
-
-        .bg-image {
-          position: absolute;
-          inset: 0;
-          background-size: cover;
-          background-position: center;
-          filter: blur(4px) grayscale(1) brightness(0.5); /* Fully neutralize colors */
-          transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-          z-index: 1;
-        }
-
-        .bg-overlay {
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at 30% 50%, rgba(0, 0, 0, 0.4) 0%, #000000 100%);
-          z-index: 2;
-          pointer-events: none;
-        }
-
-        .main-content {
-          position: relative;
-          z-index: 10; /* Ensure content is above any background layers */
-          height: 100%;
-          display: grid;
-          grid-template-columns: 1fr 500px;
-          padding: 60px;
-          gap: 60px;
-        }
-
-        /* Hero Pane */
-        .hero-pane {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        .brand-block {
-          display: flex;
-          align-items: center;
-          gap: 40px;
-          margin-bottom: 80px;
-        }
-
-        .m3-logo-surface {
-          width: 180px;
-          height: 180px;
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-          padding: 20px;
-        }
-
-        .main-logo {
-          filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.1));
-        }
-
-        .m3-display {
-          font-size: 6rem;
-          font-weight: 900;
-          letter-spacing: -4px;
-          line-height: 0.9;
-          margin: 0;
-          background: linear-gradient(135deg, #10b981, #3b82f6);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .m3-headline-small {
-          font-size: 1.6rem;
-          color: #94a3b8;
-          font-weight: 600;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          margin-top: 8px;
-        }
-
-        /* Tactile Button */
-        .tactile-button {
-          position: relative;
-          display: inline-flex;
-          text-decoration: none;
-          color: white;
-          width: fit-content;
-        }
-
-        .button-surface {
-          background: #10b981;
-          padding: 24px 56px;
-          border-radius: 20px;
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          font-weight: 900;
-          font-size: 1.3rem;
-          position: relative;
-          z-index: 2;
-          border-top: 1px solid rgba(255, 255, 255, 0.3);
-          border-left: 1px solid rgba(255, 255, 255, 0.1);
-          transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .button-shadow {
-          position: absolute;
-          inset: 0;
-          background: #065f46;
-          border-radius: 20px;
-          transform: translateY(6px);
-          z-index: 1;
-          transition: 0.2s;
-        }
-
-        .button-glow {
-          position: absolute;
-          inset: -20px;
-          background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
-          opacity: 0;
-          transition: 0.4s;
-          z-index: 0;
-        }
-
-        .tactile-button:hover .button-surface {
-          transform: translateY(-2px);
-          background: #15d191;
-        }
-
-        .tactile-button:hover .button-shadow {
-          transform: translateY(8px);
-        }
-
-        .tactile-button:hover .button-glow {
-          opacity: 1;
-        }
-
-        .tactile-button:active .button-surface {
-          transform: translateY(4px);
-        }
-
-        .tactile-button:active .button-shadow {
-          transform: translateY(2px);
-        }
-
-        /* Tech Chips */
-        .tech-chips-pane {
-          margin-top: 100px;
-          max-width: 600px;
-        }
-
-        .pane-label {
-          font-size: 0.75rem;
-          font-weight: 900;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-          color: #475569;
-          margin-bottom: 24px;
-        }
-
-        .chips-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-        }
-
-        .glass-chip {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(8px);
-          padding: 10px 20px;
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-size: 0.9rem;
-          font-weight: 700;
-          transition: 0.3s;
-        }
-
-        /* Info Pane */
-        .glass-panel {
-          background: rgba(255, 255, 255, 0.01);
-          backdrop-filter: blur(40px);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 64px;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          padding: 50px;
-          position: relative;
-        }
-
-        .pane-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-size: 0.75rem;
-          font-weight: 900;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          color: #64748b;
-          margin-bottom: 40px;
-        }
-
-        .header-decoration {
-          width: 30px;
-          height: 1px;
-          background: #10b981;
-          opacity: 0.5;
-        }
-
-        .glass-tabs {
-          display: flex;
-          gap: 8px;
-          background: rgba(0,0,0,0.5);
-          padding: 6px;
-          border-radius: 24px;
-          margin-bottom: 50px;
-          border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .m3-tab {
-          flex: 1;
-          background: transparent;
-          border: none;
-          color: #64748b;
-          padding: 14px;
-          border-radius: 18px;
-          font-weight: 800;
-          font-size: 0.95rem;
-          cursor: pointer;
-          position: relative;
-          transition: 0.3s;
-        }
-
-        .m3-tab.active { color: white; }
-
-        .tab-indicator {
-          position: absolute;
-          inset: 0;
-          background: rgba(255,255,255,0.05);
-          border-radius: 18px;
-          z-index: -1;
-        }
-
-        .m3-icon-surface-high {
-          width: 72px;
-          height: 72px;
-          background: rgba(255,255,255,0.01);
-          border: 1px solid;
-          border-radius: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .icon-glow {
-          position: absolute;
-          inset: 0;
-          opacity: 0.1;
-          filter: blur(20px);
-        }
-
-        .m3-title-large {
-          font-size: 2.8rem;
-          font-weight: 900;
-          letter-spacing: -1px;
-        }
-
-        .m3-body-large {
-          font-size: 1.3rem;
-          color: #94a3b8;
-          line-height: 1.7;
-          max-width: 90%;
-        }
-
-        .pane-footer-high {
-          margin-top: 60px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border-top: 1px solid rgba(255,255,255,0.05);
-          padding-top: 32px;
-        }
-
-        .system-telemetry {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          font-size: 0.75rem;
-          font-weight: 800;
-          color: #475569;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; scale: 1; } 50% { opacity: 0.5; scale: 1.8; } 100% { opacity: 1; scale: 1; } }
-
-        .footer-copyright-high { font-size: 0.75rem; color: #334155; font-weight: 800; }
-
-        .float { animation: float 6s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        @media (max-width: 1200px) {
-          .main-content { grid-template-columns: 1fr; padding: 40px; overflow-y: auto; }
-          .material-welcome { overflow-y: auto; }
-          .hero-pane { align-items: center; text-align: center; }
-          .brand-block { flex-direction: column; text-align: center; }
-          .m3-display { font-size: 4rem; }
-          .info-pane { border-radius: 40px; }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
         }
       `}</style>
     </main>
