@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   try {
     // Parallel API Integration for Web Search (Simulated endpoint structure)
     // We are requesting the latest stock prices and Buy/Sell signals via web search
-    const parallelApiKey = "lgdvuTdu8ylgSu84ATBii998sLaoe_SkW5uZuRBO";
+    const parallelApiKey = process.env.PARALLEL_API_KEY || "";
     
     // As the exact endpoint for platform.parallel.ai web search isn't standard OpenAI,
     // we assume a generic completion/search endpoint.

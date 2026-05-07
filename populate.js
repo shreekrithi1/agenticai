@@ -38,7 +38,8 @@ function analyzeStock(symbol) {
 async function populate() {
   console.log("Triggering Parallel API Web Search manually...");
   
-  const parallelApiKey = "lgdvuTdu8ylgSu84ATBii998sLaoe_SkW5uZuRBO";
+  require('dotenv').config({ path: '.env.local' });
+  const parallelApiKey = process.env.PARALLEL_API_KEY || "";
   
   try {
     const response = await fetch("https://platform.parallel.ai/api/v1/search", {

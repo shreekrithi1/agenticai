@@ -101,7 +101,7 @@ export async function fetchParallelStocks(): Promise<StockData[]> {
   
   console.log("DB stale or empty. Triggering Parallel API Web Search...");
   
-  const parallelApiKey = "lgdvuTdu8ylgSu84ATBii998sLaoe_SkW5uZuRBO";
+  const parallelApiKey = process.env.PARALLEL_API_KEY || "";
   
   try {
     // Call the Parallel AI Web Search API
