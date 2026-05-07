@@ -1,12 +1,11 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { 
   ArrowRight,
-  Play,
   ChevronRight,
   Globe,
-  Terminal,
-  Database
+  Terminal
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -67,7 +66,7 @@ export default function WelcomePage() {
         {/* Decorative Gradient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-        <motion_div 
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative z-10"
@@ -98,7 +97,7 @@ export default function WelcomePage() {
               Watch Research
             </button>
           </div>
-        </motion_div>
+        </motion.div>
       </section>
 
       {/* Institutional Telemetry Footer */}
@@ -124,30 +123,14 @@ export default function WelcomePage() {
         </div>
       </footer>
 
-      {/* Styled JSX for Inter Font and Animation */}
+      {/* Styled JSX for Inter Font */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap');
         
         body {
           background-color: #0c0c28;
         }
-
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .motion-div {
-          animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
       `}</style>
     </main>
   );
-}
-
-// Minimal shim for motion.div to avoid framer-motion weight if possible, 
-// but I'll use standard classes for simplicity as requested 'no animation' earlier, 
-// though the user wants 'like this' now.
-function motion_div({ children, className, initial, animate }: any) {
-  return <div className={`motion-div ${className}`}>{children}</div>;
 }
