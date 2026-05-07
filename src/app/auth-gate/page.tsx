@@ -70,7 +70,7 @@ function AuthGateContent() {
       <header className="p-8 flex flex-col items-center gap-4">
         <div className="flex items-center gap-2 text-[#0070ba]">
           <Shield fill="#0070ba" />
-          <span className="font-black text-xl tracking-tighter">AgriMind SECURE</span>
+          <span className="font-black text-xl tracking-tighter">Futuristic SECURE</span>
         </div>
         <div className="px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-[10px] font-black text-blue-400 uppercase tracking-widest">
           Biometric Authorization Required

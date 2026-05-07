@@ -141,7 +141,7 @@ export default function StockAnalysis() {
     <main className="stock-page">
       <nav className="stock-nav">
         <Link href="/" className="back-link">
-          <ArrowLeft size={18} /> <span>Return to AgriMind</span>
+          <ArrowLeft size={18} /> <span>Return to Futuristic</span>
         </Link>
         <div className="nav-brand">Institutional Market Intel</div>
         <div className="refresh-status">

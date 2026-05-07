@@ -99,10 +99,10 @@ export default function WelcomePage() {
             className="brand-block"
           >
             <div className="m3-logo-surface float">
-              <Image src="/assets/agrimind_logo.png" alt="Logo" width={100} height={100} />
+              <Image src="/assets/futuristic_logo.png" alt="Logo" width={120} height={120} />
             </div>
             <div className="brand-text">
-              <h1 className="m3-display">AgriMind</h1>
+              <h1 className="m3-display">Futuristic</h1>
               <p className="m3-headline-small">Institutional Agentic Rails</p>
             </div>
           </motion.div>
@@ -114,7 +114,7 @@ export default function WelcomePage() {
             className="m3-button-container"
           >
             <Link href="/hub" className="m3-button-filled">
-              <span>Enter The Hub</span>
+              <span>Enter Futuristic Hub</span>
               <ArrowRight size={20} />
             </Link>
           </motion.div>

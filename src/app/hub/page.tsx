@@ -58,7 +58,7 @@ const COUNTRIES = [
 
 const TRANSLATIONS: Record<string, any> = {
   English: {
-    greeting: "Hello! I am **AgriMind**, your institutional agriculture intelligence. Tell me your location in India, and I'll provide a precision analysis.",
+    greeting: "Hello! I am **Futuristic**, your institutional agriculture intelligence. Tell me your location in India, and I'll provide a precision analysis.",
     placeholder: "Ask about your farm location...",
     history: "Institutional History",
     climate: "Local Climate Monitoring",
@@ -69,7 +69,7 @@ const TRANSLATIONS: Record<string, any> = {
     roadmapError: "Failed to generate roadmap. Check VPS connection."
   },
   Telugu: {
-    greeting: "నమస్కారం! నేను **AgriMind**. మీ ప్రాంతం పేరు చెప్పండి, నేను మట్టి మరియు వాతావరణం గురించి సమాచారం అందిస్తాను.",
+    greeting: "నమస్కారం! నేను **Futuristic**. మీ ప్రాంతం పేరు చెప్పండి, నేను మట్టి మరియు వాతావరణం గురించి సమాచారం అందిస్తాను.",
     placeholder: "మీ పొలం ఉన్న ప్రాంతం గురించి అడగండి...",
     history: "చరిత్ర",
     climate: "స్థానిక వాతావరణం",
@@ -80,7 +80,7 @@ const TRANSLATIONS: Record<string, any> = {
     roadmapError: "ప్రణాళికను రూపొందించడంలో విఫలమైంది."
   },
   Tamil: {
-    greeting: "வணக்கம்! நான் **AgriMind**. உங்கள் இருப்பிடத்தைக் கூறினால், மண் மற்றும் காலநிலை பற்றிய துல்லியமான பகுப்பாய்வை வழங்குவேன்.",
+    greeting: "வணக்கம்! நான் **Futuristic**. உங்கள் இருப்பிடத்தைக் கூறினால், மண் மற்றும் காலநிலை பற்றிய துல்லியமான பகுப்பாய்வை வழங்குவேன்.",
     placeholder: "உங்கள் பண்ணை இருப்பிடத்தைப் பற்றி கேளுங்கள்...",
     history: "வரலாறு",
     climate: "உள்ளூர் காலநிலை",
@@ -91,7 +91,7 @@ const TRANSLATIONS: Record<string, any> = {
     roadmapError: "திட்டத்தை உருவாக்குவதில் தோல்வி."
   },
   Kannada: {
-    greeting: "ನಮಸ್ಕಾರ! ನಾನು **AgriMind**. ನಿಮ್ಮ ಪ್ರದೇಶದ ಹೆಸರನ್ನು ತಿಳಿಸಿ, ಮಣ್ಣು ಮತ್ತು ಹವಾಮಾನದ ಬಗ್ಗೆ ಮಾಹಿತಿ ನೀಡುತ್ತೇನೆ.",
+    greeting: "ನಮಸ್ಕಾರ! ನಾನು **Futuristic**. ನಿಮ್ಮ ಪ್ರದೇಶದ ಹೆಸರನ್ನು ತಿಳಿಸಿ, ಮಣ್ಣು ಮತ್ತು ಹವಾಮಾನದ ಬಗ್ಗೆ ಮಾಹಿತಿ ನೀಡುತ್ತೇನೆ.",
     placeholder: "ನಿಮ್ಮ ಫಾರ್ಮ್ ಬಗ್ಗೆ ಕೇಳಿ...",
     history: "ಇತಿಹಾಸ",
     climate: "ಸ್ಥಳೀಯ ಹವಾಮಾನ",
@@ -102,7 +102,7 @@ const TRANSLATIONS: Record<string, any> = {
     roadmapError: "ಯೋಜನೆ ಸಿದ್ಧಪಡಿಸುವಲ್ಲಿ ವಿಫಲವಾಗಿದೆ."
   },
   Malayalam: {
-    greeting: "നമസ്കാരം! ഞാൻ **AgriMind**. നിങ്ങളുടെ പ്രദേശം ഏതാണെന്ന് പറയൂ, കൃഷി സംബന്ധമായ വിവരങ്ങൾ ഞാൻ നൽകാം.",
+    greeting: "നമസ്കാരം! ഞാൻ **Futuristic**. നിങ്ങളുടെ പ്രദേശം ഏതാണെന്ന് പറയൂ, കൃഷി സംബന്ധമായ വിവരങ്ങൾ ഞാൻ നൽകാം.",
     placeholder: "കൃഷിയിടത്തെക്കുറിച്ച് ചോദിക്കൂ...",
     history: "ചരിത്രം",
     climate: "പ്രാദേശിക കാലാവസ്ഥ",
@@ -113,7 +113,7 @@ const TRANSLATIONS: Record<string, any> = {
     roadmapError: "പ്ലാൻ തയ്യാറാക്കുന്നതിൽ പരാജയപ്പെട്ടു."
   },
   Hindi: {
-    greeting: "नमस्ते! मैं **AgriMind** हूँ। अपने स्थान के बारे में बताएं, और मैं सटीक कृषि विश्लेषण प्रदान करूँगा।",
+    greeting: "नमस्ते! मैं **Futuristic** हूँ। अपने स्थान के बारे में बताएं, और मैं सटीक कृषि विश्लेषण प्रदान करूँगा।",
     placeholder: "अपने खेत के स्थान के बारे में पूछें...",
     history: "संस्थागत इतिहास",
     climate: "स्थानीय जलवायु निगरानी",
@@ -301,7 +301,7 @@ export default function Home() {
               className="hub-brand"
             >
               <Cpu size={32} color="#10b981" />
-              <h1>AgriMind <span className="gradient-text">Beyond</span></h1>
+              <h1>Futuristic <span className="gradient-text">Beyond</span></h1>
             </motion.div>
             <p className="hub-subtitle">Institutional Orchestration Hub</p>
           </header>
@@ -754,7 +754,7 @@ export default function Home() {
         <header className="chat-header">
           {!sidebarOpen && <button className="menu-trigger" onClick={() => setSidebarOpen(true)}><Menu size={20} /></button>}
           <div className="model-selector">
-            <span>AgriMind BEYOND</span>
+            <span>Futuristic BEYOND</span>
             <ChevronDown size={14} />
           </div>
           <div className="lang-pill glass">
@@ -901,7 +901,7 @@ export default function Home() {
             </div>
           </div>
           <div className="footer-disclaimer">
-            AgriMind BEYOND (Gemma 3 Core). Institutional advice grounded by real-time climate data.
+            Futuristic BEYOND (Gemma 3 Core). Institutional advice grounded by real-time climate data.
           </div>
         </div>
       </div>

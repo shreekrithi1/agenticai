@@ -111,7 +111,7 @@ export default function RegistrationPage() {
       <div className="max-w-md mx-auto px-6 py-12">
         <header className="flex justify-center mb-12">
            <div className="text-2xl font-black text-[#0070ba] flex items-center gap-1 cursor-pointer" onClick={() => setStep('ACCOUNT_TYPE')}>
-             <Shield fill="#0070ba" /> AgriMind <span className="text-[#10b981]">Pay</span>
+             <Shield fill="#0070ba" /> Futuristic <span className="text-[#10b981]">Pay</span>
            </div>
         </header>
 
@@ -125,7 +125,7 @@ export default function RegistrationPage() {
               className="space-y-8"
             >
               <div className="text-center space-y-2">
-                <h1 className="text-3xl font-extrabold tracking-tight">Join AgriMind Pay</h1>
+                <h1 className="text-3xl font-extrabold tracking-tight">Join Futuristic Pay</h1>
                 <p className="text-gray-500">The safest way to pay and get paid across the globe.</p>
               </div>
 
@@ -378,7 +378,7 @@ export default function RegistrationPage() {
                      </div>
                   </div>
                   
-                  <h1 className="text-2xl font-bold px-4">AgriMind Pay uses Plaid to connect your account</h1>
+                  <h1 className="text-2xl font-bold px-4">Futuristic Pay uses Plaid to connect your account</h1>
                </div>
 
                <div className="space-y-6">
@@ -569,7 +569,7 @@ export default function RegistrationPage() {
             <button>Cookies</button>
             <button>Legal</button>
           </div>
-          <p className="text-[10px] text-gray-300">© 2026 AgriMind International. All rights reserved.</p>
+          <p className="text-[10px] text-gray-300">© 2026 Futuristic International. All rights reserved.</p>
         </footer>
       </div>
     </div>

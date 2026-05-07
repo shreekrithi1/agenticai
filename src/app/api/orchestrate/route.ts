@@ -26,7 +26,7 @@ export async function POST(req: Request) {
         body: JSON.stringify({
           model: OLLAMA_MODEL,
           prompt: `
-            SYSTEM: You are AgriMind AI.
+            SYSTEM: You are Futuristic AI.
             ${ETHICAL_GUIDELINES}
             
             TASK: Generate a 4-phase cultivation roadmap for ${query} in ${location}.
@@ -124,7 +124,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: OLLAMA_MODEL,
         prompt: `
-          SYSTEM: You are AgriMind AI, a responsible agricultural intelligence assistant.
+          SYSTEM: You are Futuristic AI, a responsible agricultural intelligence assistant.
           ${ETHICAL_GUIDELINES}
           
           TASK: Analyze location and predict best crop.
@@ -175,7 +175,7 @@ export async function POST(req: Request) {
     return NextResponse.json(result);
 
   } catch (error: any) {
-    console.error("AgriMind Error:", error);
+    console.error("Futuristic Error:", error);
     return NextResponse.json({ error: "Intelligence Engine Offline. Check Hostinger VPS status." }, { status: 500 });
   }
 }
