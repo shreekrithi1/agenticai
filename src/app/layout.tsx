@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Project α | Agentic Settlement Rails",
-  description: "Synchronizing global agricultural nodes with millisecond precision and autonomous settlement.",
+  title: "Project α | Agentic Compute",
+  description: "The Next Era of Agentic Compute. Orchestrate autonomous AI nodes with unprecedented scale and security.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#0c0c28]">
+      <body className="bg-[#050505]">
         {children}
       </body>
     </html>
