@@ -307,7 +307,13 @@ export default function Home() {
               <Cpu size={32} color="#10b981" />
               <h1>Futuristic <span className="gradient-text">Beyond</span></h1>
             </motion.div>
-            <p className="hub-subtitle">Institutional Orchestration Hub</p>
+            <div className="hub-subtitle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', marginTop: '8px', fontSize: '0.8rem', opacity: 0.8 }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Wind size={14} /> OpenClaw</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>▲ Vercel</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Zap size={14} /> Node.js</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> Postgres</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Cpu size={14} /> Parallel AI</span>
+            </div>
           </header>
 
           <div className="hub-grid">
