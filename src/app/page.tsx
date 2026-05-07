@@ -73,27 +73,27 @@ export default function WelcomePage() {
 
   return (
     <main className="material-welcome">
-      {/* Dynamic Background Visuals */}
+      {/* Absolute Neutral Background */}
       <div className="bg-canvas">
+        <div className="bg-overlay" />
         <AnimatePresence mode="wait">
           <motion.div 
             key={activeTab}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.2 }}
+            animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.5 }}
             className="bg-image"
             style={{ backgroundImage: `url('${VALUES[activeTab].image}')` }}
           />
         </AnimatePresence>
-        <div className="bg-overlay" />
       </div>
 
       <div className="main-content">
         {/* Left Section: Hero & Branding */}
         <section className="hero-pane">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="brand-block"
           >
@@ -114,9 +114,9 @@ export default function WelcomePage() {
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.4 }}
             className="m3-button-container"
           >
             <Link href="/hub" className="tactile-button">
@@ -137,7 +137,7 @@ export default function WelcomePage() {
                   key={tech.name}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  transition={{ delay: 0.2 + i * 0.04 }}
                   className="m3-chip glass-chip"
                 >
                   <span className="chip-icon" style={{ color: tech.color }}>{tech.icon}</span>
@@ -213,17 +213,17 @@ export default function WelcomePage() {
           height: 100vh;
           width: 100vw;
           overflow: hidden;
-          background: #010401;
+          background: #000000; /* Absolute black */
           color: #f8fafc;
           position: relative;
           font-family: 'Outfit', sans-serif;
         }
 
-        /* Neutral High Quality Background */
         .bg-canvas {
           position: absolute;
           inset: 0;
           z-index: 0;
+          background: #000000;
         }
 
         .bg-image {
@@ -231,19 +231,22 @@ export default function WelcomePage() {
           inset: 0;
           background-size: cover;
           background-position: center;
-          filter: blur(2px) grayscale(0.5); /* Neutralize green in images */
-          transition: 1s cubic-bezier(0.16, 1, 0.3, 1);
+          filter: blur(4px) grayscale(1) brightness(0.5); /* Fully neutralize colors */
+          transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 1;
         }
 
         .bg-overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at 30% 50%, rgba(0, 0, 0, 0.5) 0%, #010401 100%);
+          background: radial-gradient(circle at 30% 50%, rgba(0, 0, 0, 0.4) 0%, #000000 100%);
+          z-index: 2;
+          pointer-events: none;
         }
 
         .main-content {
           position: relative;
-          z-index: 1;
+          z-index: 10; /* Ensure content is above any background layers */
           height: 100%;
           display: grid;
           grid-template-columns: 1fr 500px;
@@ -268,18 +271,18 @@ export default function WelcomePage() {
         .m3-logo-surface {
           width: 180px;
           height: 180px;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.01);
+          border: 1px solid rgba(255, 255, 255, 0.05);
           border-radius: 48px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+          box-shadow: 0 30px 60px rgba(0,0,0,0.8);
           padding: 20px;
         }
 
         .main-logo {
-          filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.2));
+          filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.1));
         }
 
         .m3-display {
@@ -340,7 +343,7 @@ export default function WelcomePage() {
         .button-glow {
           position: absolute;
           inset: -20px;
-          background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+          background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
           opacity: 0;
           transition: 0.4s;
           z-index: 0;
@@ -389,7 +392,7 @@ export default function WelcomePage() {
         }
 
         .glass-chip {
-          background: rgba(255, 255, 255, 0.03);
+          background: rgba(255, 255, 255, 0.02);
           border: 1px solid rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(8px);
           padding: 10px 20px;
@@ -402,16 +405,10 @@ export default function WelcomePage() {
           transition: 0.3s;
         }
 
-        .glass-chip:hover {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.1);
-          transform: translateY(-2px);
-        }
-
         /* Info Pane */
         .glass-panel {
-          background: rgba(255, 255, 255, 0.015);
-          backdrop-filter: blur(30px);
+          background: rgba(255, 255, 255, 0.01);
+          backdrop-filter: blur(40px);
           border: 1px solid rgba(255, 255, 255, 0.05);
           border-radius: 64px;
           display: flex;
@@ -443,7 +440,7 @@ export default function WelcomePage() {
         .glass-tabs {
           display: flex;
           gap: 8px;
-          background: rgba(0,0,0,0.3);
+          background: rgba(0,0,0,0.5);
           padding: 6px;
           border-radius: 24px;
           margin-bottom: 50px;
@@ -469,7 +466,7 @@ export default function WelcomePage() {
         .tab-indicator {
           position: absolute;
           inset: 0;
-          background: rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.05);
           border-radius: 18px;
           z-index: -1;
         }
@@ -477,7 +474,7 @@ export default function WelcomePage() {
         .m3-icon-surface-high {
           width: 72px;
           height: 72px;
-          background: rgba(255,255,255,0.02);
+          background: rgba(255,255,255,0.01);
           border: 1px solid;
           border-radius: 24px;
           display: flex;
@@ -490,8 +487,8 @@ export default function WelcomePage() {
         .icon-glow {
           position: absolute;
           inset: 0;
-          opacity: 0.15;
-          filter: blur(15px);
+          opacity: 0.1;
+          filter: blur(20px);
         }
 
         .m3-title-large {

@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --background: #020602;
+  --background: #000000;
   --foreground: #f8fafc;
   --primary: #10b981;
   --primary-glow: rgba(16, 185, 129, 0.4);
   --secondary: #34d399;
   --accent: #f59e0b;
-  --glass: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
   --font-sans: 'Outfit', sans-serif;
 }
 
