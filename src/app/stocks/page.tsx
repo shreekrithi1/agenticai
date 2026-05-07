@@ -23,9 +23,7 @@ import {
   Sparkles,
   User,
   Bot,
-  Copy,
-  TrendingUp,
-  TrendingDown
+  Copy
 } from "lucide-react";
 
 // Parallel Logo Component
