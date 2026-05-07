@@ -3,50 +3,38 @@
 import { 
   Target, 
   Eye, 
-  ShieldCheck, 
-  Zap, 
   Cpu, 
   ChevronRight,
   Info,
   Database,
-  Cloud,
-  Layers,
-  Sparkles,
-  CreditCard,
-  ScanFace,
+  Zap,
+  Globe,
   Terminal,
-  ArrowRight
+  ShieldAlert,
+  ArrowUpRight
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-const TECH_STACK = [
-  { name: "Gemini 1.5 Pro", icon: <Sparkles size={14} />, color: "#4285f4" },
-  { name: "Gemma 3 27B", icon: <Database size={14} />, color: "#3b82f6" },
-  { name: "Ollama Compute", icon: <Zap size={14} />, color: "#f59e0b" },
-  { name: "Stripe Agentic", icon: <CreditCard size={14} />, color: "#635bff" },
-  { name: "Sovereign ID", icon: <ScanFace size={14} />, color: "#10b981" },
-];
-
 const CARDS = [
   {
-    title: "Mission Protocol",
-    desc: "Implementing autonomous agentic rails for global agricultural settlement.",
-    icon: <Target className="text-emerald-500" />,
-    label: "PRIORITY_01"
+    title: "Mission",
+    desc: "Autonomous agentic orchestration for global agricultural settlement protocols.",
+    icon: <Target size={24} className="text-emerald-400" />,
+    id: "M01"
   },
   {
-    title: "Vision Systems",
-    desc: "A decentralized future where AI agents negotiate and settle without latency.",
-    icon: <Eye className="text-blue-500" />,
-    label: "STABLE_BUILD"
+    title: "Vision",
+    desc: "Decentralized millisecond commerce powered by sovereign AI nodes.",
+    icon: <Eye size={24} className="text-blue-400" />,
+    id: "V01"
   },
   {
-    title: "Core Infrastructure",
-    desc: "Multi-modal orchestration layer powered by Gemini 1.5 and OpenClaw.",
-    icon: <Cpu className="text-purple-500" />,
-    label: "SOC2_READY"
+    title: "Infrastructure",
+    desc: "Multi-modal reasoning engine leveraging Gemini 1.5 and OpenClaw v4.",
+    icon: <Cpu size={24} className="text-purple-400" />,
+    id: "I01"
   }
 ];
 
@@ -57,119 +45,147 @@ export default function WelcomePage() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return <div className="fixed inset-0 bg-[#0a0a0a]" />;
+  if (!mounted) return <div className="fixed inset-0 bg-[#050705]" />;
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-['Outfit'] selection:bg-emerald-500/30 overflow-x-hidden p-6 lg:p-12">
+    <main className="h-screen w-screen bg-[#050705] text-[#f8fafc] font-['Outfit'] overflow-hidden relative flex flex-col p-8 lg:p-12">
       
-      {/* Structural Header */}
-      <header className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 border-b border-white/5 pb-12">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center">
-              <Image 
-                src="/assets/futuristic_logo_v2.png" 
-                alt="Logo" 
-                width={32} 
-                height={32}
-              />
-            </div>
-            <span className="text-xs font-black tracking-[0.5em] text-slate-500 uppercase">Classified / Internal Use</span>
+      {/* Background Subtle Gradient */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full" />
+      </div>
+
+      {/* Top Header / Branding */}
+      <header className="relative z-10 flex justify-between items-start mb-12">
+        <div className="flex items-center gap-6">
+          <div className="w-20 h-20 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center p-4 shadow-2xl backdrop-blur-md">
+            <Image 
+              src="/assets/alpha_logo.png" 
+              alt="Project Alpha Logo" 
+              width={64} 
+              height={64}
+              className="drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+            />
           </div>
-          <div className="flex items-baseline gap-4">
-            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-white">Project</h1>
-            <span className="text-7xl md:text-9xl font-black text-emerald-500 leading-none">α</span>
+          <div>
+            <h1 className="text-4xl font-black tracking-tighter leading-none mb-1">PROJECT α</h1>
+            <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">
+              <span className="text-emerald-500">SOVEREIGN</span>
+              <span className="opacity-20">/</span>
+              <span>INTELLIGENCE</span>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-start md:items-end gap-4">
-          <Link 
-            href="/hub" 
-            className="group flex items-center gap-4 px-8 py-4 bg-white text-black rounded-xl font-black text-lg transition-all hover:bg-emerald-500 active:scale-95"
-          >
-            <span>START SESSION</span>
-            <ArrowRight size={20} />
-          </Link>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-600 uppercase tracking-widest">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-            <span>Operational State: Nominal</span>
+        <div className="hidden md:flex flex-col items-end gap-2">
+          <div className="flex items-center gap-4 bg-white/[0.03] border border-white/10 px-6 py-3 rounded-full backdrop-blur-md">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Node Status: Operational</span>
           </div>
+          <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest mr-4">Build 2026.04.α-STABLE</span>
         </div>
       </header>
 
-      {/* Material 3 Card Grid */}
-      <section className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-        {CARDS.map((card, i) => (
-          <div 
-            key={i}
-            className="group bg-[#161616] border border-white/5 rounded-3xl p-8 hover:border-emerald-500/50 transition-all flex flex-col justify-between min-h-[320px]"
-          >
-            <div>
-              <div className="flex justify-between items-start mb-12">
-                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center">
-                  {card.icon}
-                </div>
-                <span className="text-[10px] font-black text-slate-600 tracking-widest uppercase bg-white/5 px-3 py-1.5 rounded-lg">
-                  {card.label}
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">{card.title}</h3>
-              <p className="text-slate-400 leading-relaxed">{card.desc}</p>
+      {/* Main Content Area: Split View */}
+      <div className="relative z-10 flex-1 flex flex-col lg:flex-row gap-8 min-h-0">
+        
+        {/* Left: Hero Info */}
+        <div className="flex-1 flex flex-col justify-center max-w-2xl">
+          <div className="space-y-6 mb-12">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400">
+              <ShieldAlert size={14} />
+              <span className="text-[10px] font-black uppercase tracking-widest">Internal Protocol Access</span>
             </div>
-            
-            <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between text-slate-500">
-              <span className="text-[10px] font-bold uppercase tracking-widest">Audit Secure</span>
-              <Info size={16} className="opacity-20 group-hover:opacity-100 transition-opacity" />
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* Technical Spec Section */}
-      <section className="max-w-6xl mx-auto bg-[#161616] border border-white/5 rounded-3xl p-8 md:p-12">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="space-y-6 max-w-lg">
-            <div className="flex items-center gap-3">
-              <Terminal size={20} className="text-emerald-500" />
-              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-500">System Capability</h2>
-            </div>
-            <p className="text-lg text-slate-300 leading-relaxed">
-              Project Alpha represents the shift from passive tools to autonomous decision nodes. Our agentic stack handles high-concurrency negotiation and global settlement protocols.
+            <h2 className="text-6xl lg:text-8xl font-black tracking-tighter leading-[0.9]">
+              AGENTIC<br />
+              <span className="text-emerald-500">SETTLEMENT</span><br />
+              RAILS
+            </h2>
+            <p className="text-xl text-slate-400 leading-relaxed max-w-lg">
+              Project Alpha orchestrates high-fidelity autonomous settlement between global agricultural nodes using millisecond-precision AI.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
-            {TECH_STACK.map((tech) => (
-              <div key={tech.name} className="flex items-center gap-3 bg-white/5 border border-white/5 px-5 py-4 rounded-2xl">
-                <span className="text-emerald-500">{tech.icon}</span>
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-300">{tech.name}</span>
-              </div>
-            ))}
+          <div className="flex gap-4">
+            <Link 
+              href="/hub" 
+              className="group flex items-center gap-6 px-12 py-5 bg-white text-black rounded-2xl font-black text-xl transition-all hover:bg-emerald-500 active:scale-95 shadow-2xl"
+            >
+              <span>INITIALIZE HUB</span>
+              <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* Footer Minimal */}
-      <footer className="max-w-6xl mx-auto mt-20 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/5 pt-12 text-[10px] font-black text-slate-700 uppercase tracking-[0.2em]">
-        <div className="flex items-center gap-8">
-          <span>Encrypted Node: RSA-4096</span>
-          <span>Lat: 12.9716 / Lon: 77.5946</span>
+        {/* Right: Material Cards Grid */}
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 overflow-y-auto pr-2 custom-scrollbar">
+          {CARDS.map((card) => (
+            <div 
+              key={card.id}
+              className="bg-white/[0.02] border border-white/5 rounded-[32px] p-8 backdrop-blur-xl flex gap-8 items-center group hover:bg-white/[0.04] hover:border-emerald-500/30 transition-all cursor-default"
+            >
+              <div className="w-20 h-20 bg-white/5 rounded-3xl flex items-center justify-center flex-shrink-0 border border-white/5 group-hover:border-emerald-500/20 transition-all">
+                {card.icon}
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-2xl font-black tracking-tight">{card.title}</h3>
+                  <span className="text-[10px] font-black text-slate-600 tracking-widest">{card.id}</span>
+                </div>
+                <p className="text-slate-400 leading-relaxed text-sm lg:text-base">
+                  {card.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+
+          {/* Quick Stats / Tech Card */}
+          <div className="bg-emerald-500 text-black rounded-[32px] p-8 flex items-center justify-between">
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">System Throughput</h4>
+              <p className="text-4xl font-black tracking-tighter leading-none">99.98%</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest mt-1">Uptime Verified</p>
+            </div>
+            <div className="flex -space-x-4">
+              <div className="w-12 h-12 bg-black rounded-full border-4 border-emerald-500 flex items-center justify-center text-emerald-500 font-bold">G</div>
+              <div className="w-12 h-12 bg-black rounded-full border-4 border-emerald-500 flex items-center justify-center text-emerald-500 font-bold">α</div>
+              <div className="w-12 h-12 bg-black rounded-full border-4 border-emerald-500 flex items-center justify-center text-emerald-500 font-bold">OC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Fixed Footer */}
+      <footer className="relative z-10 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">
+        <div className="flex items-center gap-10">
+          <div className="flex items-center gap-3">
+            <Terminal size={14} className="text-emerald-500" />
+            <span>Encrypted Node: RSA-4096-ECC</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Database size={14} />
+            <span>Gemma-3-Node: 172.16.0.4</span>
+          </div>
         </div>
         <div>
-          © 2026 Sovereign Systems • Build 04-26.α
+          © 2026 Sovereign Systems • Project Alpha Prototype
         </div>
       </footer>
 
-      <style jsx global>{`
-        body {
-          background-color: #0a0a0a;
-          margin: 0;
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
         }
-        * {
-          transition: none !important; /* Force no animations as requested */
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.01);
         }
-        .group:hover {
-          transition: border-color 0.2s ease !important; /* Exception for subtle hover interaction */
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(16,185,129,0.1);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(16,185,129,0.3);
         }
       `}</style>
     </main>
