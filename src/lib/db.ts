@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
 
-// Simple file-based JSON database for prototype persistency
-const DB_PATH = path.join(process.cwd(), "data", "parallel_stocks_db.json");
+const isVercel = process.env.VERCEL === "1" || process.env.VERCEL_ENV;
+const DB_PATH = isVercel 
+  ? "/tmp/parallel_stocks_db.json" 
+  : path.join(process.cwd(), "data", "parallel_stocks_db.json");
 
 export interface DBState {
   last_updated: string; // ISO date string

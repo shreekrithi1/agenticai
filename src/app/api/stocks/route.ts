@@ -10,13 +10,13 @@ export async function GET(request: Request) {
   try {
     let data;
     if (type === "fortune20") {
-      data = getFortune20();
+      data = await getFortune20();
     } else if (type === "india") {
-      data = getNifty100();
+      data = await getNifty100();
     } else if (type === "all") {
-      data = getAllStocks();
+      data = await getAllStocks();
     } else {
-      data = getTopPicks();
+      data = await getTopPicks();
     }
     
     return NextResponse.json(data);
