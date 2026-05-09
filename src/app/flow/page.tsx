@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { ArrowLeft, Users, RefreshCw, Briefcase, Zap, ShieldCheck, MonitorPlay, ArrowDownRight } from "lucide-react";
+import { useDemo } from "@/components/DemoMode";
 import { motion } from "framer-motion";
 
 export default function BusinessFlow() {
+  const { startDemo } = useDemo();
   const steps = [
     {
       id: 1,
@@ -81,10 +83,13 @@ export default function BusinessFlow() {
         
         {/* Header */}
         <header className="mb-20 flex flex-col items-center text-center">
-          <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium mb-8 hover:bg-white/10 transition-colors">
-            <ArrowLeft size={16} className="text-slate-400" />
-            <span className="text-slate-300">Return to Hub</span>
-          </Link>
+          <nav className="flex items-center gap-6 mb-8">
+            <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/10 transition-colors">
+              <ArrowLeft size={16} className="text-slate-400" />
+              <span className="font-semibold text-slate-300">Return to Hub</span>
+            </Link>
+            <button onClick={startDemo} className="text-xs font-bold uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors">Launch Demo</button>
+          </nav>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">Architecture <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Flow</span></h1>
           <p className="text-slate-400 max-w-2xl text-lg">The continuous, agentic lifecycle powering our institutional orchestration hub. Adapted from agile methodologies for AI autonomy.</p>
         </header>

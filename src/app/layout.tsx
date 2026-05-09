@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { DemoProvider } from "@/components/DemoMode";
 
 export const metadata: Metadata = {
   title: "BharatAgri | Digital Agronomy",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-black text-white">
-        {children}
+        <DemoProvider>
+          {children}
+        </DemoProvider>
       </body>
     </html>
   );

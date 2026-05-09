@@ -33,6 +33,7 @@ const ParallelLogo = ({ size = 14, className = "" }: { size?: number, className?
   </svg>
 );
 import Link from "next/link";
+import { useDemo } from "@/components/DemoMode";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface StockData {
@@ -58,6 +59,7 @@ interface StockData {
 }
 
 export default function StockAnalysis() {
+  const { startDemo } = useDemo();
   const [stocks, setStocks] = useState<StockData[]>([]);
   const [filteredStocks, setFilteredStocks] = useState<StockData[]>([]);
   const [activeTab, setActiveTab] = useState<"top" | "fortune" | "india">("top");
@@ -152,6 +154,7 @@ export default function StockAnalysis() {
         </Link>
         <div className="nav-brand">Parallel AI Market Oracle</div>
         <div className="refresh-status">
+          <button onClick={startDemo} className="demo-link-btn" style={{ background: 'none', border: 'none', color: '#10b981', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', marginRight: '20px' }}>Launch Demo Mode</button>
           <RefreshCcw size={14} className={countdown === 30 ? "spin" : ""} />
           <span>Next Sync: {countdown}s</span>
         </div>

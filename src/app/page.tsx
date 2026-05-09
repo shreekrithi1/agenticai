@@ -34,6 +34,7 @@ import {
   Shield
 } from "lucide-react";
 import Link from "next/link";
+import { useDemo } from "@/components/DemoMode";
 
 interface Message {
   role: "user" | "assistant" | "system";
@@ -126,6 +127,7 @@ const TRANSLATIONS: Record<string, any> = {
 };
 
 export default function Home() {
+  const { startDemo } = useDemo();
   const [view, setView] = useState<"landing" | "app">("landing");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -578,6 +580,7 @@ export default function Home() {
             <div className="footer-links">
               <Link href="/" className="footer-link">Mission & Vision</Link>
               <Link href="/flow" className="footer-link">Architecture Flow</Link>
+              <button onClick={startDemo} className="footer-link" style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}>Launch Institutional Demo</button>
             </div>
           </div>
         <style jsx>{`
