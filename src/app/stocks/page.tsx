@@ -150,7 +150,7 @@ export default function StockAnalysis() {
         <Link href="/" className="back-link">
           <ArrowLeft size={18} /> <span>Return to Futuristic</span>
         </Link>
-        <div className="nav-brand">Institutional Market Intel</div>
+        <div className="nav-brand">Parallel AI Market Oracle</div>
         <div className="refresh-status">
           <RefreshCcw size={14} className={countdown === 30 ? "spin" : ""} />
           <span>Next Sync: {countdown}s</span>
@@ -159,7 +159,7 @@ export default function StockAnalysis() {
 
       <header className="stock-header">
         <div className="header-content">
-          <h1>Market <span className="gradient-text">Velocity</span></h1>
+          <h1>Parallel AI <span className="gradient-text">Market Oracle</span></h1>
           <p>Real-time technical analysis for high-conviction portfolios.</p>
           <div className="flex items-center gap-4 mt-2">
             <div className="as-on-date">Data as on: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric'})} 06:00 AM PST</div>
@@ -299,7 +299,7 @@ export default function StockAnalysis() {
       {/* Floating Chat Trigger */}
       <button className="chat-trigger glass" onClick={() => setIsChatOpen(true)}>
         <Sparkles size={20} />
-        <span>Ask Market Intel</span>
+        <span>Ask Market Oracle</span>
       </button>
 
       {/* Chat Modal */}
@@ -322,7 +322,7 @@ export default function StockAnalysis() {
               <div className="modal-header">
                 <div className="header-info">
                   <div className="ai-status"></div>
-                  <h3>Market Intel Agent</h3>
+                  <h3>Market Oracle Agent</h3>
                 </div>
                 <button className="close-modal" onClick={() => setIsChatOpen(false)}>
                   <X size={20} />
@@ -387,7 +387,7 @@ export default function StockAnalysis() {
       </AnimatePresence>
 
       <style jsx>{`
-        .stock-page { min-height: 100vh; background: #0a0a0a; color: #ececec; font-family: 'Inter', sans-serif; padding: 0 40px 80px 40px; position: relative; overflow-x: hidden; }
+        .stock-page { min-height: 100vh; background: #0a0a0a; color: #ececec; font-family: 'Inter', sans-serif; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow-x: hidden; }
         
         @media (max-width: 1024px) {
           .stock-page { padding: 0 20px 80px 20px; }
