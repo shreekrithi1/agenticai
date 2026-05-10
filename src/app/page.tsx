@@ -548,6 +548,34 @@ export default function Home() {
                 <button className="read-more green-text sm">Launch</button>
               </div>
             </div>
+
+            {/* Rank 9: Wifentelligence */}
+            <a href="https://wifentelligence.vercel.app/" target="_blank" rel="noopener noreferrer" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm rank">RANK #9</div>
+                <button 
+                  className={`like-btn ${userLiked['wifentelligence'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'wifentelligence')}
+                >
+                  <Heart size={16} fill={userLiked['wifentelligence'] ? "currentColor" : "none"} />
+                  <span>{likes['wifentelligence'] || 0}</span>
+                </button>
+              </div>
+              <div className="card-accent-bar blue sm">
+                <span>WIFI INTELLIGENCE</span>
+                <Zap size={12} />
+              </div>
+              <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Next.js</span>
+                  <span>Vercel</span>
+                  <span>AI</span>
+                </div>
+                <h3>Wifentelligence</h3>
+                <p>Intelligent WiFi network analysis and optimization.</p>
+                <button className="read-more blue-text sm">Explore</button>
+              </div>
+            </a>
           </div>
 
             <footer className="hub-footer">
