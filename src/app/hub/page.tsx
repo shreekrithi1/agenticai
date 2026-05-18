@@ -589,6 +589,34 @@ export default function Home() {
                 <button className="read-more purple-text sm">Explore</button>
               </div>
             </a>
+
+            {/* Rank 11: Cue Commander */}
+            <a href="https://wifentelligence.vercel.app/cue" target="_blank" rel="noopener noreferrer" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm rank">RANK #11</div>
+                <button 
+                  className={`like-btn ${userLiked['cue-commander'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'cue-commander')}
+                >
+                  <Heart size={16} fill={userLiked['cue-commander'] ? "currentColor" : "none"} />
+                  <span>{likes['cue-commander'] || 0}</span>
+                </button>
+              </div>
+              <div className="card-accent-bar sm" style={{ backgroundColor: "#06b6d4" }}>
+                <span>ROBOTICS ORCHESTRATION</span>
+                <Cpu size={12} />
+              </div>
+              <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Web Bluetooth</span>
+                  <span>Gemini AI</span>
+                  <span>Voice</span>
+                </div>
+                <h3>Cue Commander</h3>
+                <p>Voice-controlled autonomous operation bridge for Wonder Workshop Cue, Dash & Dot robots.</p>
+                <button className="read-more sm" style={{ color: "#06b6d4" }}>Launch</button>
+              </div>
+            </a>
           </div>
 
             <footer className="hub-footer">
