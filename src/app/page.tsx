@@ -576,6 +576,34 @@ export default function Home() {
                 <button className="read-more blue-text sm">Explore</button>
               </div>
             </a>
+
+            {/* Rank 10: India Colleges */}
+            <a href="https://indiacolleges.vercel.app/" target="_blank" rel="noopener noreferrer" className="compact-card">
+              <div className="card-image sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=800')" }}>
+                <div className="card-badge sm rank">RANK #10</div>
+                <button 
+                  className={`like-btn ${userLiked['india-colleges'] ? 'active' : ''}`}
+                  onClick={(e) => handleLike(e, 'india-colleges')}
+                >
+                  <Heart size={16} fill={userLiked['india-colleges'] ? "currentColor" : "none"} />
+                  <span>{likes['india-colleges'] || 0}</span>
+                </button>
+              </div>
+              <div className="card-accent-bar purple sm">
+                <span>EDUCATION DIRECTORY</span>
+                <Globe size={12} />
+              </div>
+              <div className="card-body sm">
+                <div className="tech-tags">
+                  <span>Next.js</span>
+                  <span>Vercel</span>
+                  <span>AI Database</span>
+                </div>
+                <h3>India Colleges</h3>
+                <p>High-fidelity national institutional directory and intelligence platform.</p>
+                <button className="read-more purple-text sm">Explore</button>
+              </div>
+            </a>
           </div>
 
             <footer className="hub-footer">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Users, RefreshCw, Briefcase, Zap, ShieldCheck, MonitorPlay, ArrowDownRight } from "lucide-react";
+import { ArrowLeft, Users, RefreshCw, Briefcase, Zap, ShieldCheck, MonitorPlay, ArrowDownRight, Bluetooth } from "lucide-react";
 import { useDemo } from "@/components/DemoMode";
 import { motion } from "framer-motion";
 
@@ -33,12 +33,20 @@ export default function BusinessFlow() {
       alignment: "left"
     },
     {
+      id: "3.A",
+      title: "Connect Bluetooth Speaker",
+      desc: "Establish seamless wireless audio streaming and command bridging with external Bluetooth speaker hardware.",
+      icon: <Bluetooth size={24} className="text-cyan-400" />,
+      color: "cyan",
+      alignment: "right"
+    },
+    {
       id: 4,
       title: "Autonomous Execution",
       desc: "Build projects around motivated intelligence with autonomous capabilities.",
       icon: <Zap size={24} className="text-yellow-400" />,
       color: "yellow",
-      alignment: "right"
+      alignment: "left"
     },
     {
       id: 5,
@@ -46,7 +54,7 @@ export default function BusinessFlow() {
       desc: "Produce working products and settle global payments instantly.",
       icon: <MonitorPlay size={24} className="text-emerald-400" />,
       color: "emerald",
-      alignment: "left"
+      alignment: "right"
     },
     {
       id: 6,
@@ -54,7 +62,7 @@ export default function BusinessFlow() {
       desc: "Continuous attention to detail through immutable cryptographic ledgers.",
       icon: <ShieldCheck size={24} className="text-red-400" />,
       color: "red",
-      alignment: "right"
+      alignment: "left"
     }
   ];
 
@@ -63,6 +71,7 @@ export default function BusinessFlow() {
       case 'blue': return 'bg-blue-500/10 border-blue-500/30 text-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.15)]';
       case 'orange': return 'bg-orange-500/10 border-orange-500/30 text-orange-400 shadow-[0_0_30px_rgba(249,115,22,0.15)]';
       case 'purple': return 'bg-purple-500/10 border-purple-500/30 text-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.15)]';
+      case 'cyan': return 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.15)]';
       case 'yellow': return 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400 shadow-[0_0_30px_rgba(234,179,8,0.15)]';
       case 'emerald': return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.15)]';
       case 'red': return 'bg-red-500/10 border-red-500/30 text-red-400 shadow-[0_0_30px_rgba(239,68,68,0.15)]';
